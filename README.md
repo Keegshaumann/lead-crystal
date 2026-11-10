@@ -62,12 +62,19 @@ hPanel setup (once):
    - Repository: `https://github.com/Keegshaumann/lead-crystal.git`
    - Branch: **`deploy`**
    - Directory: leave blank (= `public_html`)
-4. Click **Auto Deployment**, copy the webhook URL, and add it to the GitHub repo under
-   Settings → Webhooks (content type `application/json`, "Just the push event").
+4. Auto-deploy: an account cron job (every 5 minutes) fetches the `deploy` branch into
+   `public_html`. Set up on 10 Nov 2026 for plum-raccoon-497791.hostingersite.com:
 
-After that, every push to `main` goes live within a couple of minutes: the Action pushes `deploy`,
-the webhook fires and Hostinger pulls. Check the run under the repo's **Actions** tab if a change
-doesn't show up.
+   ```
+   cd /home/u531579581/domains/<site>/public_html && git fetch --quiet https://github.com/Keegshaumann/lead-crystal.git deploy && git reset --quiet --hard FETCH_HEAD
+   ```
+
+   **If the website's folder changes** (e.g. when leadcrystal.co replaces the temporary domain),
+   update the path in that cron job. hPanel's Git **Auto Deployment** webhook is an alternative.
+
+After that, every push to `main` is live within about 5 minutes. `https://<site>/version.txt`
+shows the commit that's live. If a change doesn't show up, check the run under the repo's
+**Actions** tab, then the cron job's output in hPanel.
 
 `.htaccess` (redirects, HTTPS, headers) and `api/*.php` are part of the build, so nothing else needs
 configuring. On any hostname other than leadcrystal.co (e.g. the temporary `*.hostingersite.com`

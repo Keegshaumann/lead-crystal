@@ -106,4 +106,6 @@ RewriteRule ^(.*[^/])$ /$1/ [R=301,L]
 </IfModule>
 `;
 writeFileSync(join(dist, ".htaccess"), htaccess);
+// Which commit is live: https://<site>/version.txt
+writeFileSync(join(dist, "version.txt"), `${process.env.GITHUB_SHA || "local"} ${new Date().toISOString()}\n`);
 console.log(`postbuild: api copied, ${fileRedirects.length} file redirects, .htaccess written`);
