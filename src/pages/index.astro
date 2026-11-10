@@ -1,0 +1,757 @@
+---
+import Base from "../layouts/Base.astro";
+import RangeMap from "../components/RangeMap.astro";
+import WhitepaperDialog from "../components/WhitepaperDialog.astro";
+import ArticleCard from "../components/ArticleCard.astro";
+import { KEY_FIGURES, SITE } from "../site";
+import { products, articles, FAMILIES, APPLICATIONS, productApps, capacityRange } from "../lib/catalogue";
+import { fileSize } from "../lib/files";
+
+const [minAh, maxAh] = capacityRange(products);
+const familyCount = (k: string) => products.filter((p) => p.family === k).length;
+const appCount = (k: string) => products.filter((p) => productApps(p).includes(k)).length;
+const latest = articles.slice(0, 3);
+
+const COMPARE = [
+  ["Operating temperature", "−40°C to +65°C", "−20°C to +50°C", "0°C to +45°C (charging)"],
+  ["Cycle life (50% DoD)", "2,000+ cycles", "600–800 cycles", "3,000–5,000 cycles"],
+  ["Fire / explosion risk", "None", "Low (hydrogen venting)", "Moderate (thermal runaway)"],
+  ["Maintenance", "None", "None", "BMS monitoring required"],
+  ["Shelf life (25°C)", "2+ years", "6–12 months", "6–12 months"],
+  ["Recyclability", "99%", "~98%", "~50–70%"],
+];
+
+const SPEC_SHEET = [
+  ["Battery chemistry", "Lead crystal technology", "Patented"],
+  ["Energy density", "Higher than standard AGM", "Standardised"],
+  ["Shelf life", "Up to 2 years without recharge", "Stable"],
+  ["Fast charge", "0% to 100% in 2.5 hours", "Dynamic"],
+];
+
+const title = "Premium Lead Crystal Batteries — Industrial Energy Storage";
+const description =
+  "Lead crystal batteries for solar, telecom, UPS and EV use. 6,000+ cycles, −40°C to +65°C, 99% recyclable. 2V, 6V, 8V and 12V models from Riyadh, Saudi Arabia.";
+---
+
+<Base
+  title={title}
+  description={description}
+  jsonLd={[
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: "Leadcrystal",
+      url: SITE.url,
+      publisher: { "@id": `${SITE.url}/#organization` },
+    },
+  ]}
+>
+  <link slot="head" rel="preload" as="image" href="/images/site/hero-1920.webp" imagesrcset="/images/site/hero-1000.webp 1000w, /images/site/hero-1920.webp 1920w" imagesizes="100vw" />
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <picture class="hero-bg" aria-hidden="true">
+      <source srcset="/images/site/hero-1000.webp 1000w, /images/site/hero-1920.webp 1920w" sizes="100vw" type="image/webp" />
+      <img src="/images/site/hero-1920.webp" alt="" width="1920" height="1300" fetchpriority="high" />
+    </picture>
+    <div class="hero-grid grid-bg" aria-hidden="true"></div>
+
+    <div class="wrap hero-inner">
+      <p class="label eyebrow load" style="--i:0">Lead crystal · SiO₂ electrolyte · Riyadh</p>
+      <h1 class="display h-xl load" style="--i:1">
+        Energy Evolved.
+        <span class="sub">Lead Crystal Energy Solutions</span>
+      </h1>
+      <p class="lede load" style="--i:2">
+        Next-generation lead crystal battery systems for a sustainable future. High-performance, high-safety, and 99% recyclable.
+      </p>
+      <div class="cta-row load" style="--i:3">
+        <a class="btn" href="/catalogue/">Browse the catalogue <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn btn--ghost" href="/contact/">Request a quote</a>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <dl class="rail load" style="--i:4">
+        {
+          KEY_FIGURES.map((k) => (
+            <div>
+              <dt class="label">{k.note}</dt>
+              <dd>
+                <span class="fig">{k.value}</span>
+                <span class="unit mono">{k.unit}</span>
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <!-- ============ TECHNOLOGY ============ -->
+  <section class="section section--rule tech" id="technology">
+    <div class="wrap split">
+      <div class="tech-head reveal">
+        <p class="label eyebrow label--accent">Proprietary tech</p>
+        <h2 class="display h-lg">Crystalline electrolyte.</h2>
+        <figure class="crystals">
+          <img src="/images/site/crystals.webp" alt="Silica crystal formations, the basis of the lead crystal electrolyte" width="1143" height="453" loading="lazy" />
+        </figure>
+      </div>
+
+      <div class="tech-body">
+        <div class="pair">
+          <div class="reveal">
+            <p class="label">01 — The technology</p>
+            <p class="big">
+              A unique process where electrolyte is replaced with a non-corrosive crystalline composite, eliminating maintenance and fire risks.
+            </p>
+          </div>
+          <div class="reveal" style="--d:.1s">
+            <p class="label">02 — The benefit</p>
+            <p class="big">
+              Leadcrystal batteries are engineered for a circular economy, minimising environmental footprint across the entire lifecycle.
+            </p>
+          </div>
+        </div>
+
+        <p class="muted reveal">
+          A lead crystal battery is an advanced lead-acid chemistry that uses a silica-based electrolyte structure to improve cycle life,
+          deep-discharge tolerance and safety. Compared with conventional flooded lead-acid batteries it offers longer service life, better
+          charge acceptance, lower self-discharge and reduced risk of electrolyte leakage. Compared with AGM and gel it provides the same
+          maintenance-free operation with improved deep-cycle performance.
+        </p>
+
+        <div class="sheet reveal">
+          <p class="label">The spec sheet</p>
+          {
+            SPEC_SHEET.map(([k, v, tag]) => (
+              <div class="sheet-row">
+                <span class="k label">{k}</span>
+                <span class="v">{v}</span>
+                <span class="t mono">{tag}</span>
+              </div>
+            ))
+          }
+        </div>
+        <a class="link-arrow reveal" href="/what-is-lead-crystal-battery-technology/">How lead crystal technology works <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RANGE ============ -->
+  <section class="section section--rule range">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="label eyebrow label--accent">The range</p>
+        <h2 class="display h-lg">{products.length} batteries.<br /><span class="muted">{minAh}Ah to {maxAh.toLocaleString("en-US")}Ah.</span></h2>
+        <p class="lede">
+          2V cells for large-scale and utility storage, and 6V, 8V and 12V batteries for solar, telecom, UPS, marine and electric mobility.
+        </p>
+      </div>
+      <div class="reveal"><RangeMap /></div>
+
+      <div class="families">
+        {
+          FAMILIES.map((f, i) => (
+            <a class="fam reveal" style={`--d:${i * 0.06}s`} href={`/catalogue/?type=${encodeURIComponent(f.key)}`}>
+              <span class="code mono">{f.code}</span>
+              <span class="fname">{f.label}</span>
+              <span class="fblurb muted">{f.blurb}</span>
+              <span class="fcount label">
+                {familyCount(f.key)} model{familyCount(f.key) === 1 ? "" : "s"} <span aria-hidden="true">→</span>
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HEAT ============ -->
+  <section class="section section--rule heat">
+    <div class="swirl" aria-hidden="true"></div>
+    <div class="wrap split">
+      <div class="reveal">
+        <p class="label eyebrow label--accent">Built for the Gulf</p>
+        <h2 class="display h-lg">Rated to +65°C.</h2>
+        <p class="lede">
+          Summer temperatures in Saudi Arabia routinely pass 50°C, and equipment enclosures reach 60–65°C. Batteries designed for 25°C can fail
+          in under a year. Lead crystal is rated for continuous operation up to 65°C, with no BMS restrictions.
+        </p>
+        <a class="link-arrow" href="/industrial-battery-selection-saudi-arabia/">Choosing industrial batteries for Saudi Arabia <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="compare-wrap reveal" style="--d:.1s">
+        <table class="compare">
+          <caption class="sr-only">Lead crystal compared with AGM and lithium (LiFePO4)</caption>
+          <thead>
+            <tr>
+              <th scope="col"><span class="sr-only">Specification</span></th>
+              <th scope="col" class="lc">Lead crystal</th>
+              <th scope="col">AGM</th>
+              <th scope="col">Lithium (LiFePO₄)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              COMPARE.map(([k, a, b, c]) => (
+                <tr>
+                  <th scope="row">{k}</th>
+                  <td class="lc">{a}</td>
+                  <td>{b}</td>
+                  <td>{c}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+        <p class="note dim">
+          Source: <a href="/what-is-lead-crystal-battery-technology/">What is lead crystal battery technology?</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ APPLICATIONS ============ -->
+  <section class="section section--rule apps">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="label eyebrow label--accent">Applications</p>
+        <h2 class="display h-lg">Where it works.</h2>
+      </div>
+      <div class="app-grid">
+        {
+          APPLICATIONS.map((a, i) => (
+            <a class="app reveal" style={`--d:${(i % 4) * 0.06}s`} href={`/catalogue/?app=${a.key}`}>
+              <span class="idx mono">{String(i + 1).padStart(2, "0")}</span>
+              <span class="aname">{a.label}</span>
+              <span class="ablurb muted">{a.blurb}</span>
+              <span class="acount label">
+                {appCount(a.key)} models <span aria-hidden="true">→</span>
+              </span>
+            </a>
+          ))
+        }
+        <a class="app app--cta reveal" href="/contact/">
+          <span class="idx mono">?</span>
+          <span class="aname">Not sure which model?</span>
+          <span class="ablurb">Send us your load, backup time and site location. We'll recommend a battery.</span>
+          <span class="acount label">Ask an engineer <span aria-hidden="true">→</span></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INSIGHTS ============ -->
+  <section class="section section--rule">
+    <div class="wrap">
+      <div class="row-head reveal">
+        <div>
+          <p class="label eyebrow label--accent">Insights</p>
+          <h2 class="display h-md">From the research desk.</h2>
+        </div>
+        <a class="link-arrow" href="/insights/">All insights <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="art-grid">
+        {latest.map((a, i) => <div class="reveal" style={`--d:${i * 0.08}s`}><ArticleCard article={a} /></div>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DOWNLOADS ============ -->
+  <section class="section section--tight section--rule">
+    <div class="wrap downloads">
+      <div class="dl reveal">
+        <p class="label">PDF · {fileSize("downloads/Leadcrystal-company-profile.pdf")}</p>
+        <h3 class="h-sm">Company profile</h3>
+        <p class="muted">The Leadcrystal range, technology and company overview in one document.</p>
+        <a class="btn btn--ghost btn--sm" href="/downloads/Leadcrystal-company-profile.pdf" target="_blank" rel="noopener">Download</a>
+      </div>
+      <div class="dl dl--accent reveal" style="--d:.08s">
+        <p class="label">Whitepaper · 14 pages</p>
+        <h3 class="h-sm">60% lower TCO than VRLA</h3>
+        <p class="muted">The total cost of ownership case for industrial backup, over a 15-year asset life.</p>
+        <button class="btn btn--sm" type="button" data-open-whitepaper>Get the whitepaper</button>
+      </div>
+      <div class="dl reveal" style="--d:.16s">
+        <p class="label">PDF · per model</p>
+        <h3 class="h-sm">Specification sheets</h3>
+        <p class="muted">Full electrical and mechanical data for every battery, on each product page.</p>
+        <a class="btn btn--ghost btn--sm" href="/catalogue/?view=table">Open the spec table</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="final">
+    <div class="wrap">
+      <div class="final-card reveal">
+        <h2 class="display h-lg">Let's shape the <em>future,</em> together.</h2>
+        <p class="lede">
+          Partner with Leadcrystal and harness the power of innovation, expertise and efficiency. Tell us about your project and we'll size the
+          right system.
+        </p>
+        <a class="btn btn--light" href="/contact/">Get in touch <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <WhitepaperDialog />
+</Base>
+
+<style>
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    margin-top: calc(var(--header-h) * -1);
+    padding-top: calc(var(--header-h) + clamp(56px, 11vh, 140px));
+    padding-bottom: 40px;
+    min-height: min(100svh, 980px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 64px;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+  }
+  .hero-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 70% 50%;
+    animation: settle 2.4s var(--ease) both;
+  }
+  @keyframes settle {
+    from {
+      transform: scale(1.06);
+      opacity: 0.4;
+    }
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(90deg, rgba(8, 8, 10, 0.92) 0%, rgba(8, 8, 10, 0.6) 45%, rgba(8, 8, 10, 0.1) 75%),
+      linear-gradient(0deg, var(--bg) 0%, rgba(8, 8, 10, 0) 38%);
+  }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.5;
+  }
+  .hero-inner {
+    display: grid;
+    gap: 26px;
+    justify-items: start;
+  }
+  .hero h1 {
+    max-width: 12ch;
+  }
+  .hero h1 .sub {
+    display: block;
+    margin-top: 0.12em;
+    font-size: 0.5em;
+    line-height: 1;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: -0.03em;
+  }
+  .hero .lede {
+    color: #c9cad1;
+  }
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 6px;
+  }
+  .rail {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: 0;
+    border: 1px solid var(--line-2);
+    border-radius: 12px;
+    background: rgba(10, 10, 13, 0.62);
+    backdrop-filter: blur(14px) saturate(1.1);
+    -webkit-backdrop-filter: blur(14px) saturate(1.1);
+    overflow: hidden;
+  }
+  .rail div {
+    padding: 20px 22px 18px;
+    display: grid;
+    gap: 10px;
+    align-content: start;
+  }
+  .rail div + div {
+    border-left: 1px solid var(--line);
+  }
+  .rail dt {
+    font-size: 0.66rem;
+    color: var(--dim);
+    order: 2;
+  }
+  .rail dd {
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+  .rail .fig {
+    font-size: clamp(1.7rem, 3vw, 2.5rem);
+    font-weight: 800;
+    font-stretch: 125%;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .rail .unit {
+    font-size: 0.8rem;
+    color: var(--crystal);
+  }
+  @media (max-width: 760px) {
+    .rail {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .rail div {
+      padding: 16px 14px 14px;
+    }
+    .rail .fig {
+      font-size: 1.55rem;
+    }
+    .rail div:nth-child(3) {
+      border-left: 0;
+    }
+    .rail div:nth-child(n + 3) {
+      border-top: 1px solid var(--line);
+    }
+    .hero::before {
+      background:
+        linear-gradient(180deg, rgba(8, 8, 10, 0.85) 0%, rgba(8, 8, 10, 0.55) 50%, var(--bg) 100%);
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .load {
+      animation: rise 1s var(--ease) both;
+      animation-delay: calc(0.15s + var(--i) * 0.11s);
+    }
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(26px);
+      }
+    }
+  }
+
+  /* ---------- Technology ---------- */
+  .tech-head {
+    display: grid;
+    gap: 20px;
+  }
+  @media (min-width: 900px) {
+    .tech-head {
+      position: sticky;
+      top: calc(var(--header-h) + 32px);
+    }
+  }
+  .crystals {
+    margin: 12px 0 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .crystals img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    filter: saturate(0.6) contrast(1.15);
+  }
+  .tech-body {
+    display: grid;
+    gap: 40px;
+  }
+  .tech-body > p {
+    margin: 0;
+    max-width: 62ch;
+  }
+  .pair {
+    display: grid;
+    gap: 32px;
+  }
+  @media (min-width: 640px) {
+    .pair {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .pair .label {
+    margin: 0 0 12px;
+  }
+  .big {
+    margin: 0;
+    font-size: 1.22rem;
+    line-height: 1.45;
+    color: #fff;
+  }
+  .sheet {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 22px 24px 8px;
+    background: var(--panel);
+  }
+  .sheet > .label {
+    margin: 0 0 6px;
+    color: var(--crystal);
+  }
+  .sheet-row {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr auto;
+    gap: 16px;
+    align-items: baseline;
+    padding: 16px 0;
+    border-top: 1px solid var(--line);
+  }
+  .sheet-row .k {
+    font-size: 0.68rem;
+    color: var(--dim);
+  }
+  .sheet-row .t {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-hi);
+  }
+  @media (max-width: 560px) {
+    .sheet-row {
+      grid-template-columns: 1fr auto;
+    }
+    .sheet-row .k {
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* ---------- Range ---------- */
+  .families {
+    margin-top: 20px;
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+  .fam,
+  .app {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 24px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--panel);
+    text-decoration: none;
+    transition:
+      border-color 0.3s var(--ease),
+      background 0.3s var(--ease),
+      transform 0.4s var(--ease);
+  }
+  .fam:hover,
+  .app:hover {
+    border-color: rgba(140, 117, 255, 0.55);
+    background: var(--panel-2);
+  }
+  .code,
+  .idx {
+    font-size: 0.75rem;
+    color: var(--crystal);
+    letter-spacing: 0.08em;
+  }
+  .fname,
+  .aname {
+    font-size: 1.3rem;
+    font-weight: 700;
+    font-stretch: 112%;
+    letter-spacing: -0.02em;
+  }
+  .fblurb,
+  .ablurb {
+    font-size: 0.94rem;
+    line-height: 1.5;
+  }
+  .fcount,
+  .acount {
+    margin-top: auto;
+    padding-top: 8px;
+    font-size: 0.68rem;
+    color: var(--text);
+  }
+
+  /* ---------- Heat ---------- */
+  .heat {
+    overflow: hidden;
+  }
+  .swirl {
+    position: absolute;
+    inset: 0;
+    background: url("/images/site/swirls.webp") right -10% center / 70% auto no-repeat;
+    opacity: 0.22;
+    pointer-events: none;
+  }
+  .heat .split > div:first-child {
+    display: grid;
+    gap: 22px;
+    justify-items: start;
+    align-content: start;
+  }
+  .compare-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: rgba(18, 18, 23, 0.85);
+    backdrop-filter: blur(8px);
+    padding: 8px 22px 16px;
+  }
+  .compare {
+    width: 100%;
+    min-width: 560px;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+  }
+  .compare th,
+  .compare td {
+    text-align: left;
+    padding: 14px 12px 14px 0;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  .compare thead th {
+    font: 500 0.68rem/1.3 var(--mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+  .compare tbody th {
+    font-weight: 500;
+    color: var(--muted);
+    width: 30%;
+  }
+  .compare td {
+    color: var(--muted);
+  }
+  .compare .lc {
+    color: #fff;
+    font-weight: 600;
+  }
+  .compare thead .lc {
+    color: var(--accent-hi);
+  }
+  .note {
+    margin: 12px 0 0;
+    font-size: 0.8rem;
+  }
+
+  /* ---------- Applications ---------- */
+  .app-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+  .app {
+    min-height: 220px;
+  }
+  .app .acount {
+    margin-top: auto;
+  }
+  .app--cta {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .app--cta .idx,
+  .app--cta .ablurb {
+    color: rgba(255, 255, 255, 0.82);
+  }
+  .app--cta:hover {
+    background: var(--accent-hi);
+    border-color: var(--accent-hi);
+  }
+
+  /* ---------- Insights ---------- */
+  .row-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: end;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  .row-head > div {
+    display: grid;
+    gap: 16px;
+  }
+  .art-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  /* ---------- Downloads ---------- */
+  .downloads {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+  .dl {
+    display: grid;
+    gap: 10px;
+    align-content: start;
+    justify-items: start;
+    padding: 26px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+  }
+  .dl p {
+    margin: 0;
+  }
+  .dl .muted {
+    font-size: 0.94rem;
+    margin-bottom: 8px;
+  }
+  .dl--accent {
+    border-color: rgba(140, 117, 255, 0.45);
+    background: linear-gradient(160deg, rgba(91, 59, 255, 0.16), transparent 70%);
+  }
+
+  /* ---------- Final CTA ---------- */
+  .final {
+    padding-block: 0 clamp(72px, 10vw, 140px);
+  }
+  .final-card {
+    position: relative;
+    display: grid;
+    gap: 22px;
+    justify-items: center;
+    text-align: center;
+    padding: clamp(56px, 9vw, 120px) clamp(20px, 5vw, 64px);
+    border-radius: 18px;
+    border: 1px solid var(--line);
+    background:
+      radial-gradient(70% 90% at 50% 50%, rgba(8, 8, 10, 0.2), rgba(8, 8, 10, 0.8)),
+      url("/images/site/globe.webp") center / cover no-repeat,
+      var(--panel);
+    overflow: hidden;
+  }
+  .final-card h2 {
+    max-width: 16ch;
+  }
+  .final-card em {
+    font-style: italic;
+    font-weight: 300;
+    font-stretch: 100%;
+    color: var(--crystal);
+  }
+  .final-card .lede {
+    margin: 0;
+  }
+</style>

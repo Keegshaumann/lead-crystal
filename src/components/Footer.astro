@@ -1,0 +1,168 @@
+---
+import Logo from "./Logo.astro";
+import { SITE } from "../site";
+import { VOLTAGES } from "../lib/catalogue";
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="top">
+      <div class="brandcol">
+        <Logo height={30} />
+        <p class="muted">{SITE.location}</p>
+        {SITE.email && <a class="mono" href={`mailto:${SITE.email}`}>{SITE.email}</a>}
+        {SITE.phone && <a class="mono" href={`tel:${SITE.phone.replace(/\s/g, "")}`}>{SITE.phone}</a>}
+
+        <form class="newsletter" data-lc-form="newsletter" action="/api/contact.php" method="post" novalidate>
+          <label class="label" for="nl-email">Subscribe to our newsletter</label>
+          <div class="nl-row">
+            <input id="nl-email" name="email" type="email" required autocomplete="email" placeholder="Your email" />
+            <input type="hidden" name="type" value="newsletter" />
+            <input type="hidden" name="ts" value="" data-ts />
+            <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off" /></label></div>
+            <button class="btn btn--light btn--sm" type="submit" aria-label="Subscribe">
+              <span class="arrow" aria-hidden="true">→</span>
+            </button>
+          </div>
+          <p class="form-status" role="status" aria-live="polite" data-status></p>
+        </form>
+      </div>
+
+      <nav class="cols" aria-label="Footer">
+        <div>
+          <p class="label">Products</p>
+          <a href="/catalogue/">Full catalogue</a>
+          {VOLTAGES.map((v) => <a href={`/product-category/${v}v/`}>{v}V batteries</a>)}
+        </div>
+        <div>
+          <p class="label">Company</p>
+          <a href="/#technology">Technology</a>
+          <a href="/downloads/Leadcrystal-company-profile.pdf" target="_blank" rel="noopener">Media kit (PDF)</a>
+          <a href="/contact/">Partners</a>
+        </div>
+        <div>
+          <p class="label">Resources</p>
+          <a href="/insights/">Insights</a>
+          <a href="/contact/#faq">Help centre</a>
+          <a href="/contact/">Contact</a>
+        </div>
+      </nav>
+    </div>
+
+    <div class="bottom">
+      <p>© {year} Leadcrystal. A {SITE.parent} company.</p>
+      <p class="mono dim">Lead crystal · SiO₂ electrolyte</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--line);
+    padding-block: 72px 32px;
+    background: var(--bg-2);
+  }
+  .top {
+    display: grid;
+    gap: 56px;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 900px) {
+    .top {
+      grid-template-columns: 5fr 7fr;
+    }
+  }
+  .brandcol {
+    display: grid;
+    gap: 14px;
+    align-content: start;
+    justify-items: start;
+  }
+  .brandcol p {
+    margin: 0;
+  }
+  .brandcol a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .newsletter {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 380px;
+    display: grid;
+    gap: 10px;
+  }
+  .nl-row {
+    display: flex;
+    gap: 8px;
+  }
+  .nl-row input[type="email"] {
+    flex: 1;
+    min-width: 0;
+    min-height: 44px;
+    padding: 0 14px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line-2);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text);
+    font: inherit;
+    font-size: 0.95rem;
+  }
+  .nl-row input[type="email"]:focus {
+    outline: none;
+    border-color: var(--accent-hi);
+  }
+  .nl-row .btn {
+    min-height: 44px;
+    width: 48px;
+    padding: 0;
+  }
+  .cols {
+    display: grid;
+    gap: 32px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (min-width: 600px) {
+    .cols {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .cols div {
+    display: grid;
+    gap: 10px;
+    align-content: start;
+  }
+  .cols .label {
+    margin: 0 0 6px;
+  }
+  .cols a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.96rem;
+    width: fit-content;
+    transition: color 0.2s;
+  }
+  .cols a:hover {
+    color: var(--crystal);
+  }
+  .bottom {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 0.85rem;
+    color: var(--dim);
+  }
+  .bottom p {
+    margin: 0;
+  }
+</style>
+
+<script>
+  import { wireForms } from "../lib/forms";
+  wireForms();
+</script>

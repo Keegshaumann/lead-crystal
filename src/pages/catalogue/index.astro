@@ -1,0 +1,23 @@
+---
+import Base from "../../layouts/Base.astro";
+import PageHead from "../../components/PageHead.astro";
+import Catalogue from "../../components/Catalogue.astro";
+import { products, capacityRange } from "../../lib/catalogue";
+const [min, max] = capacityRange(products);
+---
+
+<Base
+  title="Lead Crystal Battery Catalogue: 2V, 6V, 8V and 12V"
+  description={`All ${products.length} Leadcrystal batteries from ${min}Ah to ${max}Ah: deep cycle, front terminal, EV and high-cycle models with full specs and spec sheets.`}
+>
+  <PageHead crumbs={[{ label: "Catalogue" }]} title="Catalogue" eyebrow={`${products.length} models · ${min}Ah to ${max.toLocaleString("en-US")}Ah`}>
+    <p class="lede">
+      Filter by voltage, type or application, or switch to the spec table to compare dimensions and weights side by side. Pricing is by quotation.
+    </p>
+  </PageHead>
+  <section class="section section--tight">
+    <div class="wrap">
+      <Catalogue list={products} />
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,124 @@
+---
+// Gated download for the TCO whitepaper (same fields as the old MetForm popup).
+// Any element with [data-open-whitepaper] opens it.
+---
+
+<dialog class="wp-dialog" id="whitepaper-dialog" aria-labelledby="wp-title">
+  <form method="dialog" class="close-form">
+    <button class="close" aria-label="Close">×</button>
+  </form>
+  <p class="label label--accent">Whitepaper · 14 pages</p>
+  <h2 id="wp-title" class="h-md display">Get our whitepaper</h2>
+  <p class="muted">
+    <em>Lead Crystal Battery TCO White Paper v3.1</em> (June 2026): the total cost of ownership case for industrial backup, with all data,
+    charts and 46+ sources.
+  </p>
+  <form class="wp-form" data-lc-form="whitepaper" action="/api/contact.php" method="post" novalidate>
+    <div class="two">
+      <div class="field">
+        <label for="wp-first">First name <span class="req">*</span></label>
+        <input id="wp-first" name="first_name" required autocomplete="given-name" />
+      </div>
+      <div class="field">
+        <label for="wp-last">Last name <span class="req">*</span></label>
+        <input id="wp-last" name="last_name" required autocomplete="family-name" />
+      </div>
+    </div>
+    <div class="field">
+      <label for="wp-email">Email address <span class="req">*</span></label>
+      <input id="wp-email" name="email" type="email" required autocomplete="email" />
+    </div>
+    <div class="field">
+      <label for="wp-company">Company</label>
+      <input id="wp-company" name="company" autocomplete="organization" />
+    </div>
+    <input type="hidden" name="type" value="whitepaper" />
+    <input type="hidden" name="ts" value="" data-ts />
+    <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off" /></label></div>
+    <button class="btn" type="submit">Get whitepaper <span class="arrow" aria-hidden="true">→</span></button>
+    <p class="form-status" role="status" aria-live="polite" data-status></p>
+  </form>
+</dialog>
+
+<style>
+  .wp-dialog {
+    width: min(560px, calc(100vw - 32px));
+    max-height: calc(100dvh - 32px);
+    padding: clamp(24px, 4vw, 40px);
+    border: 1px solid var(--line-2);
+    border-radius: 14px;
+    background: var(--panel);
+    color: var(--text);
+    box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6);
+  }
+  .wp-dialog::backdrop {
+    background: rgba(4, 4, 6, 0.72);
+    backdrop-filter: blur(6px);
+  }
+  .wp-dialog[open] {
+    animation: pop 0.35s var(--ease);
+  }
+  @keyframes pop {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.98);
+    }
+  }
+  .close-form {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+  }
+  .close {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--line-2);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--text);
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .wp-dialog h2 {
+    margin: 10px 0 12px;
+  }
+  .wp-dialog > p.muted {
+    margin: 0 0 24px;
+    font-size: 0.95rem;
+  }
+  .wp-form {
+    display: grid;
+    gap: 16px;
+  }
+  .two {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: 480px) {
+    .two {
+      grid-template-columns: 1fr;
+    }
+  }
+  .wp-form .btn {
+    justify-self: start;
+  }
+</style>
+
+<script>
+  import { wireForms } from "../lib/forms";
+  const dlg = document.getElementById("whitepaper-dialog") as HTMLDialogElement | null;
+  if (dlg) {
+    wireForms(dlg);
+    document.querySelectorAll("[data-open-whitepaper]").forEach((b) =>
+      b.addEventListener("click", (e) => {
+        e.preventDefault();
+        dlg.showModal();
+      }),
+    );
+    dlg.addEventListener("click", (e) => {
+      if (e.target === dlg) dlg.close();
+    });
+  }
+</script>

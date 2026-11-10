@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.astro/
+.DS_Store
+# The repo is public: the gated whitepaper PDF lives on the server in leadcrystal-private/, never in git
+assets-src/private/
+# never commit live mail credentials
+server/config.local.php
+server/api/config.local.php

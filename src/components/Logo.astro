@@ -1,0 +1,17 @@
+---
+// The Leadcrystal mark is supplied as a white PNG wordmark (from the old site's media library).
+interface Props {
+  height?: number;
+}
+const { height = 30 } = Astro.props;
+---
+
+<img
+  class="logo"
+  src="/images/brand/logo-wordmark-white.png"
+  alt="Leadcrystal"
+  width={Math.round(height * 4.883)}
+  height={height}
+  style={`height:${height}px;width:auto`}
+  decoding="async"
+/>

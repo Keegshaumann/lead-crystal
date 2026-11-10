@@ -1,0 +1,41 @@
+---
+import Base from "../../layouts/Base.astro";
+import PageHead from "../../components/PageHead.astro";
+import Catalogue from "../../components/Catalogue.astro";
+import { VOLTAGES, byVoltage, capacityRange } from "../../lib/catalogue";
+
+export function getStaticPaths() {
+  return VOLTAGES.map((v) => ({ params: { cat: `${v}v` }, props: { v } }));
+}
+const { v } = Astro.props;
+const list = byVoltage(v);
+const [min, max] = capacityRange(list);
+const range = `${min}Ah to ${max.toLocaleString("en-US")}Ah`;
+---
+
+<Base
+  title={`${v}V Lead Crystal Batteries (${range})`}
+  description={`${list.length} Leadcrystal ${v}V lead crystal batteries from ${range}. 6,000+ cycles, −40°C to +65°C, 99% recyclable. Full specs and spec sheets.`}
+  jsonLd={[
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://leadcrystal.co/" },
+        { "@type": "ListItem", position: 2, name: "Catalogue", item: "https://leadcrystal.co/catalogue/" },
+        { "@type": "ListItem", position: 3, name: `${v}V` },
+      ],
+    },
+  ]}
+>
+  <PageHead crumbs={[{ href: "/catalogue/", label: "Catalogue" }, { label: `${v}V` }]} title={`${v}V batteries`} eyebrow={`${list.length} models · ${range}`}>
+    <p class="lede">
+      Lead crystal {v}V batteries. <a href="/catalogue/">See the full catalogue</a> for every voltage.
+    </p>
+  </PageHead>
+  <section class="section section--tight">
+    <div class="wrap">
+      <Catalogue list={list} lockVoltage={v} />
+    </div>
+  </section>
+</Base>

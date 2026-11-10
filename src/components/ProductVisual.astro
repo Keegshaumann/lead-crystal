@@ -1,0 +1,85 @@
+---
+import type { Product } from "../lib/catalogue";
+interface Props {
+  product: Product;
+  size?: "card" | "hero";
+  eager?: boolean;
+}
+const { product: p, size = "card", eager = false } = Astro.props;
+---
+
+<div class:list={["pv", `pv--${size}`]}>
+  {
+    p.image ? (
+      <img
+        src={p.image}
+        alt={`${p.name} (${p.sku})`}
+        width="900"
+        height="900"
+        loading={eager ? "eager" : "lazy"}
+        decoding="async"
+        fetchpriority={eager ? "high" : "auto"}
+      />
+    ) : (
+      <svg viewBox="0 0 300 300" role="img" aria-label={`${p.name} (${p.sku})`}>
+        <defs>
+          <linearGradient id={`g-${p.sku}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#2a2a33" />
+            <stop offset="1" stop-color="#141419" />
+          </linearGradient>
+        </defs>
+        <rect x="62" y="70" width="176" height="160" rx="8" fill={`url(#g-${p.sku})`} stroke="rgba(255,255,255,.14)" />
+        <rect x="88" y="56" width="26" height="16" rx="3" fill="#3a3a44" />
+        <rect x="186" y="56" width="26" height="16" rx="3" fill="#3a3a44" />
+        <text x="150" y="140" text-anchor="middle" fill="#eeeef1" font-family="IBM Plex Mono, monospace" font-size="15" letter-spacing="1">
+          {p.sku}
+        </text>
+        <text x="150" y="166" text-anchor="middle" fill="#a1a3ad" font-family="IBM Plex Mono, monospace" font-size="12">
+          {p.voltage}V · {p.capacityAh}Ah
+        </text>
+      </svg>
+    )
+  }
+</div>
+
+<style>
+  .pv {
+    position: relative;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    border-radius: var(--radius-lg);
+    background:
+      radial-gradient(60% 55% at 50% 42%, rgba(190, 201, 255, 0.16), transparent 70%),
+      linear-gradient(180deg, #1c1c23, #121217);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .pv::after {
+    /* floor reflection line */
+    content: "";
+    position: absolute;
+    left: 12%;
+    right: 12%;
+    bottom: 16%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+    z-index: -1;
+  }
+  .pv img,
+  .pv svg {
+    width: 84%;
+    height: 84%;
+    object-fit: contain;
+    filter: drop-shadow(0 24px 30px rgba(0, 0, 0, 0.55));
+    transition: transform 0.6s var(--ease);
+  }
+  .pv--hero {
+    border-radius: 14px;
+  }
+  .pv--hero img,
+  .pv--hero svg {
+    width: 80%;
+    height: 80%;
+  }
+</style>

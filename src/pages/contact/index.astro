@@ -1,0 +1,272 @@
+---
+import Base from "../../layouts/Base.astro";
+import PageHead from "../../components/PageHead.astro";
+import { products } from "../../lib/catalogue";
+import { SITE } from "../../site";
+
+// FAQ copy carried over from the old contact page.
+const FAQ = [
+  {
+    q: "What is a lead crystal battery and how is it different from a regular lead-acid battery?",
+    a: "A lead crystal battery is an advanced lead-acid chemistry that uses a silica-based electrolyte structure (often marketed as “lead crystal”) to improve cycle life, deep-discharge tolerance and safety. Compared with conventional flooded lead-acid batteries it offers longer service life, better charge acceptance, lower self-discharge and reduced risk of electrolyte leakage. Compared with AGM and gel it typically provides similar maintenance-free operation with improved deep-cycle performance.",
+  },
+  {
+    q: "What models, capacities and voltages do you offer?",
+    a: "We supply 2V, 6V, 8V and 12V lead crystal battery models in multiple capacities (commonly 20Ah–200Ah for residential use and 100Ah–3000Ah+ for industrial, solar and buffer applications). Contact us with your application (solar, telecom, UPS, EV, forklift) and required runtime to get a recommended model and exact specs.",
+  },
+  {
+    q: "Are your batteries compliant with Saudi regulations and do they include certifications?",
+    a: "Our batteries meet internationally recognised safety and quality standards (e.g. ISO, CE, RoHS) and are supplied with test certificates and conformity documentation on request. We also ensure shipping and hazardous-materials handling complies with Saudi import and transport regulations. Ask for specific certificates for a given model.",
+  },
+  {
+    q: "What warranty, lifespan and maintenance should I expect?",
+    a: "Typical manufacturer warranty ranges from 1–5 years depending on model and application (standby vs deep-cycle). Expected useful life under normal use is commonly 3–10 years depending on depth of discharge, temperature and charging regime; lead crystal batteries usually outperform standard lead-acid in cycle life. They are generally maintenance-free (no water topping), but require correct charging, temperature control and periodic inspections. We provide warranty terms and recommended care instructions with each sale.",
+  },
+  {
+    q: "Delivery, installation and support in Saudi Arabia: what do you provide?",
+    a: "We offer nationwide delivery across Saudi Arabia, optional professional installation and commissioning for large systems, and after-sales technical support including sizing, battery management (BMS) and recycling/return guidance. Lead battery disposal and recycling services are available, or we can direct you to certified recyclers. For a quote, provide load details, backup time required, site location and preferred delivery/installation options.",
+  },
+];
+const models = products.map((p) => p.sku);
+---
+
+<Base
+  title="Contact Leadcrystal: Quotes and Technical Questions"
+  description="Request a quote or ask a technical question about lead crystal batteries. Nationwide delivery across Saudi Arabia, sizing support and installation for large systems."
+  jsonLd={[
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: FAQ.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
+  ]}
+>
+  <PageHead crumbs={[{ label: "Contact" }]} title="We're eager to hear from you." eyebrow="Contact us">
+    <p class="lede">Every message matters to us. Whether it's a query, suggestion or feedback, we value your insights.</p>
+  </PageHead>
+
+  <section class="section section--tight">
+    <div class="wrap split contact">
+      <aside class="side">
+        <div class="block">
+          <p class="label">Office</p>
+          <p class="h-sm">{SITE.location}</p>
+          {SITE.email && <a class="mono" href={`mailto:${SITE.email}`}>{SITE.email}</a>}
+          {SITE.phone && <a class="mono" href={`tel:${SITE.phone.replace(/\s/g, "")}`}>{SITE.phone}</a>}
+        </div>
+        <div class="block">
+          <p class="label">For a fast, accurate quote, include</p>
+          <ol class="checklist">
+            <li><span class="mono">01</span>Load details (W or A) and system voltage</li>
+            <li><span class="mono">02</span>Backup time or daily cycling you need</li>
+            <li><span class="mono">03</span>Site location and operating temperature</li>
+            <li><span class="mono">04</span>Delivery and installation preferences</li>
+          </ol>
+        </div>
+        <div class="block">
+          <p class="label">Have a simple question?</p>
+          <a class="link-arrow" href="#faq">Check our FAQ <span aria-hidden="true">↓</span></a>
+        </div>
+      </aside>
+
+      <div class="form-card" id="enquiry">
+        <p class="h-sm">Fill out your information and a representative will reach out to you.</p>
+        <form data-lc-form="contact" action="/api/contact.php" method="post" novalidate>
+          <div class="two">
+            <div class="field">
+              <label for="c-name">Name <span class="req">*</span></label>
+              <input id="c-name" name="name" required autocomplete="name" />
+            </div>
+            <div class="field">
+              <label for="c-email">Email <span class="req">*</span></label>
+              <input id="c-email" name="email" type="email" required autocomplete="email" />
+            </div>
+            <div class="field">
+              <label for="c-company">Company</label>
+              <input id="c-company" name="company" autocomplete="organization" />
+            </div>
+            <div class="field">
+              <label for="c-phone">Phone</label>
+              <input id="c-phone" name="phone" type="tel" autocomplete="tel" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="c-model">Model of interest</label>
+            <input id="c-model" name="model" list="models" placeholder="e.g. 6-CNFJ-100, or leave blank" data-model />
+            <datalist id="models">{models.map((m) => <option value={m} />)}</datalist>
+          </div>
+          <div class="field">
+            <label for="c-msg">Your message <span class="req">*</span></label>
+            <textarea id="c-msg" name="message" required placeholder="Application, load, backup time, quantity, site location…"></textarea>
+          </div>
+          <input type="hidden" name="type" value="contact" />
+          <input type="hidden" name="ts" value="" data-ts />
+          <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off" /></label></div>
+          <div class="submit-row">
+            <button class="btn" type="submit">Submit <span class="arrow" aria-hidden="true">→</span></button>
+            <p class="dim small">We use your details only to answer this enquiry.</p>
+          </div>
+          <p class="form-status" role="status" aria-live="polite" data-status></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--rule" id="faq">
+    <div class="wrap split">
+      <div>
+        <p class="label eyebrow label--accent">Frequently asked questions</p>
+        <h2 class="display h-lg">Got questions? We're here to help.</h2>
+      </div>
+      <div class="faq">
+        {
+          FAQ.map((f, i) => (
+            <details open={i === 0}>
+              <summary>
+                <span>{f.q}</span>
+                <i aria-hidden="true" />
+              </summary>
+              <p class="muted">{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact {
+    align-items: start;
+  }
+  .side {
+    display: grid;
+    gap: 36px;
+  }
+  .block {
+    display: grid;
+    gap: 10px;
+    justify-items: start;
+  }
+  .block p {
+    margin: 0;
+  }
+  .block a.mono {
+    color: var(--muted);
+    text-decoration: none;
+  }
+  .checklist {
+    list-style: none;
+    margin: 4px 0 0;
+    padding: 0;
+    display: grid;
+    width: 100%;
+  }
+  .checklist li {
+    display: flex;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .checklist .mono {
+    font-size: 0.74rem;
+    color: var(--accent-hi);
+    padding-top: 3px;
+  }
+  .form-card {
+    padding: clamp(24px, 4vw, 44px);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--panel);
+  }
+  .form-card > p {
+    margin: 0 0 28px;
+  }
+  form {
+    display: grid;
+    gap: 18px;
+  }
+  .two {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: 560px) {
+    .two {
+      grid-template-columns: 1fr;
+    }
+  }
+  .submit-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+  }
+  .small {
+    margin: 0;
+    font-size: 0.85rem;
+  }
+  .faq {
+    border-top: 1px solid var(--line);
+  }
+  details {
+    border-bottom: 1px solid var(--line);
+  }
+  summary {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 22px 0;
+    cursor: pointer;
+    list-style: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary i {
+    position: relative;
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    margin-top: 5px;
+  }
+  summary i::before,
+  summary i::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 6.5px;
+    height: 1.5px;
+    background: var(--accent-hi);
+    transition: transform 0.3s var(--ease);
+  }
+  summary i::after {
+    transform: rotate(90deg);
+  }
+  details[open] summary i::after {
+    transform: rotate(0);
+  }
+  details p {
+    margin: 0 0 24px;
+    max-width: 68ch;
+  }
+</style>
+
+<script>
+  import { wireForms } from "../../lib/forms";
+  const model = new URLSearchParams(location.search).get("model");
+  const input = document.querySelector<HTMLInputElement>("[data-model]");
+  if (model && input) input.value = model;
+  if (new URLSearchParams(location.search).get("sent") === "1") {
+    const s = document.querySelector<HTMLElement>("#enquiry [data-status]");
+    if (s) {
+      s.dataset.state = "ok";
+      s.textContent = "Thank you. Your message is with our team and a representative will reach out to you.";
+    }
+  }
+  wireForms();
+</script>

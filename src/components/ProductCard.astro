@@ -1,0 +1,128 @@
+---
+import ProductVisual from "./ProductVisual.astro";
+import { familyOf, productApps, spec, formatAh, type Product } from "../lib/catalogue";
+interface Props {
+  product: Product;
+}
+const { product: p } = Astro.props;
+const fam = familyOf(p);
+---
+
+<article
+  class="card"
+  data-card
+  data-v={p.voltage}
+  data-family={p.family}
+  data-ah={p.capacityAh}
+  data-apps={productApps(p).join(" ")}
+  data-search={`${p.sku} ${p.name} ${p.tags.join(" ")}`.toLowerCase()}
+>
+  <a href={`/product/${p.slug}/`} class="hit" aria-label={`${p.name}, ${p.sku}`}></a>
+  <ProductVisual product={p} />
+  <div class="meta">
+    <p class="sku mono">{p.sku}</p>
+    <span class="fam label">{fam.label}</span>
+  </div>
+  <h3 class="name">{p.voltage}V {formatAh(p.capacityAh)}{p.family !== "Standard" && <span class="muted"> {fam.label}</span>}</h3>
+  <dl class="mini">
+    <div><dt>Weight</dt><dd>{p.weight || "—"}</dd></div>
+    <div><dt>L×W×H</dt><dd>{spec(p, "Dimensions").replace(" mm", "") || "—"}</dd></div>
+  </dl>
+</article>
+
+<style>
+  .card {
+    position: relative;
+    display: grid;
+    gap: 14px;
+    padding: 12px 12px 18px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--panel);
+    transition:
+      border-color 0.3s var(--ease),
+      transform 0.4s var(--ease),
+      background 0.3s;
+  }
+  .card:hover {
+    border-color: rgba(140, 117, 255, 0.55);
+    background: var(--panel-2);
+    transform: translateY(-3px);
+  }
+  .card:hover :global(.pv img) {
+    transform: scale(1.04);
+  }
+  .hit {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: inherit;
+  }
+  .meta,
+  .name,
+  .mini {
+    padding-inline: 6px;
+  }
+  .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .sku {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--crystal);
+    letter-spacing: 0.04em;
+  }
+  .fam {
+    font-size: 0.66rem;
+    color: var(--dim);
+  }
+  .name {
+    font-size: 1.22rem;
+    font-weight: 700;
+    font-stretch: 112%;
+    letter-spacing: -0.02em;
+  }
+  .name .muted {
+    font-weight: 500;
+    font-stretch: 100%;
+    font-size: 0.86em;
+  }
+  .mini {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 10px;
+    margin: 0;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+  }
+  .mini dt {
+    font: 500 0.64rem/1.3 var(--mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+  .mini dd {
+    margin: 4px 0 0;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  @media (max-width: 520px) {
+    .fam {
+      display: none;
+    }
+    .card {
+      padding: 8px 8px 14px;
+    }
+    .name {
+      font-size: 1.05rem;
+    }
+    .mini {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+  }
+</style>

@@ -1,0 +1,70 @@
+---
+import { formatDate, type Article } from "../lib/catalogue";
+interface Props {
+  article: Article;
+}
+const { article: a } = Astro.props;
+---
+
+<article class="acard">
+  <a class="hit" href={`/${a.slug}/`} aria-label={a.title}></a>
+  <p class="meta label">
+    <span>{a.categories[0]}</span>
+    <span class="dim">{a.readingMinutes} min read</span>
+  </p>
+  <h3>{a.title}</h3>
+  <p class="excerpt muted">{a.excerpt}</p>
+  <p class="date mono dim"><time datetime={a.date}>{formatDate(a.date)}</time></p>
+</article>
+
+<style>
+  .acard {
+    position: relative;
+    display: grid;
+    gap: 14px;
+    align-content: start;
+    height: 100%;
+    padding: 26px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--panel);
+    transition:
+      border-color 0.3s var(--ease),
+      background 0.3s var(--ease);
+  }
+  .acard:hover {
+    border-color: rgba(140, 117, 255, 0.55);
+    background: var(--panel-2);
+  }
+  .hit {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+  }
+  .meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0;
+    font-size: 0.66rem;
+    color: var(--crystal);
+  }
+  h3 {
+    font-size: 1.24rem;
+    line-height: 1.22;
+    letter-spacing: -0.015em;
+  }
+  .excerpt {
+    margin: 0;
+    font-size: 0.94rem;
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .date {
+    margin: auto 0 0;
+    font-size: 0.74rem;
+  }
+</style>

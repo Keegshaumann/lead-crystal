@@ -1,0 +1,477 @@
+---
+import ProductCard from "./ProductCard.astro";
+import { APPLICATIONS, FAMILIES, VOLTAGES, productApps, spec, formatAh, familyOf, type Product } from "../lib/catalogue";
+interface Props {
+  list: Product[];
+  lockVoltage?: number;
+}
+const { list, lockVoltage } = Astro.props;
+const count = (f: (p: Product) => boolean) => list.filter(f).length;
+const apps = APPLICATIONS.filter((a) => list.some((p) => productApps(p).includes(a.key)));
+const fams = FAMILIES.filter((f) => list.some((p) => p.family === f.key));
+---
+
+<div class="catalogue" data-catalogue data-lock={lockVoltage ?? ""}>
+  <div class="toolbar" role="search" aria-label="Filter batteries">
+    <div class="row">
+      {
+        !lockVoltage && (
+          <div class="group" role="group" aria-label="Voltage">
+            <span class="label">Voltage</span>
+            <button class="chip" type="button" data-filter="v" data-value="" aria-pressed="true">All</button>
+            {VOLTAGES.map((v) => (
+              <button class="chip" type="button" data-filter="v" data-value={v} aria-pressed="false">
+                {v}V <span class="count">{count((p) => p.voltage === v)}</span>
+              </button>
+            ))}
+          </div>
+        )
+      }
+      {
+        fams.length > 1 && (
+          <div class="group" role="group" aria-label="Type">
+            <span class="label">Type</span>
+            <button class="chip" type="button" data-filter="type" data-value="" aria-pressed="true">All</button>
+            {fams.map((f) => (
+              <button class="chip" type="button" data-filter="type" data-value={f.key} aria-pressed="false">
+                {f.label} <span class="count">{count((p) => p.family === f.key)}</span>
+              </button>
+            ))}
+          </div>
+        )
+      }
+    </div>
+    <div class="row row--controls">
+      <label class="ctl search">
+        <span class="sr-only">Search by model or capacity</span>
+        <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6" fill="none" stroke="currentColor" stroke-width="1.5"></circle><path d="m13 13 5 5" stroke="currentColor" stroke-width="1.5"></path></svg>
+        <input type="search" placeholder="Search model, e.g. 6-CNFJ-100 or 200Ah" data-search />
+      </label>
+      <label class="ctl">
+        <span class="sr-only">Application</span>
+        <select data-app>
+          <option value="">All applications</option>
+          {apps.map((a) => <option value={a.key}>{a.label}</option>)}
+        </select>
+      </label>
+      <label class="ctl">
+        <span class="sr-only">Sort</span>
+        <select data-sort>
+          <option value="v">Sort: voltage, then capacity</option>
+          <option value="ah-asc">Capacity: low to high</option>
+          <option value="ah-desc">Capacity: high to low</option>
+        </select>
+      </label>
+      <div class="view" role="group" aria-label="View">
+        <button type="button" class="vbtn" data-view="grid" aria-pressed="true" title="Cards">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="2" width="7" height="7" rx="1"></rect><rect x="11" y="2" width="7" height="7" rx="1"></rect><rect x="2" y="11" width="7" height="7" rx="1"></rect><rect x="11" y="11" width="7" height="7" rx="1"></rect></svg>
+          <span class="sr-only">Cards</span>
+        </button>
+        <button type="button" class="vbtn" data-view="table" aria-pressed="false" title="Spec table">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="3" width="16" height="2" rx="1"></rect><rect x="2" y="9" width="16" height="2" rx="1"></rect><rect x="2" y="15" width="16" height="2" rx="1"></rect></svg>
+          <span class="sr-only">Spec table</span>
+        </button>
+      </div>
+    </div>
+    <p class="result label" aria-live="polite"><span data-shown>{list.length}</span> of {list.length} batteries</p>
+  </div>
+
+  <div class="grid" data-grid>
+    {list.map((p) => <ProductCard product={p} />)}
+  </div>
+
+  <div class="table-wrap" data-table hidden>
+    <table class="dtable">
+      <thead>
+        <tr>
+          <th scope="col">Model</th>
+          <th scope="col">Type</th>
+          <th scope="col" class="num">Voltage</th>
+          <th scope="col" class="num">Capacity</th>
+          <th scope="col">L × W × H (mm)</th>
+          <th scope="col" class="num">Weight</th>
+          <th scope="col">Terminal</th>
+          <th scope="col"><span class="sr-only">Spec sheet</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          list.map((p) => (
+            <tr
+              data-card
+              data-v={p.voltage}
+              data-family={p.family}
+              data-ah={p.capacityAh}
+              data-apps={productApps(p).join(" ")}
+              data-search={`${p.sku} ${p.name} ${p.tags.join(" ")}`.toLowerCase()}
+            >
+              <th scope="row">
+                <a href={`/product/${p.slug}/`} class="mono">{p.sku}</a>
+              </th>
+              <td>{familyOf(p).label}</td>
+              <td class="num mono">{p.voltage}V</td>
+              <td class="num mono">{formatAh(p.capacityAh)}</td>
+              <td class="mono">{spec(p, "Dimensions").replace(" mm", "")}</td>
+              <td class="num mono">{p.weight}</td>
+              <td class="mono">{spec(p, "Terminal")}</td>
+              <td>
+                {p.specSheet && (
+                  <a class="pdf" href={p.specSheet} target="_blank" rel="noopener" aria-label={`${p.sku} spec sheet (PDF)`}>
+                    PDF
+                  </a>
+                )}
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="empty" data-empty hidden>
+    <p class="h-sm">No batteries match those filters.</p>
+    <p class="muted">Clear a filter, or <a href="/contact/">tell us what you need</a> and we'll recommend a model.</p>
+    <button class="btn btn--ghost btn--sm" type="button" data-reset>Clear filters</button>
+  </div>
+</div>
+
+<style>
+  .toolbar {
+    position: sticky;
+    top: var(--header-h);
+    z-index: 5;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    padding: 18px 0 16px;
+    margin-bottom: 28px;
+    background: linear-gradient(180deg, var(--bg) 82%, rgba(8, 8, 10, 0));
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 28px;
+  }
+  .group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .group > .label {
+    margin-right: 4px;
+    font-size: 0.68rem;
+    color: var(--dim);
+  }
+  .row--controls {
+    gap: 10px;
+    align-items: center;
+  }
+  .ctl select,
+  .search {
+    min-height: 44px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line-2);
+    background: var(--panel);
+    color: var(--text);
+    font: 400 0.92rem var(--font);
+  }
+  .ctl select {
+    padding: 0 36px 0 14px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23a1a3ad' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    cursor: pointer;
+  }
+  .search {
+    flex: 1 1 280px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    color: var(--dim);
+  }
+  .search svg {
+    width: 16px;
+    flex-shrink: 0;
+  }
+  .search input {
+    flex: 1;
+    min-width: 0;
+    height: 42px;
+    border: 0;
+    background: none;
+    color: var(--text);
+    font: inherit;
+  }
+  .search input:focus {
+    outline: none;
+  }
+  .search:focus-within,
+  .ctl select:focus {
+    outline: none;
+    border-color: var(--accent-hi);
+  }
+  .view {
+    display: flex;
+    border: 1px solid var(--line-2);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .vbtn {
+    width: 44px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    background: transparent;
+    color: var(--dim);
+    cursor: pointer;
+  }
+  .vbtn svg {
+    width: 16px;
+    fill: currentColor;
+  }
+  .vbtn[aria-pressed="true"] {
+    background: var(--text);
+    color: #0a0a0c;
+  }
+  .result {
+    margin: 0;
+    font-size: 0.68rem;
+    color: var(--dim);
+  }
+  .grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  }
+  @media (max-width: 520px) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .toolbar {
+      position: static;
+    }
+    .row {
+      gap: 10px;
+    }
+    .group {
+      width: calc(100% + var(--gutter) * 2);
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      margin-inline: calc(var(--gutter) * -1);
+      padding-inline: var(--gutter);
+      scrollbar-width: none;
+    }
+    .group::-webkit-scrollbar {
+      display: none;
+    }
+    .group .chip {
+      flex-shrink: 0;
+    }
+    .row--controls {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+    }
+    .row--controls .search {
+      grid-column: 1 / -1;
+    }
+    .ctl {
+      min-width: 0;
+    }
+    .ctl select {
+      width: 100%;
+      min-width: 0;
+      padding-right: 30px;
+      text-overflow: ellipsis;
+    }
+  }
+  [data-card][hidden] {
+    display: none !important;
+  }
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+  }
+  .dtable {
+    width: 100%;
+    min-width: 860px;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  .dtable th,
+  .dtable td {
+    text-align: left;
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  .dtable thead th {
+    position: sticky;
+    top: 0;
+    background: var(--panel-2);
+    font: 500 0.68rem/1.3 var(--mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+  .dtable tbody tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .dtable tbody th a {
+    color: var(--crystal);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .dtable tbody th a:hover {
+    text-decoration: underline;
+  }
+  .dtable .num {
+    text-align: right;
+  }
+  .dtable td {
+    color: var(--muted);
+  }
+  .pdf {
+    font: 500 0.7rem var(--mono);
+    letter-spacing: 0.1em;
+    color: var(--text);
+    border: 1px solid var(--line-2);
+    border-radius: 3px;
+    padding: 4px 8px;
+    text-decoration: none;
+  }
+  .pdf:hover {
+    border-color: var(--accent-hi);
+  }
+  .empty {
+    display: grid;
+    gap: 10px;
+    justify-items: start;
+    padding: 48px 0;
+  }
+  .empty p {
+    margin: 0;
+  }
+</style>
+
+<script>
+  type Filters = { v: string; type: string; app: string; q: string; sort: string; view: string };
+  const root = document.querySelector<HTMLElement>("[data-catalogue]");
+  if (root) {
+    const grid = root.querySelector<HTMLElement>("[data-grid]")!;
+    const tableWrap = root.querySelector<HTMLElement>("[data-table]")!;
+    const tbody = tableWrap.querySelector("tbody")!;
+    const empty = root.querySelector<HTMLElement>("[data-empty]")!;
+    const shown = root.querySelector<HTMLElement>("[data-shown]")!;
+    const search = root.querySelector<HTMLInputElement>("[data-search]")!;
+    const appSel = root.querySelector<HTMLSelectElement>("[data-app]")!;
+    const sortSel = root.querySelector<HTMLSelectElement>("[data-sort]")!;
+    const cards = [...grid.querySelectorAll<HTMLElement>("[data-card]")];
+    const rows = [...tbody.querySelectorAll<HTMLElement>("[data-card]")];
+
+    const params = new URLSearchParams(location.search);
+    let view = "grid";
+    try {
+      view = localStorage.getItem("lc-view") || "grid";
+    } catch {}
+    const f: Filters = {
+      v: params.get("v") || "",
+      type: params.get("type") || "",
+      app: params.get("app") || "",
+      q: params.get("q") || "",
+      sort: params.get("sort") || "v",
+      view: params.get("view") || view,
+    };
+
+    const matches = (el: HTMLElement) => {
+      if (f.v && el.dataset.v !== f.v) return false;
+      if (f.type && el.dataset.family !== f.type) return false;
+      if (f.app && !(el.dataset.apps || "").split(" ").includes(f.app)) return false;
+      if (f.q) {
+        const terms = f.q.toLowerCase().replace(/(\d)\s*ah\b/g, "$1ah").split(/\s+/).filter(Boolean);
+        const hay = el.dataset.search || "";
+        if (!terms.every((t) => hay.includes(t))) return false;
+      }
+      return true;
+    };
+
+    const key = (el: HTMLElement) => [Number(el.dataset.v), Number(el.dataset.ah)];
+    const sorter = (a: HTMLElement, b: HTMLElement) => {
+      const [va, aa] = key(a);
+      const [vb, ab] = key(b);
+      if (f.sort === "ah-asc") return aa - ab || va - vb;
+      if (f.sort === "ah-desc") return ab - aa || vb - va;
+      return va - vb || aa - ab;
+    };
+
+    const render = () => {
+      let n = 0;
+      for (const list of [cards, rows]) {
+        const parent = list === cards ? grid : tbody;
+        [...list].sort(sorter).forEach((el) => {
+          const ok = matches(el);
+          el.hidden = !ok;
+          parent.appendChild(el);
+          if (ok && list === cards) n++;
+        });
+      }
+      shown.textContent = String(n);
+      empty.hidden = n > 0;
+      grid.hidden = f.view !== "grid" || n === 0;
+      tableWrap.hidden = f.view !== "table" || n === 0;
+      root.querySelectorAll<HTMLButtonElement>("[data-filter]").forEach((b) => {
+        const k = b.dataset.filter as "v" | "type";
+        b.setAttribute("aria-pressed", String((b.dataset.value || "") === f[k]));
+      });
+      root.querySelectorAll<HTMLButtonElement>("[data-view]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.view === f.view)));
+      const p = new URLSearchParams();
+      (["v", "type", "app", "q"] as const).forEach((k) => f[k] && p.set(k, f[k]));
+      if (f.sort !== "v") p.set("sort", f.sort);
+      history.replaceState(null, "", p.toString() ? `?${p}` : location.pathname);
+    };
+
+    root.querySelectorAll<HTMLButtonElement>("[data-filter]").forEach((b) =>
+      b.addEventListener("click", () => {
+        const k = b.dataset.filter as "v" | "type";
+        f[k] = b.dataset.value || "";
+        render();
+      }),
+    );
+    root.querySelectorAll<HTMLButtonElement>("[data-view]").forEach((b) =>
+      b.addEventListener("click", () => {
+        f.view = b.dataset.view || "grid";
+        try {
+          localStorage.setItem("lc-view", f.view);
+        } catch {}
+        render();
+      }),
+    );
+    search.value = f.q;
+    appSel.value = f.app;
+    sortSel.value = f.sort;
+    search.addEventListener("input", () => {
+      f.q = search.value.trim();
+      render();
+    });
+    appSel.addEventListener("change", () => {
+      f.app = appSel.value;
+      render();
+    });
+    sortSel.addEventListener("change", () => {
+      f.sort = sortSel.value;
+      render();
+    });
+    root.querySelector("[data-reset]")?.addEventListener("click", () => {
+      f.v = f.type = f.app = f.q = "";
+      search.value = "";
+      appSel.value = "";
+      render();
+    });
+    render();
+  }
+</script>

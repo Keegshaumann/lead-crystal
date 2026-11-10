@@ -1,0 +1,32 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="Page not found" noindex>
+  <section class="section nf">
+    <div class="wrap">
+      <p class="label eyebrow label--accent">Error 404</p>
+      <h1 class="display h-xl">0V.</h1>
+      <p class="lede">This page has gone flat. It may have moved when we rebuilt the site.</p>
+      <div class="row">
+        <a class="btn" href="/catalogue/">Browse the catalogue <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn btn--ghost" href="/">Home</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf .wrap {
+    display: grid;
+    gap: 22px;
+    justify-items: start;
+    min-height: 50vh;
+    align-content: center;
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+</style>

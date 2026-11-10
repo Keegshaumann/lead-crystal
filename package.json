@@ -1,0 +1,21 @@
+{
+  "name": "leadcrystal-website",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "description": "leadcrystal.co: custom static site (Astro) with a small PHP form handler. Replaces the old WordPress/Elementor build.",
+  "scripts": {
+    "dev": "astro dev",
+    "images": "sh scripts/optimise-images.sh",
+    "build": "astro build && node scripts/postbuild.mjs",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@fontsource-variable/archivo": "^5.3.0",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "astro": "^7.4.8"
+  },
+  "engines": {
+    "node": ">=22.23.4"
+  }
+}
