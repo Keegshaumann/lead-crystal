@@ -1,0 +1,70 @@
+# Builds the site on every push to main and publishes the finished files to the
+# `deploy` branch. Hostinger (hPanel → Advanced → Git, plain PHP/HTML website)
+# pulls `deploy` into public_html. Hostinger never runs Node or npm.
+name: Build and publish to deploy branch
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install
+        run: npm ci --no-audit --no-fund
+
+      - name: Build
+        run: npm run build
+
+      - name: Check the PHP form handler
+        run: for f in dist/api/*.php; do php -l "$f"; done
+
+      - name: Sanity-check the output
+        run: |
+          test -f dist/index.html
+          test -f dist/.htaccess
+          test -f dist/api/contact.php
+          test "$(find dist -name index.html | wc -l)" -ge 60
+
+      - name: Publish dist/ to the deploy branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          url="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          if git ls-remote --exit-code --heads "$url" deploy >/dev/null 2>&1; then
+            git clone --quiet --depth 1 --branch deploy "$url" site
+          else
+            git init --quiet -b deploy site
+            git -C site remote add origin "$url"
+          fi
+          # Replace everything except git metadata with the fresh build (dotfiles included)
+          find site -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -a dist/. site/
+          cd site
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to publish."
+            exit 0
+          fi
+          git commit --quiet -m "Deploy ${GITHUB_SHA::7}: $(git -C .. log -1 --format=%s)"
+          git push --quiet origin deploy
+          echo "Published ${GITHUB_SHA::7} to deploy"

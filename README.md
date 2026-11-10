@@ -43,25 +43,35 @@ php -S 127.0.0.1:8787 -t dist scripts/php-router.php   # preview the built site 
 3. Spec sheet: save as `public/downloads/spec-sheets/<SKU>.pdf`.
 4. `npm run build` and deploy.
 
-## Deploying (Hostinger, builds from GitHub)
+## Deploying (Hostinger, plain Git deploy)
 
-Hostinger builds the site itself from `main` of `Keegshaumann/lead-crystal`, the same way
-In The Light Roofing is set up. **Every push to `main` goes live.**
+Hostinger never runs Node here. On every push to `main`, the GitHub Action in
+`.github/workflows/deploy.yml` builds the site and commits the finished files to the **`deploy`**
+branch. Hostinger's per-website Git feature pulls that branch into `public_html`.
 
-Settings in hPanel (Websites → leadcrystal.co → GitHub / Node.js deployment):
+This route deliberately does **not** use hPanel's "Connect with GitHub". That connection allows one
+GitHub account per hPanel login, and Ronnie's account is the one connected, so switching it would
+stop his sites auto-deploying.
 
-| Setting | Value |
-| --- | --- |
-| Repository / branch | `Keegshaumann/lead-crystal`, `main` |
-| Node.js version | 24 (Astro 7 needs 22.23 or newer) |
-| Install command | `npm ci` (or Hostinger's default `npm install`) |
-| Build command | `npm run build` |
-| Output directory | `dist` |
+hPanel setup (once):
 
-The build output includes `.htaccess` (redirects, HTTPS, headers) and `api/*.php`, so the
-LiteSpeed/Apache side needs no other configuration. On any hostname other than
-leadcrystal.co (e.g. the temporary `*.hostingersite.com` domain) every response carries
-`X-Robots-Tag: noindex`, so the preview can't compete with the real domain in Google.
+1. Add the website as a **plain PHP/HTML website** (not "Node.js web app"). PHP 8.2 or newer.
+2. Empty `public_html` (Hostinger's first Git pull needs an empty folder).
+3. Websites → leadcrystal.co → Advanced → **Git**. Use the repository URL option, not "Connect with
+   GitHub":
+   - Repository: `https://github.com/Keegshaumann/lead-crystal.git`
+   - Branch: **`deploy`**
+   - Directory: leave blank (= `public_html`)
+4. Click **Auto Deployment**, copy the webhook URL, and add it to the GitHub repo under
+   Settings → Webhooks (content type `application/json`, "Just the push event").
+
+After that, every push to `main` goes live within a couple of minutes: the Action pushes `deploy`,
+the webhook fires and Hostinger pulls. Check the run under the repo's **Actions** tab if a change
+doesn't show up.
+
+`.htaccess` (redirects, HTTPS, headers) and `api/*.php` are part of the build, so nothing else needs
+configuring. On any hostname other than leadcrystal.co (e.g. the temporary `*.hostingersite.com`
+domain) every response carries `X-Robots-Tag: noindex`.
 
 ### One-time server setup (outside the repo, survives every deploy)
 
