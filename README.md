@@ -62,15 +62,17 @@ hPanel setup (once):
    - Repository: `https://github.com/Keegshaumann/lead-crystal.git`
    - Branch: **`deploy`**
    - Directory: leave blank (= `public_html`)
-4. Auto-deploy: an account cron job (every 5 minutes) fetches the `deploy` branch into
-   `public_html`. Set up on 10 Nov 2026 for plum-raccoon-497791.hostingersite.com:
+4. Auto-deploy: an hPanel cron job runs every 5 minutes and pulls the `deploy` branch into
+   `public_html`:
 
    ```
-   cd /home/u531579581/domains/<site>/public_html && git fetch --quiet https://github.com/Keegshaumann/lead-crystal.git deploy && git reset --quiet --hard FETCH_HEAD
+   */5 * * * *  /bin/sh /home/u531579581/domains/<site>/leadcrystal-private/deploy.sh
    ```
 
-   **If the website's folder changes** (e.g. when leadcrystal.co replaces the temporary domain),
-   update the path in that cron job. hPanel's Git **Auto Deployment** webhook is an alternative.
+   The script is `server/hostinger-deploy.sh` in this repo (a copy lives in `leadcrystal-private/`).
+   It logs every deploy and any error to `leadcrystal-private/deploy.log`. **If the website's folder
+   changes** (e.g. when leadcrystal.co replaces the temporary domain), update `ROOT` in the script
+   and the path in the cron job.
 
 After that, every push to `main` is live within about 5 minutes. `https://<site>/version.txt`
 shows the commit that's live. If a change doesn't show up, check the run under the repo's
