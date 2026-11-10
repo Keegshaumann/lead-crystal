@@ -3,7 +3,7 @@
 // Never commit the real file.
 return [
     // Who receives website enquiries, newsletter sign-ups and whitepaper downloads.
-    'to' => ['sales@leadcrystal.co'],
+    'to' => ['sales@leadcrystal.co', 'denzil@leadcrystal.co'],
 
     // Sender address. Must be a mailbox on a domain whose SPF/DKIM allow this server or SMTP host.
     'from' => 'website@leadcrystal.co',
@@ -18,6 +18,11 @@ return [
         'user' => 'website@leadcrystal.co',
         'pass' => 'CHANGE-ME',
     ],
+
+    // Leave false unless the domain's SPF/DKIM allow this host: leadcrystal.co has DMARC p=reject,
+    // so PHP mail() from the web host gets bounced. With no SMTP and php_mail false, submissions
+    // are still logged, just not emailed.
+    'php_mail' => false,
 
     // Optional. Signs whitepaper download links. Auto-generated into data_dir if left empty.
     'secret' => '',
