@@ -24,6 +24,7 @@ function lc_config(): array
         'from' => 'website@leadcrystal.co',
         'from_name' => 'Leadcrystal website',
         'smtp' => null,             // ['host'=>'', 'port'=>465, 'secure'=>'ssl'|'tls', 'user'=>'', 'pass'=>'']
+        'php_mail' => false,        // allow PHP mail() when no SMTP is set (leadcrystal.co's DMARC is p=reject)
         'secret' => '',             // signs whitepaper download links; auto-generated if empty
         'data_dir' => '',           // where submissions are logged; defaults below
     ];
@@ -158,6 +159,11 @@ function lc_send_mail(string $subject, string $body, string $replyTo = '', strin
 
     if (!empty($cfg['smtp']['host'])) {
         return lc_smtp_send($cfg['smtp'], $from, $to, implode("\r\n", $headers) . "\r\n\r\n" . $encodedBody . "\r\n");
+    }
+    // Without SMTP, only send when explicitly allowed: leadcrystal.co publishes DMARC p=reject, so
+    // mail from the web host's own mailer is likely to be bounced while looking "sent" here.
+    if (empty($cfg['php_mail'])) {
+        return 'no SMTP configured';
     }
     // Fallback: the host's local mailer.
     $mailHeaders = array_filter($headers, fn($h) => !str_starts_with($h, 'To: ') && !str_starts_with($h, 'Subject: '));
