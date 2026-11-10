@@ -1,0 +1,1 @@
+import{t as e}from"./forms.BO6gUfc2.js";var t=document.getElementById(`whitepaper-dialog`);t&&(e(t),document.querySelectorAll(`[data-open-whitepaper]`).forEach(e=>e.addEventListener(`click`,e=>{e.preventDefault(),t.showModal()})),t.addEventListener(`click`,e=>{e.target===t&&t.close()}));

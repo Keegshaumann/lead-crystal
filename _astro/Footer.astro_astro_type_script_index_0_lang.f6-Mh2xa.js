@@ -1,0 +1,1 @@
+import{t as e}from"./forms.BO6gUfc2.js";e();
