@@ -45,6 +45,10 @@ AddDefaultCharset utf-8
 <IfModule mod_rewrite.c>
 RewriteEngine On
 
+# leadcrystal.tech (parked on this site) is a second name for the same business: send it home
+RewriteCond %{HTTP_HOST} ^(www\\.)?leadcrystal\\.tech$ [NC]
+RewriteRule ^ https://leadcrystal.co%{REQUEST_URI} [R=301,L]
+
 # HTTPS and apex domain (works behind Cloudflare or another proxy too)
 RewriteCond %{HTTPS} off
 RewriteCond %{HTTP:X-Forwarded-Proto} !https

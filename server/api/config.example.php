@@ -3,7 +3,7 @@
 // Never commit the real file.
 return [
     // Who receives website enquiries, newsletter sign-ups and whitepaper downloads.
-    'to' => ['sales@leadcrystal.co', 'denzil@leadcrystal.co'],
+    'to' => ['info@leadcrystal.co'],
 
     // Sender address. Must be a mailbox on a domain whose SPF/DKIM allow this server or SMTP host.
     'from' => 'website@leadcrystal.co',

@@ -2,7 +2,7 @@
 # Pulls the built Leadcrystal site (the `deploy` branch of Keegshaumann/lead-crystal) into
 # public_html. Run by an hPanel cron job every 5 minutes. Logs only changes and errors.
 # If the website's folder changes (e.g. leadcrystal.co replaces the temporary domain), update ROOT.
-ROOT=/home/u531579581/domains/plum-raccoon-497791.hostingersite.com
+ROOT=/home/u531579581/domains/leadcrystal.co
 REPO=https://github.com/Keegshaumann/lead-crystal.git
 export PATH=/usr/local/bin:/usr/bin:/bin
 export HOME=/home/u531579581
