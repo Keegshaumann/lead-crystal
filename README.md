@@ -71,8 +71,15 @@ hPanel setup (once):
 
    The script is `server/hostinger-deploy.sh` in this repo (a copy lives in `leadcrystal-private/`).
    It logs every deploy and any error to `leadcrystal-private/deploy.log`. **If the website's folder
-   changes** (e.g. when leadcrystal.co replaces the temporary domain), update `ROOT` in the script
-   and the path in the cron job.
+   changes**, update `ROOT` in the script and the path in the cron job.
+
+**Live since 15 Nov 2026:** website `leadcrystal.co` on Hostinger (account u531579581, server
+srv1340, 193.203.168.52), cron `*/5` → `domains/leadcrystal.co/leadcrystal-private/deploy.sh`.
+`leadcrystal.tech` is a parked domain on the same website; `.htaccess` 301s it to leadcrystal.co.
+DNS for both domains is **Porkbun's** (default nameservers), not Hostinger's: Hostinger's DNS API
+won't take records for a domain that doesn't point at it yet, and Porkbun let us load and check the
+zone before switching. Email (MX, `mail.`, `webmail.`, SPF, DKIM, DMARC, `_mailchannels`) still
+points at the old cPanel server (216.194.167.167) until mail moves to Hostinger Email.
 
 After that, every push to `main` is live within about 5 minutes. `https://<site>/version.txt`
 shows the commit that's live. If a change doesn't show up, check the run under the repo's
