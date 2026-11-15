@@ -157,6 +157,11 @@ function lc_send_mail(string $subject, string $body, string $replyTo = '', strin
     }
     $encodedBody = rtrim(chunk_split(base64_encode($body), 76, "\r\n"));
 
+    // A blank password means the mailbox isn't set up yet: skip SMTP rather than fail logins, which
+    // can get the web server's IP blocked by the mail server's brute-force protection.
+    if (!empty($cfg['smtp']['host']) && (string) ($cfg['smtp']['pass'] ?? '') === '') {
+        return 'SMTP password not set yet';
+    }
     if (!empty($cfg['smtp']['host'])) {
         return lc_smtp_send($cfg['smtp'], $from, $to, implode("\r\n", $headers) . "\r\n\r\n" . $encodedBody . "\r\n");
     }
