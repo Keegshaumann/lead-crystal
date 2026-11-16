@@ -12,7 +12,7 @@ return [
     // Recommended: send through a real mailbox instead of PHP mail().
     // Implicit TLS: port 465 + 'ssl'. STARTTLS: port 587 + 'tls'.
     'smtp' => [
-        'host' => 'smtp.example.com',
+        'host' => 'smtp.hostinger.com',
         'port' => 465,
         'secure' => 'ssl',
         'user' => 'website@leadcrystal.co',

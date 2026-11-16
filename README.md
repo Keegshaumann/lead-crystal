@@ -78,8 +78,15 @@ srv1340, 193.203.168.52), cron `*/5` → `domains/leadcrystal.co/leadcrystal-pri
 `leadcrystal.tech` is a parked domain on the same website; `.htaccess` 301s it to leadcrystal.co.
 DNS for both domains is **Porkbun's** (default nameservers), not Hostinger's: Hostinger's DNS API
 won't take records for a domain that doesn't point at it yet, and Porkbun let us load and check the
-zone before switching. Email (MX, `mail.`, `webmail.`, SPF, DKIM, DMARC, `_mailchannels`) still
-points at the old cPanel server (216.194.167.167) until mail moves to Hostinger Email.
+zone before switching.
+
+**Email is on Hostinger Email since 16 Nov 2026** (Starter Business, mailboxes info@, denzil@,
+bidteam@, sales@, frank@): MX `mx1/mx2.hostinger.com`, autodiscover/autoconfig CNAMEs to
+`*.mail.hostinger.com`, DKIM CNAMEs `hostingermail-a/b/c._domainkey`. The website's forms send to
+info@ through `smtp.hostinger.com:465` (password only in `leadcrystal-private/config.php`).
+Until the old server shuts on 25 Nov 2026, the zone deliberately keeps its leftovers so old mail
+apps and webmail still work: `mail.`, `webmail.`, `cpanel.` A records to 216.194.167.167, `+ip4`
+in SPF, `default._domainkey` and `_mailchannels`. Remove those after 25 Nov.
 
 After that, every push to `main` is live within about 5 minutes. `https://<site>/version.txt`
 shows the commit that's live. If a change doesn't show up, check the run under the repo's
