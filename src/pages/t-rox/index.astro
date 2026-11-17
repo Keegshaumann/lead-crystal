@@ -3,6 +3,8 @@
 // T-ROX profile catalogue (V0.1, Aug 2026); the model list is src/data/trox.json.
 import Base from "../../layouts/Base.astro";
 import StandardRange from "../../components/StandardRange.astro";
+// inline, so the hero can animate the logo's parts (letters, bolt, bar)
+import logoSvg from "../../../public/images/trox/t-rox-logo-white.svg?raw";
 
 const figures = [
   { value: "1,500+", unit: "cycles", note: "at 80% depth of discharge, GEL series" },
@@ -83,7 +85,7 @@ const matches = [
               <li><span aria-current="page">T-ROX</span></li>
             </ol>
           </nav>
-          <img class="tx-logo" src="/images/trox/t-rox-logo-white.svg" alt="T-ROX Batteries" width="560" height="160" />
+          <div class="tx-logo" set:html={logoSvg} />
           <p class="label eyebrow">Sealed lead-acid · AGM and GEL</p>
           <h1 class="display h-lg" id="tx-title">Powering progress. Energizing industry.</h1>
           <p class="lede">
@@ -249,7 +251,7 @@ const matches = [
   if (tabs) {
     const buttons = [...tabs.querySelectorAll<HTMLButtonElement>("[role=tab]")];
     const panels = [...document.querySelectorAll<HTMLElement>("[data-panel]")];
-    const select = (i: number, focus = false) => {
+    const select = (i: number, focus = false, announce = false) => {
       buttons.forEach((b, j) => {
         const on = i === j;
         b.setAttribute("aria-selected", String(on));
@@ -257,15 +259,17 @@ const matches = [
         panels[j].hidden = !on;
       });
       if (focus) buttons[i].focus();
+      // scripts/motion.ts cascades the rows of the panel that just appeared
+      if (announce) document.dispatchEvent(new CustomEvent("panel:shown", { detail: panels[i] }));
     };
     tabs.hidden = false;
     select(0);
     buttons.forEach((b, i) => {
-      b.addEventListener("click", () => select(i));
+      b.addEventListener("click", () => select(i, false, true));
       b.addEventListener("keydown", (e) => {
         if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
           e.preventDefault();
-          select((i + (e.key === "ArrowRight" ? 1 : buttons.length - 1)) % buttons.length, true);
+          select((i + (e.key === "ArrowRight" ? 1 : buttons.length - 1)) % buttons.length, true, true);
         }
       });
     });
@@ -278,6 +282,7 @@ const matches = [
     --amber: #ffb81c;
     --std-code: #ffd27a;
     --std-target: #ffb81c;
+    --spot: rgba(255, 184, 28, 0.12);
   }
   .btn--amber {
     --b-bg: var(--amber);
@@ -349,9 +354,104 @@ const matches = [
     color: var(--text);
   }
   .tx-logo {
+    display: block;
     width: min(100%, 460px);
-    height: auto;
     margin-bottom: 8px;
+  }
+  .tx-logo :global(svg) {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  /* The logo assembles itself: letters slide in at speed, the bolt strikes, the bar draws.
+     After that the bolt gives a short flicker every few seconds. */
+  @media (prefers-reduced-motion: no-preference) {
+    .tx-logo :global(:is(.tx-l, .tx-bolt, .tx-bar, .tx-sub)) {
+      transform-box: fill-box;
+    }
+    .tx-logo :global(.tx-l) {
+      animation: tx-letter 0.75s cubic-bezier(0.2, 0.9, 0.25, 1) backwards;
+    }
+    .tx-logo :global(.tx-l:nth-of-type(2)) {
+      animation-delay: 0.08s;
+    }
+    .tx-logo :global(.tx-l:nth-of-type(3)) {
+      animation-delay: 0.16s;
+    }
+    .tx-logo :global(.tx-l:nth-of-type(4)) {
+      animation-delay: 0.24s;
+    }
+    .tx-logo :global(.tx-bolt) {
+      transform-origin: center;
+      animation:
+        tx-strike 0.8s cubic-bezier(0.2, 1.5, 0.4, 1) 0.5s backwards,
+        tx-zap 7s linear 3s infinite;
+    }
+    .tx-logo :global(.tx-bar) {
+      transform-origin: left center;
+      animation: tx-bar 0.9s cubic-bezier(0.65, 0, 0.35, 1) 0.7s backwards;
+    }
+    .tx-logo :global(.tx-bar--end) {
+      animation-delay: 1.05s;
+    }
+    .tx-logo :global(.tx-sub) {
+      animation: tx-sub 0.9s ease-out 0.85s backwards;
+    }
+  }
+  @keyframes tx-letter {
+    from {
+      opacity: 0;
+      transform: translateX(-55%) skewX(12deg);
+    }
+  }
+  @keyframes tx-strike {
+    0% {
+      opacity: 0;
+      transform: scale(0.15) rotate(-30deg);
+    }
+    35% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.25;
+    }
+    65% {
+      opacity: 1;
+    }
+    100% {
+      transform: none;
+    }
+  }
+  @keyframes tx-zap {
+    0%,
+    93%,
+    100% {
+      opacity: 1;
+      transform: none;
+    }
+    94% {
+      opacity: 0.3;
+      transform: translateX(4%);
+    }
+    95.5% {
+      opacity: 1;
+      transform: none;
+    }
+    97% {
+      opacity: 0.45;
+    }
+  }
+  @keyframes tx-bar {
+    from {
+      transform: scaleX(0);
+    }
+  }
+  @keyframes tx-sub {
+    from {
+      opacity: 0;
+      transform: translateY(30%);
+    }
   }
   .tx-hero h1 {
     font-size: clamp(2.2rem, 3.7vw, 3.2rem);

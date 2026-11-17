@@ -568,6 +568,111 @@ h4 {
   color: #ff9b9b;
 }
 
+/* ---------- Motion (every page but the homepage; scroll parts in scripts/motion.ts) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  /* Page heads rise in on load. CSS, so it never waits on JavaScript. */
+  @keyframes mo-rise {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+  }
+  @keyframes mo-rise-lg {
+    from {
+      opacity: 0;
+      transform: translateY(0.32em);
+    }
+  }
+  @keyframes mo-float-in {
+    from {
+      opacity: 0;
+      transform: translateY(26px) scale(0.965);
+    }
+  }
+  html[data-motion="on"] :is(.ph .wrap, .prod .info, .ahead .wrap, .tx-copy) > * {
+    animation: mo-rise 0.9s var(--ease) backwards;
+  }
+  html[data-motion="on"] :is(.ph .wrap, .prod .info, .ahead .wrap, .tx-copy) > :nth-child(2) {
+    animation-delay: 0.07s;
+  }
+  html[data-motion="on"] :is(.ph .wrap, .prod .info, .ahead .wrap, .tx-copy) > :nth-child(3) {
+    animation-delay: 0.14s;
+  }
+  html[data-motion="on"] :is(.ph .wrap, .prod .info, .ahead .wrap, .tx-copy) > :nth-child(4) {
+    animation-delay: 0.21s;
+  }
+  html[data-motion="on"] :is(.ph .wrap, .prod .info, .ahead .wrap, .tx-copy) > :nth-child(5) {
+    animation-delay: 0.28s;
+  }
+  html[data-motion="on"] :is(.ph .wrap, .prod .info, .ahead .wrap, .tx-copy) > :nth-child(n + 6) {
+    animation-delay: 0.35s;
+  }
+  html[data-motion="on"] :is(.ph, .prod, .ahead, .tx-hero) h1 {
+    animation-name: mo-rise-lg;
+    animation-duration: 1.1s;
+  }
+  html[data-motion="on"] :is(.prod .visual, .tx-visual) {
+    animation: mo-float-in 1.3s var(--ease) 0.15s backwards;
+  }
+  /* room for the parallax drift so no edge shows */
+  html[data-motion="on"] .ph-media {
+    top: -10%;
+    bottom: -10%;
+  }
+
+  /* Catalogue cards replay this whenever a filter brings them back. */
+  @keyframes mo-card {
+    from {
+      opacity: 0;
+      transform: translateY(14px) scale(0.985);
+    }
+  }
+  html[data-motion="on"] [data-card] {
+    animation: mo-card 0.55s var(--ease) backwards;
+  }
+
+  /* The eyebrow rule draws itself when its block scrolls in. */
+  html[data-motion="on"] .eyebrow.mo::before {
+    transform-origin: left center;
+    transition: transform 0.9s var(--ease) 0.2s;
+  }
+  html[data-motion="on"] .eyebrow.mo:not(.is-in)::before {
+    transform: scaleX(0);
+  }
+
+  /* Reading progress on articles */
+  .read-progress {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 60;
+    height: 2px;
+    transform: scaleX(0);
+    transform-origin: left center;
+    background: linear-gradient(90deg, var(--accent), var(--accent-hi) 60%, var(--crystal));
+    pointer-events: none;
+  }
+}
+
+/* Cursor spotlight on cards (motion.ts feeds --mx / --my). */
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  :is(.card, .std-card, .tx-chem-card, .tx-match > li, .tx-figs > li, .trox-band, .acard) {
+    position: relative;
+  }
+  :is(.card, .std-card, .tx-chem-card, .tx-match > li, .tx-figs > li, .trox-band, .acard)::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(340px circle at var(--mx, 50%) var(--my, 50%), var(--spot, rgba(140, 117, 255, 0.13)), transparent 65%);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease);
+  }
+  :is(.card, .std-card, .tx-chem-card, .tx-match > li, .tx-figs > li, .trox-band, .acard):hover::after {
+    opacity: 1;
+  }
+}
+
 /* ---------- Reveal on scroll ---------- */
 @media (prefers-reduced-motion: no-preference) {
   .js .reveal {

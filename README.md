@@ -62,6 +62,15 @@ php -S 127.0.0.1:8787 -t dist scripts/php-router.php   # preview the built site 
   simulator's AGM and lithium ranges come from the "What is lead crystal battery technology?"
   article.
 
+### Inner-page motion (17 Nov 2026)
+
+Every page except the homepage loads `src/scripts/motion.ts` (Base.astro sets `data-motion="on"`;
+the homepage passes `motion={false}` because `home.ts` runs its own choreography). Page heads rise
+in with CSS on load; sections and cards reveal on scroll and rewind when you scroll back; images
+drift (parallax); T-ROX figures count up; cards get a cursor spotlight; catalogue cards re-animate
+when a filter shows them; articles get a reading-progress bar. The selector lists live at the top
+of `motion.ts`. Add `data-no-motion` to an element to leave it out. Reduced motion turns it all off.
+
 ### Adding or changing a product
 
 1. Edit `src/data/products.json` (copy an existing entry; `slug` becomes `/product/<slug>/`).

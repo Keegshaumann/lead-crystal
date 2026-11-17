@@ -11,9 +11,11 @@ interface Props {
   type?: "website" | "article" | "product";
   jsonLd?: Record<string, unknown>[];
   noindex?: boolean;
+  /** Scroll motion from scripts/motion.ts. The homepage turns it off: home.ts runs its own. */
+  motion?: boolean;
 }
 
-const { title, description = SITE.description, image = "/images/og-default.jpg", type = "website", jsonLd = [], noindex = false } =
+const { title, description = SITE.description, image = "/images/og-default.jpg", type = "website", jsonLd = [], noindex = false, motion = true } =
   Astro.props;
 
 const canonical = new URL(Astro.url.pathname, SITE.url).href;
@@ -35,7 +37,7 @@ const ld = [org, ...jsonLd];
 ---
 
 <!doctype html>
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr" data-motion={motion ? "on" : "off"}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -83,6 +85,7 @@ const ld = [org, ...jsonLd];
 
     <script>
       import "../scripts/smooth";
+      import "../scripts/motion";
     </script>
     <script>
       // Scroll reveals. Elements with .reveal fade up once when they enter the viewport.

@@ -5,6 +5,8 @@ The wordmark is Archivo Expanded Black Italic (the site's typeface) turned into 
 slanted a little further, with the hyphen drawn as a lightning bolt. It keeps what people
 already know from the old logo (the name, the bolt, the amber bar, BATTERIES underneath) and
 drops the clip-art dinosaur so it holds up small, in one colour and on a battery label.
+Parts carry classes (tx-l letters, tx-bolt, tx-sub, tx-bar) so the T-ROX page can animate the
+inline logo; they do nothing anywhere else.
 
 Needs fontTools (python -m pip install fonttools) and Google Chrome for the PNG exports.
 Run:                        python scripts/trox-logo.py
@@ -48,15 +50,15 @@ def wordmark(letters):
     big = TTFont(FONTS / "ArchivoX-900i.ttf")
     parts, x = [], 0
     T, wT = glyph_path(big, "T", x)
-    parts.append(f'<path d="{T}" fill="{letters}"/>')
+    parts.append(f'<path class="tx-l" d="{T}" fill="{letters}"/>')
     # the bolt sits where the hyphen was, overlapping the T's arm a touch like the original
     bx, bw, bh = 790, 430, 290
-    parts.append(f'<polygon points="{bolt(bx, -344 - bh / 2, bw, bh)}" fill="{AMBER}"/>')
+    parts.append(f'<polygon class="tx-bolt" points="{bolt(bx, -344 - bh / 2, bw, bh)}" fill="{AMBER}"/>')
     x = bx + bw - 40
     for ch, kern in (("R", 0), ("O", -38), ("X", -46)):
         x += kern
         d, w = glyph_path(big, ch, x)
-        parts.append(f'<path d="{d}" fill="{letters}"/>')
+        parts.append(f'<path class="tx-l" d="{d}" fill="{letters}"/>')
         x += w
     return "".join(parts), x
 
@@ -72,7 +74,7 @@ def descriptor(width, color):
         d, _ = glyph_path(f, c, x, 0, size)
         out.append(d)
         x += w + gap
-    return f'<path d="{" ".join(out)}" fill="{color}"/>'
+    return f'<path class="tx-sub" d="{" ".join(out)}" fill="{color}"/>'
 
 
 def logo(letters, sub, bar_end):
@@ -85,8 +87,8 @@ def logo(letters, sub, bar_end):
   <g transform="translate({pad_l + 30} 740) {skew}">
     {body}
     <g transform="translate(18 236)">{descriptor(w - 40, sub)}</g>
-    <polygon points="0,318 {w * 0.86:.0f},318 {w * 0.86 - 14:.0f},362 -14,362" fill="{AMBER}"/>
-    <polygon points="{w * 0.86 + 24:.0f},318 {w - 20:.0f},318 {w - 34:.0f},362 {w * 0.86 + 10:.0f},362" fill="{bar_end}"/>
+    <polygon class="tx-bar" points="0,318 {w * 0.86:.0f},318 {w * 0.86 - 14:.0f},362 -14,362" fill="{AMBER}"/>
+    <polygon class="tx-bar tx-bar--end" points="{w * 0.86 + 24:.0f},318 {w - 20:.0f},318 {w - 34:.0f},362 {w * 0.86 + 10:.0f},362" fill="{bar_end}"/>
   </g>
 </svg>
 """
