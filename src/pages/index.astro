@@ -101,7 +101,8 @@ const description =
   <section class="hero" data-hero data-accent="violet">
     <div class="hero-media" aria-hidden="true" data-hero-media>
       <video class="bgv" autoplay muted loop playsinline preload="auto" poster="/media/hero-1920.webp" data-bgvideo>
-        <source src="/media/hero-1280.mp4" type="video/mp4" media="(max-width: 900px)" />
+        <!-- phones get the locked-camera clip: the slide's push-in reads as a zoom on a narrow crop -->
+        <source src="/media/hero-m-1280.mp4" type="video/mp4" media="(max-width: 900px)" />
         <source src="/media/hero-1920.mp4" type="video/mp4" />
       </video>
       <div class="hero-sweep"></div>
@@ -525,6 +526,8 @@ const description =
     inset: -14px;
     width: calc(100% + 28px);
     height: calc(100% + 28px);
+    /* the global video max-width: 100% would cap this and leave a 14px gap on the right */
+    max-width: none;
     /* cursor parallax (sideways drift only, never a zoom) */
     translate: var(--px, 0px) var(--py, 0px);
   }

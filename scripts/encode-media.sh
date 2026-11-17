@@ -74,11 +74,12 @@ sway() { # sway <src.mp4> <out-name> <width> <crf>
 }
 
 # Full-bleed backgrounds: a desktop and a mobile size.
-# Hero: the camera arcs sideways around the battery and back, at a constant distance.
-# Keegan, 17 Nov: no zooming on the battery, but the page needs movement.
-# (v-hero-static.mp4 is the locked-camera fallback: swap in `whole v-hero-static.mp4 ...`.)
-sway v-hero-slide.mp4 hero-1920    1920 24
-sway v-hero-slide.mp4 hero-1280    1280 28
+# Hero: Keegan, 17 Nov: no zooming on the battery, but the page needs movement.
+# Desktop: the camera arcs sideways around the battery and back (it also pushes in ~14%,
+# which a full-width frame hides). Phones: the locked-camera clip, because on a narrow
+# crop that push-in reads as the battery growing (Keegan flagged it on his phone).
+sway  v-hero-slide.mp4  hero-1920    1920 24
+whole v-hero-static.mp4 hero-m-1280  1280 28
 loop v-crystal.mp4   crystal-1920  1920 26
 loop v-crystal.mp4   crystal-1280  1280 27
 [ -f "$SRC/v-gulf.mp4" ] && loop v-gulf.mp4 gulf-1920 1920 26 && loop v-gulf.mp4 gulf-1280 1280 27
