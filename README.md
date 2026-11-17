@@ -66,8 +66,33 @@ php -S 127.0.0.1:8787 -t dist scripts/php-router.php   # preview the built site 
 
 1. Edit `src/data/products.json` (copy an existing entry; `slug` becomes `/product/<slug>/`).
 2. Photo: drop `<SKU>.png` into `assets-src/products/` and run `npm run images`.
-3. Spec sheet: save as `public/downloads/spec-sheets/<SKU>.pdf`.
+3. Spec sheet: put the factory PDF in `assets-src/spec-sheets-factory/<SKU>.pdf` and rebuild the
+   sheets (below). The site links `public/downloads/spec-sheets/<SKU>.pdf`.
 4. `npm run build` and deploy.
+
+### Technical data sheets (redesigned 17 Nov 2026)
+
+The 54 downloadable sheets are typeset in the site's design from the factory numbers, not retyped.
+The factory originals (4-page Betta Batteries sheets in the old site's style) stay in
+`assets-src/spec-sheets-factory/` as the source.
+
+```bash
+python scripts/spec-sheets/extract.py            # factory page 2 -> src/data/spec-sheets.json (fails on anything it can't parse)
+python scripts/spec-sheets/extract.py --curves   # factory page 3 -> recoloured SVG curves (scripts/spec-sheets/build/, not committed)
+node scripts/spec-sheets/build.mjs [SKU ...]     # -> public/downloads/spec-sheets/*.pdf via headless Chrome (~35 s for all)
+node scripts/spec-sheets/trox-range.mjs          # -> public/downloads/T-ROX-range-sheet.pdf
+```
+
+`extract.py` needs PyMuPDF (`pip install pymupdf`). Fonts in `scripts/spec-sheets/fonts/` are static
+instances of Archivo: Chrome writes variable fonts into PDFs as Type 3, so never point the sheets
+at the variable woff2. Check a build with `pdffonts <file> | grep "Type 3"` (should print nothing).
+Names, photos and highlights come from `products.json`, T-ROX equivalents from `trox.json`.
+
+### T-ROX
+
+`/t-rox/` is the T-ROX page (copy from the T-ROX profile catalogue V0.1, Aug 2026; models from
+`src/data/trox.json`). The logo was redrawn 17 Nov 2026 as a proposal: `python scripts/trox-logo.py`
+writes the SVGs to `public/images/trox/` and PNG exports to `assets-src/t-rox-logo/`.
 
 ## Deploying (Hostinger, plain Git deploy)
 

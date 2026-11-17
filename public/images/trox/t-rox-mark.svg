@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" role="img" aria-label="T-ROX">
+  <rect width="1000" height="1000" rx="180" fill="#121217"/>
+  <g transform="translate(120 735) skewX(-7)">
+    <path d="M209.82 0.0 278.46000000000004 -389.22H50.7L76.44 -536.64H724.62L698.88 -389.22H471.12L402.48 0.0Z" fill="#FFFFFF"/>
+    <polygon points="420.0,-127.2 608.0,-300.0 592.0,-186.6 820.0,-208.2 632.0,-30.0 648.0,-143.4" fill="#FFB81C"/>
+  </g>
+  <polygon points="170,820 830,820 820,858 160,858" fill="#FFB81C"/>
+</svg>

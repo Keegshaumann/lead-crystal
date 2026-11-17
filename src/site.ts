@@ -20,6 +20,7 @@ export const SITE = {
 export const NAV = [
   { href: "/#technology", label: "Technology" },
   { href: "/catalogue/", label: "Products" },
+  { href: "/t-rox/", label: "T-ROX" },
   { href: "/insights/", label: "Insights" },
 ];
 

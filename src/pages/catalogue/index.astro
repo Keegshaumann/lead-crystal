@@ -3,14 +3,13 @@ import Base from "../../layouts/Base.astro";
 import PageHead from "../../components/PageHead.astro";
 import Catalogue from "../../components/Catalogue.astro";
 import FitCheck from "../../components/FitCheck.astro";
-import StandardRange from "../../components/StandardRange.astro";
 import { products, capacityRange } from "../../lib/catalogue";
 const [min, max] = capacityRange(products);
 ---
 
 <Base
   title="Lead Crystal Battery Catalogue: 2V, 6V, 8V and 12V"
-  description={`All ${products.length} Leadcrystal batteries from ${min}Ah to ${max}Ah: deep cycle, front terminal, EV and high-cycle models with full specs and spec sheets, plus the T-ROX standard sealed lead-acid range.`}
+  description={`All ${products.length} Leadcrystal batteries from ${min}Ah to ${max}Ah: deep cycle, front terminal, EV and high-cycle models with full specs and spec sheets, with the T-ROX standard sealed lead-acid range one click away.`}
 >
   <PageHead crumbs={[{ label: "Catalogue" }]} title="Catalogue" eyebrow={`${products.length} models · ${min}Ah to ${max.toLocaleString("en-US")}Ah`}>
     <p class="lede">
@@ -20,7 +19,7 @@ const [min, max] = capacityRange(products);
     <nav class="jump" aria-label="On this page">
       <a class="chip" href="#fit">Will it fit?</a>
       <a class="chip" href="#range">Lead crystal range</a>
-      <a class="chip" href="#standard">T-ROX standard range</a>
+      <a class="chip" href="/t-rox/">T-ROX standard range</a>
     </nav>
   </PageHead>
 
@@ -40,9 +39,17 @@ const [min, max] = capacityRange(products);
     </div>
   </section>
 
-  <section class="section section--rule">
+  <section class="section section--tight section--rule" id="standard" aria-labelledby="trox-title">
     <div class="wrap">
-      <StandardRange />
+      <a class="trox-band" href="/t-rox/">
+        <img src="/images/trox/t-rox-logo-white.svg" alt="" width="280" height="80" loading="lazy" />
+        <div>
+          <p class="label eyebrow">Also from the group</p>
+          <h2 class="h-sm" id="trox-title">T-ROX standard sealed lead-acid: AGM and GEL, 2V to 12V.</h2>
+          <p class="muted">Every T-ROX case has a lead crystal twin, so you can upgrade later without changing the space.</p>
+        </div>
+        <span class="btn btn--sm btn--ghost">See T-ROX <span class="arrow" aria-hidden="true">→</span></span>
+      </a>
     </div>
   </section>
 </Base>
@@ -53,6 +60,39 @@ const [min, max] = capacityRange(products);
     flex-wrap: wrap;
     gap: 8px;
     margin-top: 6px;
+  }
+  .trox-band {
+    display: grid;
+    gap: 20px 36px;
+    align-items: center;
+    padding: clamp(22px, 3vw, 32px);
+    border: 1px solid var(--line-2);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(100deg, rgba(255, 184, 28, 0.1), rgba(255, 184, 28, 0) 55%), var(--panel);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.25s;
+  }
+  .trox-band:hover {
+    border-color: rgba(255, 184, 28, 0.55);
+  }
+  .trox-band img {
+    width: 200px;
+    height: auto;
+  }
+  .trox-band .eyebrow {
+    color: #ffb81c;
+  }
+  .trox-band h2 {
+    margin: 10px 0 6px;
+  }
+  .trox-band p.muted {
+    margin: 0;
+  }
+  @media (min-width: 900px) {
+    .trox-band {
+      grid-template-columns: auto 1fr auto;
+    }
   }
   .range-head {
     display: grid;

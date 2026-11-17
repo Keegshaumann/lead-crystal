@@ -7,6 +7,7 @@ export const GET: APIRoute = () => {
   const urls: [string, string][] = [
     ["/", today],
     ["/catalogue/", today],
+    ["/t-rox/", today],
     ["/insights/", today],
     ["/contact/", today],
     ...VOLTAGES.map((v) => [`/product-category/${v}v/`, today] as [string, string]),

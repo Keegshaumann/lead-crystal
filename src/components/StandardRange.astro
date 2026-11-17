@@ -4,6 +4,12 @@
 import trox from "../data/trox.json";
 import { products } from "../lib/catalogue";
 
+interface Props {
+  eyebrow?: string;
+  title?: string;
+}
+const { eyebrow = "T-ROX standard range", title = "Standard sealed lead-acid." } = Astro.props;
+
 const bySku = new Map(products.map((p) => [p.sku, p]));
 const fmt = (n: number) => (Number.isInteger(n) ? String(n) : String(n));
 const total = trox.series.reduce((n, s) => n + s.models.length, 0);
@@ -12,8 +18,8 @@ const total = trox.series.reduce((n, s) => n + s.models.length, 0);
 <section class="std" id="standard" aria-labelledby="std-title">
   <div class="std-head">
     <div>
-      <p class="label eyebrow">T-ROX standard range</p>
-      <h2 class="display h-lg" id="std-title">Standard sealed lead-acid.</h2>
+      <p class="label eyebrow">{eyebrow}</p>
+      <h2 class="display h-lg" id="std-title">{title}</h2>
     </div>
     <div class="std-intro">
       <p class="lede">
@@ -92,7 +98,7 @@ const total = trox.series.reduce((n, s) => n + s.models.length, 0);
 
   <div class="std-cta">
     <p>Need a T-ROX price list or a container quote?</p>
-    <a class="btn btn--sm" href="/contact/">Ask for T-ROX pricing <span class="arrow" aria-hidden="true">→</span></a>
+    <a class="btn btn--sm" href="/contact/?model=T-ROX">Ask for T-ROX pricing <span class="arrow" aria-hidden="true">→</span></a>
   </div>
 </section>
 
@@ -169,7 +175,7 @@ const total = trox.series.reduce((n, s) => n + s.models.length, 0);
   }
   .std-card:target {
     background: #1b1a2b;
-    outline: 1px solid var(--accent-hi);
+    outline: 1px solid var(--std-target, var(--accent-hi));
   }
   .std-top {
     display: grid;
@@ -188,7 +194,7 @@ const total = trox.series.reduce((n, s) => n + s.models.length, 0);
     border-radius: 6px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--line-2);
-    color: var(--crystal);
+    color: var(--std-code, var(--crystal));
   }
   .std-spec {
     margin: 0;

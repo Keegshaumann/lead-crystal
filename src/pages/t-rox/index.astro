@@ -1,0 +1,597 @@
+---
+// T-ROX: the group's AGM / GEL sealed lead-acid (VRLA) brand. Copy and figures come from the
+// T-ROX profile catalogue (V0.1, Aug 2026); the model list is src/data/trox.json.
+import Base from "../../layouts/Base.astro";
+import StandardRange from "../../components/StandardRange.astro";
+
+const figures = [
+  { value: "1,500+", unit: "cycles", note: "at 80% depth of discharge, GEL series" },
+  { value: "3×", unit: "faster charge", note: "than standard flooded lead-acid" },
+  { value: "−20/+50", unit: "°C", note: "operating range, GEL series" },
+  { value: "10+", unit: "years", note: "service life, GEL series" },
+];
+
+const chemistries = [
+  {
+    key: "AGM",
+    name: "Absorbent glass mat",
+    tag: "Fast · powerful · responsive",
+    body: "The electrolyte is absorbed in fibreglass mats, so the battery recharges quickly, delivers high-rate discharge and shrugs off vibration.",
+    points: ["Fast recharge", "High-rate discharge", "Vibration resistant"],
+    best: "UPS, engine starting and dynamic loads",
+  },
+  {
+    key: "GEL",
+    name: "Silica gel electrolyte",
+    tag: "Steady · resilient · thermal control",
+    body: "The electrolyte is held in a silica gel, which tolerates heat better, discharges deeper and gives up to 30% longer cycle life than standard AGM.",
+    points: ["Superior heat tolerance", "Deeper discharge", "Longer cycle life"],
+    best: "Extreme temperatures, deep cycling and renewable storage",
+  },
+];
+
+type Row = [string, string, string, string, string];
+const matrix: { key: string; intro: string; rows: Row[] }[] = [
+  {
+    key: "AGM",
+    intro: "High-rate discharge, rapid recharge and vibration resistance for UPS, automotive and dynamic loads.",
+    rows: [
+      ["3-CNFJ-AGM", "6V", "4–180Ah", "Security, healthcare, mobility", "Emergency lighting, alarm systems, medical carts, mobility scooters, small UPS"],
+      ["6-CNFJ-AGM", "12V", "5–250Ah", "Automotive, UPS, security, telecom", "Car starting (55–100Ah), mid-sized UPS, security systems, point of sale, medical equipment, backup power"],
+      ["6-CNFT-AGM · telecom", "12V", "55–190Ah", "Telecommunications", "Base stations, radio towers, outdoor cabinet backup, rural network infrastructure"],
+      ["6-HCNFJ-7.2-AGM · high rate", "12V", "9Ah", "Data centres, IT", "High-rate UPS, server room backup, short high-current discharge"],
+      ["EVFJ-AGM", "6V, 8V, 12V", "60–265Ah", "Mobility, industrial cleaning", "Golf cars, electric vehicles, floor-cleaning machines, aerial work platforms, material handling"],
+      ["CNFJ-AGM", "2V", "100–3,000Ah", "Data centres, utilities, industry", "Large UPS, data centre backup, substation control, industrial switchgear, renewable storage"],
+    ],
+  },
+  {
+    key: "GEL",
+    intro: "Deep-cycle endurance, heat tolerance and long service life for harsh sites, renewables and long-duration backup.",
+    rows: [
+      ["3-CNFJ-GEL", "6V", "4–180Ah", "Security, mobility, healthcare", "Emergency lighting, alarm systems, mobility scooters, medical carts, small UPS"],
+      ["6-CNFJ-GEL", "12V", "5–250Ah", "Renewables, marine, automotive", "Off-grid solar storage, marine starting, RV auxiliary, high-end automotive, security, UPS"],
+      ["6-CNFT-GEL · telecom", "12V", "55–190Ah", "Outdoor telecoms", "Remote base stations, outdoor cabinets, high-temperature sites, rural towers"],
+      ["EVFJ-GEL", "6V, 8V, 12V", "60–265Ah", "Mobility, industrial, marine", "Golf cars, electric vehicles, floor-cleaning machines, marine traction, airport ground support"],
+      ["CNFJ-GEL", "2V", "100–3,000Ah", "Utilities, data centres, industry", "Large UPS, off-grid solar and wind storage, utility substations, oil and gas, infrastructure backup"],
+    ],
+  },
+];
+
+const matches = [
+  { title: "Solar & renewable", where: "Solar farms · grid storage · renewables", best: "CNFJ-GEL (2V) · 100–3,000Ah", also: "CNFJ-GEL 6V and 12V · 70–250Ah" },
+  { title: "Telecom & outdoor", where: "BTS stations · network cabinets · shelters", best: "CNFT-GEL · 55–190Ah", also: "CNFT-AGM, CNFJ-GEL 100–180Ah" },
+  { title: "UPS & critical backup", where: "Data centres · hospitals · banking", best: "CNFJ-AGM (2V) · 100–3,000Ah", also: "CNFJ-AGM 12V 7.2–250Ah, HCNFJ-AGM" },
+  { title: "Mobility & construction", where: "EVs · forklifts · golf carts · plant", best: "EVFJ-GEL · 60–265Ah", also: "EVFJ-AGM · 60–265Ah" },
+  { title: "Automotive & commercial", where: "Cars · trucks · commercial vehicles", best: "6-CNFJ-AGM · 55–250Ah", also: "6-CNFJ-GEL · 55–250Ah" },
+  { title: "Security, marine & IoT", where: "Alarms · offshore · remote monitoring · medical", best: "CNFJ-AGM (6V, 12V) · 4–28Ah", also: "CNFJ-GEL, HCNFJ-AGM" },
+];
+---
+
+<Base
+  title="T-ROX AGM and GEL Batteries: Sealed Lead-Acid (VRLA) Range"
+  description="T-ROX sealed, maintenance-free lead-acid batteries from the Bin Othaimeen Group: AGM for fast, high-rate power and GEL for heat and deep cycling. 2V to 12V, 4Ah to 3,000Ah, distributed from Riyadh."
+>
+  <div class="trox">
+    <section class="tx-hero" aria-labelledby="tx-title">
+      <div class="grid-bg tx-grid" aria-hidden="true"></div>
+      <div class="tx-glow" aria-hidden="true"></div>
+      <div class="wrap tx-hero-in">
+        <div class="tx-copy">
+          <nav aria-label="Breadcrumb">
+            <ol class="crumbs mono">
+              <li><a href="/">Home</a></li>
+              <li><span aria-current="page">T-ROX</span></li>
+            </ol>
+          </nav>
+          <img class="tx-logo" src="/images/trox/t-rox-logo-white.svg" alt="T-ROX Batteries" width="560" height="160" />
+          <p class="label eyebrow">Sealed lead-acid · AGM and GEL</p>
+          <h1 class="display h-lg" id="tx-title">Powering progress. Energizing industry.</h1>
+          <p class="lede">
+            T-ROX is the Bin Othaimeen Group's range of sealed, maintenance-free lead-acid batteries: AGM for fast recharge and
+            high-rate power, GEL for heat, deep cycling and long service life. 2V to 12V, from 4Ah to 3,000Ah.
+          </p>
+          <div class="tx-ctas">
+            <a class="btn btn--amber" href="/contact/?model=T-ROX">Ask for T-ROX pricing <span class="arrow" aria-hidden="true">→</span></a>
+            <a class="btn btn--ghost" href="/downloads/T-ROX-range-sheet.pdf" download>Range sheet (PDF)</a>
+          </div>
+        </div>
+        <div class="tx-visual">
+          <img src="/images/trox/range-group.webp" alt="T-ROX sealed lead-acid batteries" width="1050" height="440" fetchpriority="high" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tight" aria-label="T-ROX in figures">
+      <div class="wrap">
+        <ul class="tx-figs" role="list">
+          {
+            figures.map((f) => (
+              <li>
+                <p class="tx-fig">
+                  {f.value}
+                  <span>{f.unit}</span>
+                </p>
+                <p class="tx-fig-n">{f.note}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section class="section section--rule" aria-labelledby="chem-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="label eyebrow">Two chemistries, one family</p>
+          <h2 class="display h-lg" id="chem-title">AGM or GEL?</h2>
+          <p class="lede">
+            Both are VRLA: valve-regulated lead-acid, the category for every sealed, maintenance-free lead-acid battery. The difference is
+            how the electrolyte is held, and that decides where each one works best.
+          </p>
+        </div>
+        <div class="tx-chem">
+          {
+            chemistries.map((c) => (
+              <article class="tx-chem-card">
+                <p class="tx-chem-tag mono">{c.tag}</p>
+                <h3>
+                  <span class="tx-chem-key">{c.key}</span> {c.name}
+                </h3>
+                <p>{c.body}</p>
+                <ul role="list">
+                  {c.points.map((p) => (
+                    <li>{p}</li>
+                  ))}
+                </ul>
+                <p class="tx-best">
+                  <span class="label">Best for</span> {c.best}
+                </p>
+              </article>
+            ))
+          }
+          <img class="tx-unit" src="/images/trox/agm-unit.webp" alt="" width="544" height="448" loading="lazy" aria-hidden="true" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--rule" aria-labelledby="series-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="label eyebrow">Series</p>
+          <h2 class="display h-lg" id="series-title">Every series, in AGM and GEL.</h2>
+          <p class="lede">The same case sizes as the Leadcrystal range, so a site can start on T-ROX and move to lead crystal later.</p>
+        </div>
+        <div class="tx-tabs" role="tablist" aria-label="Chemistry" hidden data-tabs>
+          {
+            matrix.map((m, i) => (
+              <button class="chip" role="tab" type="button" id={`tab-${m.key}`} aria-controls={`panel-${m.key}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}>
+                {m.key} series
+              </button>
+            ))
+          }
+        </div>
+        {
+          matrix.map((m) => (
+            <div class="tx-panel" id={`panel-${m.key}`} role="tabpanel" aria-labelledby={`tab-${m.key}`} data-panel>
+              <p class="tx-panel-head">
+                <strong>{m.key}</strong> {m.intro}
+              </p>
+              <div class="tx-table-wrap">
+                <table class="tx-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Series</th>
+                      <th scope="col">Voltage</th>
+                      <th scope="col">Capacity</th>
+                      <th scope="col">Industries</th>
+                      <th scope="col">Applications</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {m.rows.map(([series, v, cap, ind, app]) => (
+                      <tr>
+                        <th scope="row" class="mono">{series}</th>
+                        <td class="mono">{v}</td>
+                        <td class="mono">{cap}</td>
+                        <td>{ind}</td>
+                        <td class="dim">{app}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="section section--rule" aria-labelledby="match-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="label eyebrow">Find your power match</p>
+          <h2 class="display h-lg" id="match-title">The right battery, every time.</h2>
+        </div>
+        <ul class="tx-match" role="list">
+          {
+            matches.map((m) => (
+              <li>
+                <h3>{m.title}</h3>
+                <p class="tx-where">{m.where}</p>
+                <dl>
+                  <div>
+                    <dt class="label">Best fit</dt>
+                    <dd class="mono">{m.best}</dd>
+                  </div>
+                  <div>
+                    <dt class="label">Also suitable</dt>
+                    <dd class="mono">{m.also}</dd>
+                  </div>
+                </dl>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section class="section section--rule" id="range">
+      <div class="wrap">
+        <StandardRange eyebrow="Model by model" title="The standard range." />
+      </div>
+    </section>
+  </div>
+</Base>
+
+<script>
+  // Tabs for the series tables. Without JavaScript both tables simply show one after the other.
+  const tabs = document.querySelector<HTMLElement>("[data-tabs]");
+  if (tabs) {
+    const buttons = [...tabs.querySelectorAll<HTMLButtonElement>("[role=tab]")];
+    const panels = [...document.querySelectorAll<HTMLElement>("[data-panel]")];
+    const select = (i: number, focus = false) => {
+      buttons.forEach((b, j) => {
+        const on = i === j;
+        b.setAttribute("aria-selected", String(on));
+        b.tabIndex = on ? 0 : -1;
+        panels[j].hidden = !on;
+      });
+      if (focus) buttons[i].focus();
+    };
+    tabs.hidden = false;
+    select(0);
+    buttons.forEach((b, i) => {
+      b.addEventListener("click", () => select(i));
+      b.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+          e.preventDefault();
+          select((i + (e.key === "ArrowRight" ? 1 : buttons.length - 1)) % buttons.length, true);
+        }
+      });
+    });
+  }
+</script>
+
+<style>
+  .trox {
+    --acc: #ffb81c;
+    --amber: #ffb81c;
+    --std-code: #ffd27a;
+    --std-target: #ffb81c;
+  }
+  .btn--amber {
+    --b-bg: var(--amber);
+    --b-fg: #0a0a0c;
+    --b-bd: var(--amber);
+  }
+  .btn--amber:hover {
+    --b-bg: #ffc94d;
+    --b-bd: #ffc94d;
+    box-shadow: 0 10px 34px -10px rgba(255, 184, 28, 0.6);
+  }
+
+  /* hero */
+  .tx-hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(32px, 6vw, 72px) clamp(48px, 7vw, 96px);
+    border-bottom: 1px solid var(--line);
+  }
+  .tx-grid {
+    position: absolute;
+    inset: 0;
+    opacity: 0.6;
+  }
+  .tx-glow {
+    position: absolute;
+    inset: auto -10% -40% 30%;
+    height: 90%;
+    background: radial-gradient(closest-side, rgba(255, 150, 30, 0.22), transparent 70%);
+    pointer-events: none;
+  }
+  .tx-hero-in {
+    position: relative;
+    display: grid;
+    gap: clamp(28px, 4vw, 56px);
+    align-items: center;
+  }
+  @media (min-width: 1000px) {
+    .tx-hero-in {
+      grid-template-columns: 6fr 5fr;
+    }
+  }
+  .tx-copy {
+    display: grid;
+    gap: 18px;
+    justify-items: start;
+  }
+  .crumbs {
+    display: flex;
+    gap: 10px;
+    margin: 0 0 6px;
+    padding: 0;
+    list-style: none;
+    font-size: 0.74rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+  .crumbs li + li::before {
+    content: "/";
+    margin-right: 10px;
+    opacity: 0.5;
+  }
+  .crumbs a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .crumbs a:hover {
+    color: var(--text);
+  }
+  .tx-logo {
+    width: min(100%, 460px);
+    height: auto;
+    margin-bottom: 8px;
+  }
+  .tx-hero h1 {
+    font-size: clamp(2.2rem, 3.7vw, 3.2rem);
+  }
+  .tx-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 6px;
+  }
+  .tx-visual img {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.55));
+  }
+
+  /* figures */
+  .tx-figs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tx-figs li {
+    padding: 22px 22px 20px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    border-top: 2px solid var(--amber);
+  }
+  .tx-fig {
+    margin: 0;
+    font-size: clamp(2rem, 3.4vw, 2.6rem);
+    font-weight: 800;
+    font-stretch: 125%;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .tx-fig span {
+    margin-left: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-stretch: 100%;
+    letter-spacing: 0;
+    color: var(--muted);
+  }
+  .tx-fig-n {
+    margin: 10px 0 0;
+    font-size: 0.88rem;
+    color: var(--dim);
+  }
+
+  /* chemistries */
+  .tx-chem {
+    position: relative;
+    display: grid;
+    gap: 14px;
+  }
+  @media (min-width: 900px) {
+    .tx-chem {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .tx-chem-card {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 14px;
+    align-content: start;
+    padding: clamp(22px, 3vw, 34px);
+    background: linear-gradient(160deg, rgba(255, 184, 28, 0.07), rgba(255, 184, 28, 0) 45%), var(--panel);
+    border: 1px solid var(--line-2);
+    border-radius: var(--radius-lg);
+  }
+  .tx-chem-tag {
+    margin: 0;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--amber);
+  }
+  .tx-chem-card h3 {
+    font-size: 1.5rem;
+    font-stretch: 112%;
+  }
+  .tx-chem-key {
+    color: var(--amber);
+  }
+  .tx-chem-card p {
+    margin: 0;
+    color: var(--muted);
+  }
+  .tx-chem-card ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tx-chem-card li {
+    padding: 6px 12px;
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    font-size: 0.84rem;
+  }
+  .tx-best {
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    color: var(--text) !important;
+  }
+  .tx-best .label {
+    margin-right: 8px;
+  }
+  .tx-unit {
+    display: none;
+  }
+  @media (min-width: 1200px) {
+    .tx-unit {
+      display: block;
+      position: absolute;
+      right: -40px;
+      top: -150px;
+      width: 230px;
+      height: auto;
+      opacity: 0.95;
+      filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.6));
+    }
+  }
+
+  /* series matrix */
+  .tx-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+  .tx-tabs .chip[aria-selected="true"] {
+    background: var(--amber);
+    border-color: var(--amber);
+    color: #0a0a0c;
+  }
+  .tx-tabs[hidden] {
+    display: none;
+  }
+  .tx-panel + .tx-panel {
+    margin-top: 28px;
+  }
+  .tx-panel[hidden] {
+    display: none;
+  }
+  .tx-panel-head {
+    margin: 0 0 14px;
+    color: var(--muted);
+  }
+  .tx-panel-head strong {
+    margin-right: 8px;
+    color: var(--amber);
+    font-family: var(--mono);
+  }
+  .tx-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+  }
+  .tx-table {
+    width: 100%;
+    min-width: 760px;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+  }
+  .tx-table th,
+  .tx-table td {
+    padding: 14px 16px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--line);
+  }
+  .tx-table thead th {
+    font: 500 0.7rem/1.4 var(--mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dim);
+    background: var(--panel);
+  }
+  .tx-table tbody tr:last-child > * {
+    border-bottom: 0;
+  }
+  .tx-table tbody th {
+    font-weight: 500;
+    color: var(--std-code);
+    white-space: nowrap;
+  }
+  .tx-table td.mono {
+    white-space: nowrap;
+  }
+
+  /* matches */
+  .tx-match {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tx-match li {
+    display: grid;
+    gap: 10px;
+    align-content: start;
+    padding: 22px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+  }
+  .tx-match h3 {
+    font-size: 1.15rem;
+  }
+  .tx-where {
+    margin: 0;
+    font-size: 0.86rem;
+    color: var(--dim);
+  }
+  .tx-match dl {
+    display: grid;
+    gap: 10px;
+    margin: 6px 0 0;
+  }
+  .tx-match dl > div {
+    display: grid;
+    gap: 4px;
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+  }
+  .tx-match dd {
+    margin: 0;
+    font-size: 0.86rem;
+  }
+  .tx-match dl > div:first-child dd {
+    color: var(--std-code);
+  }
+</style>
