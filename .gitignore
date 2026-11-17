@@ -7,3 +7,6 @@ assets-src/private/
 # never commit live mail credentials
 server/config.local.php
 server/api/config.local.php
+# Higgsfield originals (~170 MB of PNG/MP4). The web-ready loops live in public/media.
+assets-src/hf/
+.claude/

@@ -35,6 +35,32 @@ php -S 127.0.0.1:8787 -t dist scripts/php-router.php   # preview the built site 
 | `scripts/import-wp.py` | One-time import from the old site (already run 10 Nov 2026). |
 | `scripts/optimise-images.sh` | Converts `assets-src` images to WebP in `public/images`. |
 | `scripts/postbuild.mjs` | Copies the API into `dist/`, places the whitepaper, writes `.htaccess`. |
+| `src/scripts/home.ts` | Homepage motion: GSAP ScrollTrigger choreography, counters, heat simulator, hover videos, conveyor. |
+| `src/scripts/crystal-scene.ts` | The Three.js particle scene in "How it works" (liquid → crystal → cell → recycling loop). Loaded only when that section is near. |
+| `src/scripts/smooth.ts` | Lenis smooth wheel scrolling on every page (off for reduced motion). |
+| `public/media/` | Web-ready video loops (MP4) and their poster frames (WebP). Made by `npm run media`. |
+| `scripts/encode-media.sh` | Turns the Higgsfield clips in `assets-src/hf/` into seamless loops in `public/media/`. |
+| `src/components/Industries.astro` | Homepage "Core industries served": seven tabs that auto-advance, each with its own video and spec card (after Anduril's Menace-X page). Copy from the company background supplied 17 Nov 2026. |
+| `src/components/FitCheck.astro` + `src/scripts/fitcheck.ts` | Catalogue "Will it fit?": every battery drawn to scale (isometric, from its L × W × H) with a space checker. |
+| `src/data/trox.json` + `src/components/StandardRange.astro` | Catalogue T-ROX standard range (AGM / GEL VRLA), each model matched to the same-case Leadcrystal battery. Factory dims only; RFQ columns and casing print sizes are deliberately left out. |
+
+### Homepage motion and video (rebuilt 17 Nov 2026)
+
+- Every scroll animation is scrubbed, so scrolling back rewinds it. All content is readable with
+  JavaScript off; GSAP sets the starting states, CSS never hides content.
+- `prefers-reduced-motion` turns off smooth scrolling, the particle scene (a still image shows
+  instead) and every video (posters only).
+- Videos only play while on screen. Application cards play their clip on hover (or when mostly
+  on screen on phones, unless Save-Data is on).
+- The footage is AI-generated with Higgsfield (Nano Banana Pro stills, Kling 3.0 clips); the hero
+  shot was built from the real 6-CNFJ-100 product photo. Originals (~170 MB) are in
+  `assets-src/hf/`, which is **not in git**; Higgsfield's generation history also keeps them.
+  To re-encode: put the clips back in `assets-src/hf/` and run `npm run media`.
+- The hero clip is locked-camera on purpose (only the smoke moves); Keegan didn't want the battery zooming.
+- Facts on the homepage are the ones the old site and the product data already published
+  (6,000+ cycles at 20% DoD, −40 to +65°C, 2.5 h charge, 99% recyclable, 0V recovery). The heat
+  simulator's AGM and lithium ranges come from the "What is lead crystal battery technology?"
+  article.
 
 ### Adding or changing a product
 

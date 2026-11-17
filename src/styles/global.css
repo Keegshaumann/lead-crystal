@@ -16,12 +16,16 @@
   --line-2: rgba(255, 255, 255, 0.14);
   --text: #eeeef1;
   --muted: #a1a3ad;
-  --dim: #6f717b;
+  --dim: #8a8c96;
   --accent: #5b3bff;
   --accent-hi: #8c75ff;
   --accent-ink: #ffffff;
   --crystal: #bec9ff;
   --ok: #7fe0b0;
+  --heat: #ffa565;
+  --green: #5fe3a1;
+  /* section accent, re-tinted on the homepage as you scroll */
+  --acc: var(--accent-hi);
 
   --font: "Archivo Variable", "Helvetica Neue", Arial, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -78,6 +82,43 @@ a {
 ::selection {
   background: var(--accent);
   color: #fff;
+}
+
+html[data-accent="crystal"] {
+  --acc: #bec9ff;
+}
+html[data-accent="heat"] {
+  --acc: var(--heat);
+}
+html[data-accent="green"] {
+  --acc: var(--green);
+}
+html[data-accent="violet"] {
+  --acc: var(--accent-hi);
+}
+
+/* Smooth page-to-page navigation where the browser supports it */
+@view-transition {
+  navigation: auto;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.35s;
+}
+
+/* Lenis smooth scrolling */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
 
 :focus-visible {
@@ -169,8 +210,10 @@ h4 {
   text-transform: uppercase;
   color: var(--muted);
 }
-.label--accent {
-  color: var(--accent-hi);
+.label--accent,
+.label.eyebrow {
+  color: var(--acc);
+  transition: color 0.5s;
 }
 
 .mono {
@@ -186,7 +229,7 @@ h4 {
   content: "";
   width: 22px;
   height: 1px;
-  background: var(--accent-hi);
+  background: currentColor;
 }
 
 /* ---------- Layout ---------- */
@@ -250,8 +293,8 @@ h4 {
   justify-content: center;
   gap: 10px;
   min-height: 48px;
-  padding: 0 22px;
-  border-radius: var(--radius);
+  padding: 0 24px;
+  border-radius: 999px;
   border: 1px solid var(--b-bd);
   background: var(--b-bg);
   color: var(--b-fg);
@@ -263,12 +306,19 @@ h4 {
     background 0.25s var(--ease),
     border-color 0.25s var(--ease),
     color 0.25s var(--ease),
+    box-shadow 0.3s var(--ease),
     transform 0.25s var(--ease);
   white-space: nowrap;
 }
 .btn:hover {
-  --b-bg: var(--accent-hi);
-  --b-bd: var(--accent-hi);
+  --b-bg: #4b2df5;
+  --b-bd: #7a62ff;
+  box-shadow: 0 10px 34px -10px rgba(91, 59, 255, 0.75);
+}
+.btn--glow {
+  box-shadow:
+    0 0 0 1px rgba(140, 117, 255, 0.5),
+    0 12px 40px -12px rgba(91, 59, 255, 0.9);
 }
 .btn:active {
   transform: translateY(1px);
@@ -285,6 +335,7 @@ h4 {
   --b-bd: var(--line-2);
 }
 .btn--ghost:hover {
+  box-shadow: none;
   --b-bg: rgba(255, 255, 255, 0.06);
   --b-bd: rgba(255, 255, 255, 0.3);
 }
@@ -296,6 +347,7 @@ h4 {
 .btn--light:hover {
   --b-bg: var(--crystal);
   --b-bd: var(--crystal);
+  box-shadow: 0 10px 34px -10px rgba(190, 201, 255, 0.6);
 }
 .btn--sm {
   min-height: 40px;
@@ -518,7 +570,7 @@ h4 {
 
 /* ---------- Reveal on scroll ---------- */
 @media (prefers-reduced-motion: no-preference) {
-  .reveal {
+  .js .reveal {
     opacity: 0;
     transform: translateY(22px);
     transition:
@@ -526,7 +578,7 @@ h4 {
       transform 0.9s var(--ease);
     transition-delay: var(--d, 0s);
   }
-  .reveal.is-in {
+  .js .reveal.is-in {
     opacity: 1;
     transform: none;
   }

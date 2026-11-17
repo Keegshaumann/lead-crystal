@@ -1,0 +1,531 @@
+---
+// "Will it fit?" Every battery drawn to scale (isometric, from its real L x W x H), with a
+// space checker that lights up the models that fit a cabinet or shelf. Needs JS, so the
+// whole block starts hidden and the script reveals it; the spec table covers no-JS visitors.
+import { products, familyOf, spec, formatAh } from "../lib/catalogue";
+import trox from "../data/trox.json";
+
+type Item = {
+  id: string;
+  title: string;
+  sub: string;
+  ah: number;
+  ahLabel: string;
+  l: number;
+  w: number;
+  h: number;
+  kg: string;
+  terminal: string;
+  href: string;
+  cta: string;
+  img: string | null;
+};
+
+const dims = (s: string) => {
+  const m = s.match(/([\d.]+)\s*[x×]\s*([\d.]+)\s*[x×]\s*([\d.]+)/i);
+  return m ? { l: +m[1], w: +m[2], h: +m[3] } : null;
+};
+
+const lcGroup = (v: number) => ({
+  key: `${v}v`,
+  label: `${v}V`,
+  items: products
+    .filter((p) => p.voltage === v)
+    .map((p): Item | null => {
+      const d = dims(spec(p, "Dimensions"));
+      if (!d) return null;
+      return {
+        id: p.sku,
+        title: p.sku,
+        sub: `${familyOf(p).label} · lead crystal`,
+        ah: p.capacityAh,
+        ahLabel: formatAh(p.capacityAh),
+        ...d,
+        kg: p.weight,
+        terminal: spec(p, "Terminal") || "",
+        href: `/product/${p.slug}/`,
+        cta: "Open the model",
+        img: p.image,
+      };
+    })
+    .filter((x): x is Item => x !== null)
+    .sort((a, b) => a.ah - b.ah || a.l - b.l),
+});
+
+const troxGroup = {
+  key: "trox",
+  label: "T-ROX",
+  items: trox.series
+    .flatMap((s) =>
+      s.models
+        .filter((m) => m.l && m.w && m.th)
+        .map(
+          (m): Item => ({
+            id: m.trox[0],
+            title: `T-ROX ${m.trox.join(" / ")}`,
+            sub: `${s.voltage}V · AGM / GEL sealed lead-acid`,
+            ah: m.ah,
+            ahLabel: `${s.voltage}V ${m.ah}Ah`,
+            l: m.l!,
+            w: m.w!,
+            h: m.th!,
+            kg: `${m.kg} kg`,
+            terminal: m.terminal,
+            href: `#trox-${m.lc}`,
+            cta: "See the T-ROX model",
+            img: null,
+          }),
+        ),
+    )
+    .sort((a, b) => a.ah - b.ah || a.l - b.l),
+};
+
+const groups = [lcGroup(2), lcGroup(6), lcGroup(8), lcGroup(12), troxGroup];
+const start = { group: "12v", id: "6-CNFJ-100" };
+---
+
+<section class="fit" id="fit" data-fit hidden aria-labelledby="fit-title">
+  <div class="fit-head">
+    <div>
+      <p class="label eyebrow">Fit check</p>
+      <h2 class="display h-lg" id="fit-title">Will it fit?</h2>
+    </div>
+    <p class="lede">
+      Every battery, drawn to scale from its real dimensions. Enter the space you have and the models that fit light up.
+    </p>
+  </div>
+
+  <div class="fit-groups" role="group" aria-label="Range" data-fit-groups>
+    {
+      groups.map((g) => (
+        <button type="button" class="chip" data-fit-group={g.key} aria-pressed={g.key === start.group ? "true" : "false"}>
+          {g.label} <span class="count">{g.items.length}</span>
+        </button>
+      ))
+    }
+  </div>
+
+  <div class="fit-body">
+    <div class="fit-stage" data-fit-stage aria-hidden="true">
+      <svg data-fit-svg xmlns="http://www.w3.org/2000/svg"></svg>
+      <p class="fit-hint mono">Tap a battery, swipe, or use the slider</p>
+    </div>
+
+    <div class="fit-side">
+      <form class="fit-space" data-fit-form onsubmit="return false">
+        <p class="label">Your space (mm)</p>
+        <div class="fit-inputs">
+          <label><span>Length</span><input type="number" inputmode="numeric" min="0" step="1" placeholder="e.g. 350" data-fit-dim="l" /></label>
+          <label><span>Width</span><input type="number" inputmode="numeric" min="0" step="1" placeholder="e.g. 200" data-fit-dim="w" /></label>
+          <label><span>Height</span><input type="number" inputmode="numeric" min="0" step="1" placeholder="e.g. 250" data-fit-dim="h" /></label>
+        </div>
+        <div class="fit-opts">
+          <label class="fit-check"><input type="checkbox" checked data-fit-rotate /> Allow turning 90°</label>
+          <button type="button" class="fit-clear" data-fit-clear>Clear</button>
+        </div>
+        <p class="fit-count" aria-live="polite" data-fit-count>Enter any of the three to check fit.</p>
+      </form>
+
+      <div class="fit-slider">
+        <label class="label" for="fit-range">Capacity</label>
+        <input id="fit-range" type="range" min="0" max="1" step="1" value="0" data-fit-range />
+      </div>
+
+      <article class="fit-card" aria-live="polite" data-fit-card>
+        <div class="fit-photo" data-fit-photo></div>
+        <div class="fit-info">
+          <p class="fit-status" data-fit-status></p>
+          <h3 class="fit-title" data-fit-title></h3>
+          <p class="fit-sub" data-fit-sub></p>
+          <dl class="fit-specs" data-fit-specs></dl>
+          <a class="link-arrow" href="#" data-fit-link>Open the model <span aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    </div>
+  </div>
+  <p class="fit-note">
+    Dimensions are taken from each spec sheet and include terminals where the sheet gives a total height. Leave room for cables and
+    airflow, and check the spec sheet before you order.
+  </p>
+
+  <script type="application/json" data-fit-json set:html={JSON.stringify({ groups, start })} />
+</section>
+
+<style>
+  .fit {
+    display: grid;
+    gap: 22px;
+  }
+  .fit-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: end;
+    gap: 16px 48px;
+  }
+  .fit-head h2 {
+    margin-top: 16px;
+  }
+  .fit-head .lede {
+    max-width: 44ch;
+  }
+  .fit-groups {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .fit-body {
+    display: grid;
+    gap: 16px;
+  }
+  @media (min-width: 1000px) {
+    .fit-body {
+      grid-template-columns: minmax(0, 1fr) 380px;
+      align-items: stretch;
+    }
+  }
+
+  /* ---------- Stage ---------- */
+  .fit-stage {
+    position: relative;
+    height: clamp(300px, 52vh, 520px);
+    border-radius: 20px;
+    border: 1px solid var(--line);
+    background:
+      radial-gradient(60% 70% at 50% 60%, rgba(91, 59, 255, 0.16), transparent 70%),
+      linear-gradient(180deg, #0c0c12, #08080b);
+    overflow: hidden;
+    touch-action: pan-y;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+    cursor: grab;
+  }
+  .fit-stage:active {
+    cursor: grabbing;
+  }
+  .fit-stage svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    /* the lineup is wider than the stage on purpose; the global svg max-width would shrink it */
+    max-width: none;
+    transition: transform 0.7s var(--ease);
+    will-change: transform;
+  }
+  .fit-hint {
+    position: absolute;
+    left: 50%;
+    bottom: 12px;
+    transform: translateX(-50%);
+    margin: 0;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dim);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .fit-stage :global(.bx) {
+    cursor: pointer;
+    transition: opacity 0.35s;
+  }
+  .fit-stage :global(.bx .f) {
+    transition:
+      fill 0.35s,
+      stroke 0.35s;
+  }
+  .fit-stage :global(.bx.is-out) {
+    opacity: 0.2;
+  }
+  .fit-stage :global(.f) {
+    stroke: rgba(190, 201, 255, 0.45);
+    stroke-width: 1;
+    stroke-linejoin: round;
+  }
+  .fit-stage :global(.f-front) {
+    fill: rgba(91, 59, 255, 0.2);
+  }
+  .fit-stage :global(.f-side) {
+    fill: rgba(50, 34, 160, 0.26);
+  }
+  .fit-stage :global(.f-top) {
+    fill: rgba(140, 117, 255, 0.3);
+  }
+  .fit-stage :global(.bx.is-sel .f) {
+    stroke: #fff;
+    stroke-width: 1.4;
+  }
+  .fit-stage :global(.bx.is-sel .f-front) {
+    fill: rgba(110, 85, 255, 0.6);
+  }
+  .fit-stage :global(.bx.is-sel .f-side) {
+    fill: rgba(64, 44, 196, 0.66);
+  }
+  .fit-stage :global(.bx.is-sel .f-top) {
+    fill: rgba(190, 201, 255, 0.72);
+  }
+  .fit-stage :global(.bx.is-fit .f) {
+    stroke: var(--green);
+  }
+  .fit-stage :global(.bx.is-fit .f-front) {
+    fill: rgba(95, 227, 161, 0.16);
+  }
+  .fit-stage :global(.bx.is-fit .f-side) {
+    fill: rgba(40, 140, 100, 0.22);
+  }
+  .fit-stage :global(.bx.is-fit .f-top) {
+    fill: rgba(95, 227, 161, 0.3);
+  }
+  .fit-stage :global(.bx.is-fit.is-sel .f-front) {
+    fill: rgba(95, 227, 161, 0.42);
+  }
+  .fit-stage :global(.bx.is-fit.is-sel .f-side) {
+    fill: rgba(40, 150, 105, 0.55);
+  }
+  .fit-stage :global(.bx.is-fit.is-sel .f-top) {
+    fill: rgba(170, 245, 205, 0.7);
+  }
+  .fit-stage :global(.seam) {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.22);
+    stroke-width: 1;
+  }
+  .fit-stage :global(.cap) {
+    fill: var(--muted);
+    font: 500 11px var(--mono);
+    letter-spacing: 0.04em;
+  }
+  /* the selected box shows its dimensions instead; the card has its capacity */
+  .fit-stage :global(.bx.is-sel .cap) {
+    display: none;
+  }
+  .fit-stage :global(.dim) {
+    fill: #fff;
+    font: 600 12px var(--mono);
+    paint-order: stroke;
+    stroke: rgba(8, 8, 10, 0.92);
+    stroke-width: 4px;
+    stroke-linejoin: round;
+  }
+  .fit-stage :global(.dline) {
+    stroke: rgba(255, 255, 255, 0.45);
+    stroke-width: 1;
+  }
+
+  /* ---------- Side panel ---------- */
+  .fit-side {
+    display: grid;
+    gap: 14px;
+    align-content: start;
+  }
+  .fit-space,
+  .fit-slider,
+  .fit-card {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--panel);
+    padding: 18px;
+  }
+  .fit-space {
+    display: grid;
+    gap: 12px;
+  }
+  .fit-space .label {
+    margin: 0;
+  }
+  .fit-inputs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .fit-inputs label {
+    display: grid;
+    gap: 6px;
+    font: 500 0.7rem/1 var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .fit-inputs input {
+    width: 100%;
+    min-height: 46px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--line-2);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text);
+    font: 500 1rem/1 var(--mono);
+    -moz-appearance: textfield;
+  }
+  .fit-inputs input::-webkit-outer-spin-button,
+  .fit-inputs input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .fit-inputs input:focus {
+    outline: none;
+    border-color: var(--green);
+    background: rgba(95, 227, 161, 0.06);
+  }
+  .fit-opts {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .fit-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: var(--muted);
+    min-height: 44px;
+    cursor: pointer;
+  }
+  .fit-check input {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--green);
+  }
+  .fit-clear {
+    min-height: 44px;
+    padding: 0 6px;
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font: 500 0.88rem/1 var(--font);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+  .fit-clear:hover {
+    color: #fff;
+  }
+  .fit-count {
+    margin: 0;
+    font-size: 0.92rem;
+    color: var(--muted);
+  }
+  .fit-count strong {
+    color: var(--green);
+    font-weight: 700;
+  }
+  .fit-slider {
+    display: grid;
+    gap: 8px;
+  }
+  .fit-slider input {
+    width: 100%;
+    accent-color: var(--accent-hi);
+    min-height: 32px;
+  }
+  .fit-card {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+  .fit-photo {
+    width: 96px;
+    aspect-ratio: 1;
+    border-radius: 12px;
+    background: radial-gradient(circle at 50% 40%, rgba(91, 59, 255, 0.3), transparent 70%), #0d0d12;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+  .fit-photo :global(img) {
+    width: 90%;
+    height: auto;
+  }
+  .fit-photo :global(span) {
+    font: 600 0.7rem/1.2 var(--mono);
+    letter-spacing: 0.08em;
+    color: var(--crystal);
+    text-align: center;
+    padding: 6px;
+  }
+  .fit-info {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+  }
+  .fit-info p,
+  .fit-info h3,
+  .fit-info dl {
+    margin: 0;
+  }
+  .fit-status {
+    justify-self: start;
+    font: 600 0.68rem/1 var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 9px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--muted);
+  }
+  .fit-status[data-state="fit"] {
+    background: rgba(95, 227, 161, 0.14);
+    color: var(--green);
+  }
+  .fit-status[data-state="out"] {
+    background: rgba(255, 110, 110, 0.14);
+    color: #ff9b9b;
+  }
+  .fit-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+  .fit-sub {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .fit-specs {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 4px 12px;
+    margin-top: 6px !important;
+    font-size: 0.86rem;
+  }
+  .fit-specs :global(dt) {
+    font: 500 0.7rem/1.6 var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+  .fit-specs :global(dd) {
+    margin: 0;
+    font-family: var(--mono);
+  }
+  .fit-info .link-arrow {
+    justify-self: start;
+    margin-top: 8px;
+    font-size: 0.9rem;
+  }
+  .fit-note {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--dim);
+    max-width: 90ch;
+  }
+  @media (max-width: 700px) {
+    .fit-stage {
+      height: clamp(260px, 42svh, 340px);
+    }
+  }
+  @media (max-width: 520px) {
+    .fit-card {
+      grid-template-columns: 72px 1fr;
+    }
+    .fit-photo {
+      width: 72px;
+    }
+  }
+</style>
+
+<script>
+  import "../scripts/fitcheck";
+</script>

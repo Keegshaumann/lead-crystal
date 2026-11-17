@@ -1,0 +1,41 @@
+{
+  "_source": "Keegan's T-ROX cross-reference list, 17 Nov 2026. Factory dimensions and weights (not the RFQ columns). The 12V list arrived cut off after 6-CNFJ-55, and 3-CNFJ-200 has no T-ROX equivalent.",
+  "series": [
+    {
+      "voltage": 6,
+      "label": "6V series",
+      "float": "6.75–6.90V (0.15C)",
+      "cycle": "7.20–7.50V (0.3C)",
+      "models": [
+        { "lc": "3-CNFJ-4", "trox": ["J4-6E", "CB4-6E"], "ah": 4, "terminal": "F1", "l": 70, "w": 47, "h": 101, "th": 107, "kg": 0.7, "floatA": 0.6, "cycleA": 1.2, "container": 28571 },
+        { "lc": "3-CNFJ-7.2", "trox": ["J9-6C", "CB9-6C"], "ah": 7.2, "terminal": "F2", "l": 151, "w": 34, "h": 93, "th": 99, "kg": 1.35, "floatA": 1.08, "cycleA": 2.16, "container": 16296 },
+        { "lc": "3-CNFJ-10", "trox": ["J12-6G", "CB12-6G"], "ah": 10, "terminal": "F2", "l": 151, "w": 51, "h": 94, "th": 100, "kg": 1.75, "floatA": 1.5, "cycleA": 3, "container": 11000 },
+        { "lc": "3-CNFJ-12", "trox": ["J12-6I", "CB12-6I"], "ah": 12, "terminal": "F2", "l": 151, "w": 51, "h": 94, "th": 100, "kg": 1.9, "floatA": 1.8, "cycleA": 3.6, "container": 10476 },
+        { "lc": "3-CNFJ-160", "trox": ["J200-6HD", "CB200-6HD"], "ah": 160, "terminal": "M8", "l": 307, "w": 169, "h": 222, "th": 227, "kg": 27, "floatA": 24, "cycleA": 48, "container": 815 },
+        { "lc": "3-CNFT-180", "trox": ["J200-6GD", "CB200-6GD"], "ah": 180, "terminal": "M8", "l": 307, "w": 169, "h": 222, "th": 227, "kg": 29, "floatA": 27, "cycleA": 54, "container": 667 }
+      ]
+    },
+    {
+      "voltage": 12,
+      "label": "12V series",
+      "float": "13.5–13.8V (0.15C)",
+      "cycle": "14.4–15.0V (0.3C)",
+      "models": [
+        { "lc": "6-CNFJ-5", "trox": ["J5-12H", "CB5-12H"], "ah": 5, "terminal": "F1", "l": 90, "w": 70, "h": 100, "th": 106, "kg": 1.62, "floatA": 0.75, "cycleA": 1.5, "container": 13580 },
+        { "lc": "6-CNFJ-7.2", "trox": ["J7-12A", "CB7-12A"], "ah": 7.2, "terminal": "F2", "l": 151, "w": 65, "h": 94, "th": 100, "kg": 2.15, "floatA": 1.08, "cycleA": 2.16, "container": 11000 },
+        { "lc": "6-HCNFJ-7.2", "trox": ["J8-12CB", "CB8-12CB"], "ah": 9, "terminal": "F2", "l": 151, "w": 65, "h": 94, "th": 100, "kg": 2.5, "floatA": 1.35, "cycleA": 2.7, "container": 8148 },
+        { "lc": "6-CNFJ-10", "trox": ["J10-12A", "CB10-12A"], "ah": 10, "terminal": "F2", "l": 151, "w": 98.5, "h": 94, "th": 100, "kg": 3.25, "floatA": 1.5, "cycleA": 3, "container": 5500 },
+        { "lc": "6-CNFJ-12", "trox": ["J12-12T", "CB12-12T"], "ah": 12, "terminal": "F1/F2", "l": 151, "w": 98.5, "h": 94, "th": 100, "kg": 3.45, "floatA": 1.8, "cycleA": 3.6, "container": 5301 },
+        { "lc": "6-CNFJ-14", "trox": ["J14-12", "CB14-12"], "ah": 14, "terminal": "F2", "l": 151, "w": 98.5, "h": 94, "th": 100, "kg": 4, "floatA": 2.1, "cycleA": 4.2, "container": 5057 },
+        { "lc": "6-CNFJ-18", "trox": ["J20-12AB", "CB20-12AB"], "ah": 20, "terminal": "LT-M5", "l": 181, "w": 76, "h": 170, "th": 170, "kg": 5.5, "floatA": 3, "cycleA": 6, "container": 3385 },
+        { "lc": "6-CNFJ-22", "trox": ["J22-12ACD", "CB22-12ACD"], "ah": 22, "terminal": "LT-M5", "l": 181, "w": 76, "h": 170, "th": 170, "kg": 6, "floatA": 3.3, "cycleA": 6.6, "container": 3188 },
+        { "lc": "6-CNFJ-24", "trox": ["J25-12", "CB25-12"], "ah": 24, "terminal": "M5", "l": 175, "w": 165, "h": 127, "th": 127, "kg": 7.35, "floatA": 3.6, "cycleA": 7.2, "container": 2857 },
+        { "lc": "6-CNFJ-26", "trox": ["J28-12I", "CB28-12I"], "ah": 26, "terminal": "M5", "l": 175, "w": 165, "h": 127, "th": 127, "kg": 8, "floatA": 3.9, "cycleA": 7.8, "container": 2821 },
+        { "lc": "6-CNFJ-28", "trox": ["J28-12M", "CB28-12M"], "ah": 28, "terminal": "M6", "l": 175, "w": 165, "h": 127, "th": 127, "kg": 8.5, "floatA": 4.2, "cycleA": 8.4, "container": 2588 },
+        { "lc": "6-CNFJ-35", "trox": ["J36-12A", "CB36-12A"], "ah": 35, "terminal": "M6", "l": 195, "w": 131, "h": 155, "th": 167, "kg": 10.6, "floatA": 5.25, "cycleA": 10.5, "container": 1930 },
+        { "lc": "6-CNFJ-40", "trox": ["J40-12E", "CB40-12E"], "ah": 40, "terminal": "M6", "l": 197, "w": 166, "h": 170, "th": 170, "kg": 12.5, "floatA": 6, "cycleA": 12, "container": 1549 },
+        { "lc": "6-CNFJ-55", "trox": ["J55-12B", "CB55-12B"], "ah": 55, "terminal": "M6", "l": null, "w": null, "h": null, "th": null, "kg": null, "floatA": null, "cycleA": null, "container": 1196 }
+      ]
+    }
+  ]
+}

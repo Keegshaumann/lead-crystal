@@ -44,6 +44,7 @@ const ld = [org, ...jsonLd];
     <meta name="robots" content={robots} />
     <link rel="canonical" href={canonical} />
     <meta name="theme-color" content="#08080a" />
+    <script is:inline>document.documentElement.classList.add("js");</script>
     <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
     <link rel="icon" href="/images/brand/icon-192.png" type="image/png" sizes="192x192" />
     <link rel="apple-touch-icon" href="/images/brand/icon-180.png" />
@@ -80,6 +81,9 @@ const ld = [org, ...jsonLd];
     </main>
     <Footer />
 
+    <script>
+      import "../scripts/smooth";
+    </script>
     <script>
       // Scroll reveals. Elements with .reveal fade up once when they enter the viewport.
       const els = document.querySelectorAll<HTMLElement>(".reveal");

@@ -92,9 +92,18 @@ const isActive = (href: string) =>
     text-decoration: none;
     transition: color 0.2s;
   }
+  .nav a {
+    border-radius: 999px;
+    transition:
+      color 0.2s,
+      background 0.25s;
+  }
   .nav a:hover,
   .nav a[aria-current="page"] {
     color: #fff;
+  }
+  .nav a:hover {
+    background: rgba(255, 255, 255, 0.06);
   }
   .nav a[aria-current="page"]::after {
     content: "";
@@ -192,6 +201,8 @@ const isActive = (href: string) =>
     menu.hidden = !open;
     header.classList.toggle("is-open", open);
     document.body.style.overflow = open ? "hidden" : "";
+    const lenis = (window as any).__lenis;
+    if (lenis) open ? lenis.stop() : lenis.start();
   };
   btn.addEventListener("click", () => setOpen(menu.hidden));
   menu.addEventListener("click", (e) => {

@@ -2,22 +2,61 @@
 import Base from "../../layouts/Base.astro";
 import PageHead from "../../components/PageHead.astro";
 import Catalogue from "../../components/Catalogue.astro";
+import FitCheck from "../../components/FitCheck.astro";
+import StandardRange from "../../components/StandardRange.astro";
 import { products, capacityRange } from "../../lib/catalogue";
 const [min, max] = capacityRange(products);
 ---
 
 <Base
   title="Lead Crystal Battery Catalogue: 2V, 6V, 8V and 12V"
-  description={`All ${products.length} Leadcrystal batteries from ${min}Ah to ${max}Ah: deep cycle, front terminal, EV and high-cycle models with full specs and spec sheets.`}
+  description={`All ${products.length} Leadcrystal batteries from ${min}Ah to ${max}Ah: deep cycle, front terminal, EV and high-cycle models with full specs and spec sheets, plus the T-ROX standard sealed lead-acid range.`}
 >
   <PageHead crumbs={[{ label: "Catalogue" }]} title="Catalogue" eyebrow={`${products.length} models · ${min}Ah to ${max.toLocaleString("en-US")}Ah`}>
     <p class="lede">
-      Filter by voltage, type or application, or switch to the spec table to compare dimensions and weights side by side. Pricing is by quotation.
+      Check what fits your space, filter the lead crystal range by voltage, type or application, or browse the T-ROX standard range.
+      Pricing is by quotation.
     </p>
+    <nav class="jump" aria-label="On this page">
+      <a class="chip" href="#fit">Will it fit?</a>
+      <a class="chip" href="#range">Lead crystal range</a>
+      <a class="chip" href="#standard">T-ROX standard range</a>
+    </nav>
   </PageHead>
+
   <section class="section section--tight">
     <div class="wrap">
+      <FitCheck />
+    </div>
+  </section>
+
+  <section class="section section--tight section--rule" id="range" aria-labelledby="range-title">
+    <div class="wrap">
+      <div class="range-head">
+        <p class="label eyebrow">Lead crystal range</p>
+        <h2 class="display h-md" id="range-title">All {products.length} lead crystal batteries.</h2>
+      </div>
       <Catalogue list={products} />
     </div>
   </section>
+
+  <section class="section section--rule">
+    <div class="wrap">
+      <StandardRange />
+    </div>
+  </section>
 </Base>
+
+<style>
+  .jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  .range-head {
+    display: grid;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+</style>

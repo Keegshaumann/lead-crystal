@@ -1,0 +1,538 @@
+---
+// "Core industries served": tabbed, auto-advancing video stage (after Anduril's Menace-X
+// page). Copy comes from the company background Keegan supplied on 17 Nov 2026.
+const INDUSTRIES = [
+  {
+    key: "renewable",
+    name: "Renewable energy",
+    lede: "Residential and utility-scale clean energy infrastructure.",
+    app: "Energy storage systems",
+    detail:
+      "Storing power from solar arrays, wind turbines and off-grid microgrids, including solar street lighting and development-bank-backed rural solar projects.",
+    why: "6,000+ cycles at 20% DoD for daily solar cycling",
+    href: "/catalogue/?app=solar",
+    cta: "Batteries for solar and storage",
+  },
+  {
+    key: "telecom",
+    name: "Telecommunications",
+    lede: "Trusted by global telecom providers for mission-critical and remote networks.",
+    app: "Telecom base stations",
+    detail: "Backup power for remote cell towers and critical communications hubs where active cooling is unavailable or impractical.",
+    why: "Rated to +65°C with no active cooling",
+    href: "/catalogue/?app=telecom",
+    cta: "Batteries for telecom",
+  },
+  {
+    key: "utilities",
+    name: "Power & utilities",
+    lede: "Deployed by power utilities and grid operators, notably across North America and Europe.",
+    app: "Grid backup & stabilisation",
+    detail: "Uninterruptible backup power and load stabilisation for electrical grids and substations, using high-capacity 2V cells.",
+    why: "2V cells from 100Ah to 3,000Ah",
+    href: "/product-category/2v/",
+    cta: "See the 2V cells",
+  },
+  {
+    key: "rail",
+    name: "Railroad & transportation",
+    lede: "Supplied to major railway operators, including China's high-altitude Qinghai-Tibet railway.",
+    app: "Railway signalling & onboard systems",
+    detail: "Powering trackside signalling, switching equipment and onboard train electronics at extreme altitude and in freezing climates.",
+    why: "Operates from −40°C, maintenance-free",
+    href: "/contact/",
+    cta: "Talk to us about rail",
+  },
+  {
+    key: "mobility",
+    name: "Automotive & e-mobility",
+    lede: "Commercial vehicles, standard automotive systems and electric vehicle platforms.",
+    app: "Start-stop & EV propulsion",
+    detail: "High-cycle start-stop systems and motive power for electric vehicles.",
+    why: "EV range in 6V, 8V and 12V",
+    href: "/catalogue/?type=EV",
+    cta: "See the EV range",
+  },
+  {
+    key: "industrial",
+    name: "Construction & heavy industry",
+    lede: "Built for harsh, high-vibration and demanding industrial environments.",
+    app: "Heavy machinery & industrial backup",
+    detail: "Starting and operating power for heavy construction equipment, industrial UPS systems and backup generators.",
+    why: "Sealed and maintenance-free",
+    href: "/catalogue/?app=ups",
+    cta: "Batteries for UPS and backup",
+  },
+  {
+    key: "marine",
+    name: "Marine & offshore",
+    lede: "Corrosion-resistant for saltwater and offshore environments.",
+    app: "Vessels & offshore platforms",
+    detail: "Onboard power, navigation backup and energy storage for ships and offshore rigs, without the risk of hazardous acid leaks.",
+    why: "No free liquid acid to leak",
+    href: "/catalogue/?app=marine",
+    cta: "Batteries for marine",
+  },
+];
+const n = INDUSTRIES.length;
+const pad = (i: number) => String(i + 1).padStart(2, "0");
+---
+
+<section class="ind" id="industries" data-industries data-accent="green" aria-labelledby="ind-title">
+  <div class="wrap ind-head">
+    <div>
+      <p class="label eyebrow">Core industries served</p>
+      <h2 class="display h-lg" id="ind-title">Clean power for the industries that run the world.</h2>
+    </div>
+    <div class="ind-intro">
+      <p class="lede">
+        From solar farms to the Qinghai-Tibet railway, lead crystal stores energy where conditions are hardest. And when a battery's
+        working life ends, 99% of it can be recycled.
+      </p>
+      <ul class="green-pills" aria-label="Why it fits the energy transition">
+        <li>Renewable-ready</li>
+        <li>99% recyclable</li>
+        <li>No acid leaks</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="ind-tabs" role="tablist" aria-label="Industries" data-ind-tabs>
+      {
+        INDUSTRIES.map((d, i) => (
+          <button
+            class="ind-tab"
+            type="button"
+            role="tab"
+            id={`ind-tab-${d.key}`}
+            aria-controls={`ind-panel-${d.key}`}
+            aria-selected={i === 0 ? "true" : "false"}
+            tabindex={i === 0 ? 0 : -1}
+            data-ind-tab={i}
+          >
+            <span class="ind-tab-n mono">{pad(i)}</span>
+            <span class="ind-tab-name">{d.name}</span>
+            <span class="ind-tab-bar" aria-hidden="true"><i /></span>
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="ind-stage" data-ind-stage>
+      <div class="ind-media" aria-hidden="true">
+        {
+          INDUSTRIES.map((d, i) => (
+            <video
+              class={i === 0 ? "is-on" : ""}
+              muted
+              loop
+              playsinline
+              preload={i === 0 ? "metadata" : "none"}
+              poster={`/media/ind-${d.key}-1600.webp`}
+              data-ind-video={i}
+            >
+              <source src={`/media/ind-${d.key}-960.mp4`} type="video/mp4" media="(max-width: 900px)" />
+              <source src={`/media/ind-${d.key}-1600.mp4`} type="video/mp4" />
+            </video>
+          ))
+        }
+        <div class="ind-shade"></div>
+      </div>
+
+      {
+        INDUSTRIES.map((d, i) => (
+          <div
+            class="ind-card"
+            role="tabpanel"
+            id={`ind-panel-${d.key}`}
+            aria-labelledby={`ind-tab-${d.key}`}
+            hidden={i !== 0}
+            data-ind-panel={i}
+          >
+            <p class="ind-count mono">
+              {pad(i)} / {pad(n - 1)}
+            </p>
+            <h3 class="ind-name">{d.name}</h3>
+            <p class="ind-lede">{d.lede}</p>
+            <dl class="ind-rows">
+              <div>
+                <dt>Application</dt>
+                <dd>
+                  <strong>{d.app}.</strong> {d.detail}
+                </dd>
+              </div>
+              <div>
+                <dt>Why lead crystal</dt>
+                <dd>{d.why}</dd>
+              </div>
+            </dl>
+            <a class="link-arrow" href={d.href}>
+              {d.cta} <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .ind {
+    position: relative;
+    padding-block: clamp(80px, 11vw, 150px);
+    border-top: 1px solid var(--line);
+    background:
+      radial-gradient(70% 50% at 85% 0%, rgba(95, 227, 161, 0.08), transparent 70%),
+      var(--bg);
+  }
+  .ind-head {
+    display: grid;
+    gap: 20px 56px;
+    margin-bottom: clamp(32px, 4vw, 52px);
+  }
+  @media (min-width: 1000px) {
+    .ind-head {
+      grid-template-columns: 7fr 5fr;
+      align-items: end;
+    }
+  }
+  .ind-head h2 {
+    margin-top: 18px;
+    max-width: 16ch;
+  }
+  .ind-intro {
+    display: grid;
+    gap: 18px;
+  }
+  .green-pills {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .green-pills li {
+    font: 500 0.74rem/1 var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--green);
+    padding: 9px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(95, 227, 161, 0.35);
+    background: rgba(95, 227, 161, 0.06);
+  }
+
+  /* ---------- Tabs (Anduril-style underline with a progress fill) ---------- */
+  .ind-tabs {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    border-bottom: 1px solid var(--line-2);
+    margin-bottom: 18px;
+    scroll-snap-type: x proximity;
+  }
+  .ind-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .ind-tab {
+    position: relative;
+    flex: 1 0 auto;
+    display: grid;
+    gap: 4px;
+    justify-items: start;
+    min-height: 64px;
+    padding: 12px 14px 16px;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    font: 500 0.95rem/1.2 var(--font);
+    text-align: left;
+    cursor: pointer;
+    scroll-snap-align: start;
+    transition: color 0.25s;
+    white-space: nowrap;
+  }
+  .ind-tab:hover {
+    color: #fff;
+  }
+  .ind-tab[aria-selected="true"] {
+    color: #fff;
+  }
+  .ind-tab-n {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+  }
+  .ind-tab[aria-selected="true"] .ind-tab-n {
+    color: var(--green);
+  }
+  .ind-tab-bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    overflow: hidden;
+  }
+  .ind-tab-bar i {
+    display: block;
+    height: 100%;
+    background: var(--green);
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+  }
+  .ind-tab[aria-selected="true"] .ind-tab-bar i {
+    transform: scaleX(1);
+  }
+  /* auto-advance: the bar fills over the tab's time on screen */
+  .ind.is-auto .ind-tab[aria-selected="true"] .ind-tab-bar i {
+    animation: ind-progress var(--ind-dur, 8s) linear forwards;
+  }
+  .ind.is-paused .ind-tab[aria-selected="true"] .ind-tab-bar i {
+    animation-play-state: paused;
+  }
+  @keyframes ind-progress {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  /* ---------- Stage ---------- */
+  .ind-stage {
+    position: relative;
+    display: grid;
+    border-radius: 22px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: #07080a;
+  }
+  .ind-media {
+    position: relative;
+    aspect-ratio: 16 / 8.2;
+    max-height: 78svh;
+    min-height: 420px;
+  }
+  .ind-media video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.9s var(--ease);
+  }
+  .ind-media video.is-on {
+    opacity: 1;
+  }
+  .ind-shade {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(5, 6, 7, 0.75) 0%, rgba(5, 6, 7, 0.25) 45%, rgba(5, 6, 7, 0) 70%),
+      linear-gradient(0deg, rgba(5, 6, 7, 0.55) 0%, rgba(5, 6, 7, 0) 40%);
+  }
+  .ind-card {
+    position: absolute;
+    left: clamp(16px, 2.4vw, 32px);
+    bottom: clamp(16px, 2.4vw, 32px);
+    width: min(460px, calc(100% - 32px));
+    display: grid;
+    gap: 12px;
+    padding: 26px 28px 28px;
+    color: #111214;
+    background: #f1f0eb;
+    /* the cut corner from the Menace-X spec card */
+    clip-path: polygon(0 0, calc(100% - 34px) 0, 100% 34px, 100% 100%, 0 100%);
+  }
+  .ind-card[hidden] {
+    display: none;
+  }
+  .ind-count {
+    margin: 0;
+    font-size: 0.74rem;
+    letter-spacing: 0.08em;
+    color: #4d5058;
+  }
+  .ind-name {
+    font-size: clamp(1.5rem, 2.4vw, 2rem);
+    font-weight: 750;
+    font-stretch: 112%;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+  .ind-lede {
+    margin: 0;
+    font-size: 0.98rem;
+    line-height: 1.5;
+    color: #2b2d33;
+  }
+  .ind-rows {
+    margin: 4px 0 0;
+    display: grid;
+  }
+  .ind-rows > div {
+    display: grid;
+    gap: 4px;
+    padding: 12px 0;
+    border-top: 1px solid rgba(17, 18, 20, 0.16);
+  }
+  .ind-rows dt {
+    font: 600 0.7rem/1.2 var(--mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #111214;
+  }
+  .ind-rows dd {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: #3a3d45;
+  }
+  .ind-rows strong {
+    color: #111214;
+  }
+  .ind-card .link-arrow {
+    justify-self: start;
+    color: #111214;
+    border-color: rgba(17, 18, 20, 0.3);
+  }
+  .ind-card .link-arrow:hover {
+    color: #0b6b43;
+    border-color: #0b6b43;
+  }
+  .ind-card .link-arrow:focus-visible {
+    outline-color: #0b6b43;
+  }
+
+  @media (min-width: 900px) {
+    /* all seven tabs fit on one row; long names wrap to two lines */
+    .ind-tab {
+      flex: 1 1 0;
+      min-width: 0;
+      white-space: normal;
+    }
+  }
+  @media (max-width: 899px) {
+    .ind-media {
+      aspect-ratio: 4 / 3;
+      min-height: 0;
+    }
+    .ind-shade {
+      background: linear-gradient(0deg, rgba(5, 6, 7, 0.45) 0%, rgba(5, 6, 7, 0) 45%);
+    }
+    /* card sits under the video on phones so the footage stays clear */
+    .ind-card {
+      position: relative;
+      left: auto;
+      bottom: auto;
+      width: auto;
+      clip-path: none;
+      padding: 22px 20px 24px;
+    }
+    .ind-tab {
+      flex: 0 0 auto;
+      padding-inline: 12px;
+    }
+  }
+</style>
+
+<script>
+  // Tabs: click / arrow keys to switch; auto-advances while on screen until someone picks one.
+  const root = document.querySelector<HTMLElement>("[data-industries]");
+  if (root) {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-ind-tab]"));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>("[data-ind-panel]"));
+    const videos = Array.from(root.querySelectorAll<HTMLVideoElement>("[data-ind-video]"));
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let current = 0;
+    let inView = false;
+    let auto = !reduce;
+    let hover = false;
+
+    const playActive = () => {
+      videos.forEach((v, i) => {
+        if (i === current && inView && !reduce) {
+          v.preload = "auto";
+          v.play().catch(() => {});
+        } else if (i !== current) {
+          // let the outgoing clip fade before pausing it
+          window.setTimeout(() => i !== current && v.pause(), 900);
+        } else v.pause();
+      });
+    };
+
+    const select = (i: number, focus = false) => {
+      current = (i + tabs.length) % tabs.length;
+      tabs.forEach((t, k) => {
+        const on = k === current;
+        t.setAttribute("aria-selected", String(on));
+        t.tabIndex = on ? 0 : -1;
+      });
+      panels.forEach((p, k) => (p.hidden = k !== current));
+      videos.forEach((v, k) => v.classList.toggle("is-on", k === current));
+      const tab = tabs[current];
+      if (focus) tab.focus();
+      // keep the active tab visible in the scrolling strip (phones)
+      const strip = tab.parentElement!;
+      const left = tab.offsetLeft - (strip.clientWidth - tab.offsetWidth) / 2;
+      strip.scrollTo({ left, behavior: reduce ? "auto" : "smooth" });
+      playActive();
+    };
+
+    const setPaused = () => root.classList.toggle("is-paused", !inView || hover || document.hidden);
+    const stopAuto = () => {
+      auto = false;
+      root.classList.remove("is-auto");
+    };
+
+    tabs.forEach((t, i) => {
+      t.addEventListener("click", () => {
+        stopAuto();
+        select(i);
+      });
+      t.addEventListener("keydown", (e) => {
+        const k = e.key;
+        if (k === "ArrowRight" || k === "ArrowLeft" || k === "Home" || k === "End") {
+          e.preventDefault();
+          stopAuto();
+          const next = k === "Home" ? 0 : k === "End" ? tabs.length - 1 : current + (k === "ArrowRight" ? 1 : -1);
+          select(next, true);
+        }
+      });
+      // the progress bar's animation finishing is the auto-advance clock
+      t.querySelector("i")?.addEventListener("animationend", () => {
+        if (auto && i === current) select(current + 1);
+      });
+    });
+
+    const stage = root.querySelector<HTMLElement>("[data-ind-stage]")!;
+    stage.addEventListener("pointerenter", () => {
+      hover = true;
+      setPaused();
+    });
+    stage.addEventListener("pointerleave", () => {
+      hover = false;
+      setPaused();
+    });
+    root.addEventListener("focusin", stopAuto);
+    document.addEventListener("visibilitychange", setPaused);
+
+    new IntersectionObserver(
+      ([e]) => {
+        inView = e.isIntersecting;
+        setPaused();
+        playActive();
+      },
+      { threshold: 0.35 },
+    ).observe(stage);
+
+    if (auto) root.classList.add("is-auto");
+    setPaused();
+  }
+</script>

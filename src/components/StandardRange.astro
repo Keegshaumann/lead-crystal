@@ -1,0 +1,264 @@
+---
+// T-ROX standard range: the group's AGM / GEL sealed lead-acid (VRLA) batteries, each matched
+// to the Leadcrystal model with the same case. Data: src/data/trox.json.
+import trox from "../data/trox.json";
+import { products } from "../lib/catalogue";
+
+const bySku = new Map(products.map((p) => [p.sku, p]));
+const fmt = (n: number) => (Number.isInteger(n) ? String(n) : String(n));
+const total = trox.series.reduce((n, s) => n + s.models.length, 0);
+---
+
+<section class="std" id="standard" aria-labelledby="std-title">
+  <div class="std-head">
+    <div>
+      <p class="label eyebrow">T-ROX standard range</p>
+      <h2 class="display h-lg" id="std-title">Standard sealed lead-acid.</h2>
+    </div>
+    <div class="std-intro">
+      <p class="lede">
+        Everyday AGM and GEL batteries (VRLA) from our sister brand T-ROX, for standby, backup and light-duty power. Every model shares
+        its case size with a Leadcrystal battery, so you can move to crystal later without changing the space.
+      </p>
+      <p class="std-meta mono">{total} models · 6V and 12V · Container quantities for 22 t loads</p>
+    </div>
+  </div>
+
+  {
+    trox.series.map((s) => (
+      <div class="std-series">
+        <div class="std-series-head">
+          <h3 class="std-series-title">{s.label}</h3>
+          <p class="std-charge mono">
+            <span>Float {s.float}</span>
+            <span>Cycle {s.cycle}</span>
+          </p>
+        </div>
+        <div class="std-grid">
+          {s.models.map((m) => {
+            const lc = bySku.get(m.lc);
+            return (
+              <article class="std-card" id={`trox-${m.lc}`}>
+                <div class="std-top">
+                  <p class="std-codes mono">
+                    {m.trox.map((c) => (
+                      <span>{c}</span>
+                    ))}
+                  </p>
+                  <p class="std-spec">
+                    {s.voltage}V <span>{fmt(m.ah)}Ah</span>
+                  </p>
+                </div>
+                <dl class="std-rows">
+                  <div>
+                    <dt>Size (mm)</dt>
+                    <dd>{m.l ? `${m.l} × ${m.w} × ${m.h}${m.th && m.th !== m.h ? `/${m.th}` : ""}` : "On request"}</dd>
+                  </div>
+                  <div>
+                    <dt>Weight</dt>
+                    <dd>{m.kg ? `${m.kg} kg` : "On request"}</dd>
+                  </div>
+                  <div>
+                    <dt>Terminal</dt>
+                    <dd>{m.terminal}</dd>
+                  </div>
+                  <div>
+                    <dt>Max charge float / cycle</dt>
+                    <dd>{m.floatA ? `${m.floatA} / ${m.cycleA} A` : "On request"}</dd>
+                  </div>
+                  <div>
+                    <dt>Per 22 t container</dt>
+                    <dd>{m.container.toLocaleString("en-US")} pcs</dd>
+                  </div>
+                </dl>
+                <p class="std-up">
+                  {lc ? (
+                    <a href={`/product/${lc.slug}/`}>
+                      Lead crystal upgrade: <strong>{m.lc}</strong> <span aria-hidden="true">→</span>
+                    </a>
+                  ) : (
+                    <span>
+                      Same case as <strong>{m.lc}</strong>
+                    </span>
+                  )}
+                </p>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    ))
+  }
+
+  <div class="std-cta">
+    <p>Need a T-ROX price list or a container quote?</p>
+    <a class="btn btn--sm" href="/contact/">Ask for T-ROX pricing <span class="arrow" aria-hidden="true">→</span></a>
+  </div>
+</section>
+
+<style>
+  .std {
+    display: grid;
+    gap: clamp(28px, 4vw, 48px);
+  }
+  .std-head {
+    display: grid;
+    gap: 18px 56px;
+  }
+  @media (min-width: 1000px) {
+    .std-head {
+      grid-template-columns: 6fr 6fr;
+      align-items: end;
+    }
+  }
+  .std-head h2 {
+    margin-top: 16px;
+  }
+  .std-intro {
+    display: grid;
+    gap: 12px;
+  }
+  .std-meta {
+    margin: 0;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    color: var(--dim);
+  }
+  .std-series {
+    display: grid;
+    gap: 16px;
+  }
+  .std-series-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line-2);
+  }
+  .std-series-title {
+    font-size: 1.4rem;
+    font-stretch: 115%;
+  }
+  .std-charge {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+    margin: 0;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .std-grid {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  }
+  .std-card {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 12px;
+    padding: 20px 20px 18px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    /* the cut corner, matching the industry cards on the homepage */
+    clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 0 100%);
+    border-radius: 0 0 14px 14px;
+    scroll-margin-top: calc(var(--header-h) + 24px);
+    transition: background 0.3s;
+  }
+  .std-card:target {
+    background: #1b1a2b;
+    outline: 1px solid var(--accent-hi);
+  }
+  .std-top {
+    display: grid;
+    gap: 6px;
+  }
+  .std-codes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0;
+  }
+  .std-codes span {
+    font-size: 0.74rem;
+    letter-spacing: 0.04em;
+    padding: 5px 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--line-2);
+    color: var(--crystal);
+  }
+  .std-spec {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 750;
+    font-stretch: 115%;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .std-spec span {
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .std-rows {
+    margin: 0;
+    display: grid;
+    align-content: start;
+  }
+  .std-rows > div {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    padding: 7px 0;
+    border-top: 1px solid var(--line);
+    font-size: 0.86rem;
+  }
+  .std-rows dt {
+    font: 500 0.68rem/1.7 var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+  .std-rows dd {
+    margin: 0;
+    font-family: var(--mono);
+    text-align: right;
+    white-space: nowrap;
+  }
+  .std-up {
+    margin: 0;
+    font-size: 0.86rem;
+    color: var(--muted);
+  }
+  .std-up a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line-2);
+    padding-bottom: 2px;
+  }
+  .std-up a:hover {
+    border-color: var(--accent-hi);
+  }
+  .std-up strong {
+    font-family: var(--mono);
+    font-weight: 600;
+    color: var(--crystal);
+  }
+  .std-cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 20px 22px;
+    border: 1px solid var(--line-2);
+    border-radius: 16px;
+    background: linear-gradient(90deg, rgba(91, 59, 255, 0.16), rgba(91, 59, 255, 0.02));
+  }
+  .std-cta p {
+    margin: 0;
+    font-weight: 600;
+  }
+</style>
