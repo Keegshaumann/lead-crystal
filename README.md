@@ -22,7 +22,7 @@ php -S 127.0.0.1:8787 -t dist scripts/php-router.php   # preview the built site 
 
 | Path | What |
 | --- | --- |
-| `src/data/products.json` | The 54 batteries: specs, attributes, SEO title/description, old URLs. Edit here to change a product. |
+| `src/data/products.json` | The 62 batteries: specs, attributes, SEO title/description, old URLs. Edit here to change a product. |
 | `src/data/insights.json` | The 6 articles (HTML body + SEO fields). |
 | `src/site.ts` | Site name, contact email/phone (blank = hidden), GA4 ID, headline figures. |
 | `src/lib/catalogue.ts` | Product families, applications (from tags), helpers. |
@@ -81,7 +81,7 @@ of `motion.ts`. Add `data-no-motion` to an element to leave it out. Reduced moti
 
 ### Technical data sheets (redesigned 17 Nov 2026)
 
-The 54 downloadable sheets are typeset in the site's design from the factory numbers, not retyped.
+The 62 downloadable sheets are typeset in the site's design from the factory numbers, not retyped.
 The factory originals (4-page Betta Batteries sheets in the old site's style) stay in
 `assets-src/spec-sheets-factory/` as the source.
 
@@ -102,6 +102,27 @@ Names, photos and highlights come from `products.json`, T-ROX equivalents from `
 `/t-rox/` is the T-ROX page (copy from the T-ROX profile catalogue V0.1, Aug 2026; models from
 `src/data/trox.json`). The logo was redrawn 17 Nov 2026 as a proposal: `python scripts/trox-logo.py`
 writes the SVGs to `public/images/trox/` and PNG exports to `assets-src/t-rox-logo/`.
+
+## Lead Crystal Technologies merge (19 Nov 2026)
+
+leadcrystaltechnologies.com (the manufacturer's WordPress site, run by a separate team) was folded
+into this site so the two read as one company. Nothing was changed on that domain.
+
+- `/about/` (src/pages/about/index.astro): the manufacturer's story, figures (founded 2004,
+  13 invention patents, 20 utility models, 100+ products), milestones, performance, sectors and
+  projects, certificates with the UL report and the Intertek IEC 60896 test report
+  (public/downloads/certificates/), values, both offices and careers.
+- Contacts: `OFFICES` in src/site.ts feeds /about/, /contact/ and the footer (Riyadh, plus the
+  Huzhou headquarters with info@leadcrystaltechnologies.com and the +84 customer service line on
+  WhatsApp). `SITE.email` is now info@leadcrystal.co.
+- Logos: public/images/brands/ (white versions for the dark site; originals in assets-src/brands/):
+  the Lead Crystal® Batteries logo printed on the batteries, and the Bin Othaimeen Group logo
+  ("A division of") from othaimeengrp.com. They sit in the footer, on /about/ and on every
+  product page ("Made by Lead Crystal Technologies").
+- Their news articles and the models they listed that this site lacked were added to
+  src/data/insights.json and src/data/products.json.
+- The menu ends with T-ROX in its logo style (amber, expanded, slanted) so it reads as a
+  separate range.
 
 ## Deploying (Hostinger, plain Git deploy)
 

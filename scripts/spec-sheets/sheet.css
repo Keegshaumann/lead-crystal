@@ -460,6 +460,10 @@ table {
   line-height: 1;
   letter-spacing: -0.02em;
 }
+.cv--range {
+  font-size: 12pt;
+  white-space: nowrap;
+}
 .cn {
   font-size: 6.6pt;
   color: var(--slate);

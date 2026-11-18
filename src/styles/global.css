@@ -480,6 +480,29 @@ h4 {
   border-top: 1px solid var(--line);
   margin: 2.4em 0;
 }
+.prose h4 {
+  font-size: 1.05rem;
+  color: #fff;
+  margin-top: 1.6em;
+}
+.prose img {
+  width: 100%;
+  border-radius: var(--radius-lg);
+  margin-block: 1.8em;
+}
+.prose blockquote {
+  margin: 1.6em 0 0;
+  padding: 16px 20px;
+  border-left: 2px solid var(--accent-hi);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  background: var(--panel);
+}
+.prose blockquote > * + * {
+  margin-top: 0.7em;
+}
+.prose blockquote p {
+  margin: 0;
+}
 .prose .table-scroll {
   overflow-x: auto;
   margin-inline: calc(var(--gutter) * -1);
@@ -658,7 +681,7 @@ h4 {
   :is(.card, .std-card, .tx-chem-card, .tx-match > li, .tx-figs > li, .trox-band, .acard) {
     position: relative;
   }
-  :is(.card, .std-card, .tx-chem-card, .tx-match > li, .tx-figs > li, .trox-band, .acard)::after {
+  :is(.card, .std-card, .tx-chem-card, .tx-match > li, .tx-figs > li, .trox-band, .acard, .ab-card)::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -668,7 +691,7 @@ h4 {
     opacity: 0;
     transition: opacity 0.4s var(--ease);
   }
-  :is(.card, .std-card, .tx-chem-card, .tx-match > li, .tx-figs > li, .trox-band, .acard):hover::after {
+  :is(.card, .std-card, .tx-chem-card, .tx-match > li, .tx-figs > li, .trox-band, .acard, .ab-card):hover::after {
     opacity: 1;
   }
 }

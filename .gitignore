@@ -11,3 +11,4 @@ server/api/config.local.php
 assets-src/hf/
 .claude/
 scripts/spec-sheets/build/
+__pycache__/

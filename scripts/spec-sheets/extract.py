@@ -8,6 +8,12 @@ Run:            python scripts/spec-sheets/extract.py
 Every factory sheet uses the same page-2 template, so values are read by position:
 the specification block is the right-hand column (x >= 310 pt), the end-voltage block and
 the tables are on the left. Anything that does not parse is reported and the script fails.
+
+The eight sheets added from leadcrystaltechnologies.com (Nov 2026: 3-EVFJ-265, 6-EVFJ-265/80/60/
+40/32/27, 6-CNFT-190) use the same page 2 with a few differences the parser also accepts:
+charge voltages given as ranges ("14.6V∼14.7V"), "mO" where the Ω glyph went missing, "53A or
+small" as the initial current, and on 6-CNFT-190 a table header without "End Voltage", a
+misspelt heading and numbers split in two. None of these occur on the first 54 sheets.
 """
 import json
 import re
@@ -41,9 +47,22 @@ def text(ws):
 
 
 def clean_v(s):
-    """'14.7V/ (25℃)' -> '14.7V'"""
+    """'14.7V/ (25℃)' -> '14.7V';  '14.6V∼14.7V (25℃)' -> '14.6 to 14.7V'"""
     v = re.sub(r"\s*\(25\s*(?:℃|[º°]\s*C)\)", "", s).strip().rstrip("/").strip()
+    m = re.fullmatch(r"([\d.]+)\s*V?\s*[~∼～]\s*([\d.]+)\s*V?", v)
+    if m:
+        return f"{m.group(1)} to {m.group(2)}V"
     return v if v.endswith("V") else v + "V"
+
+
+# A charge voltage is a number, optionally a range: '14.7V', '14.7V/', '14.6V∼14.7V', '14.4V ~ 14.7V'
+CHARGE_V = r"[\d.]+V?/?( |$|\s*[~∼～])"
+
+# Values a factory sheet draws as outlines instead of text, so there is nothing to parse.
+# Read off the rendered page (pdftoppm -r 400) and still passed through clean_v.
+OUTLINED = {
+    "6-CNFT-190": {"cycleV": "14.4V ~ 14.7V (25℃)", "floatV": "13.5V ~ 13.6V (25℃)"},
+}
 
 
 def find_y(page, phrase):
@@ -53,15 +72,32 @@ def find_y(page, phrase):
     return None
 
 
+def joined(ws):
+    """Word texts, with numbers the PDF split in two put back together ('1' '.83V' -> '1.83V')."""
+    out = []
+    for i, w in enumerate(ws):
+        p = ws[i - 1] if i else None
+        if p and w[4].startswith(".") and re.search(r"\d$", out[-1]) and w[0] - p[2] < 1.5:
+            out[-1] += w[4]
+        else:
+            out.append(w[4])
+    return out
+
+
 def table(page, y0, y1):
     """A discharge table: header row of durations, then rows '1.60V  v v v ...'."""
     cols, data = None, []
     for r in rows(page, 0, 1e9, y0, y1):
-        t = [w[4] for w in r["w"]]
+        t = joined(r["w"])
         if t[:2] == ["End", "Voltage"]:
             cols = t[2:]
         elif re.fullmatch(r"\d\.\d+V", t[0]):
             data.append({"endV": t[0], "values": t[1:]})  # strings: keep the factory precision
+        elif cols is None:
+            # header without the 'End Voltage' label, or with it on the line above ('per cell 5min ...')
+            durs = [x for x in t if re.fullmatch(r"\d+(?:min|h)", x)]
+            if len(durs) >= 5 and t[len(t) - len(durs) :] == durs:
+                cols = durs
     return {"cols": cols, "rows": data}
 
 
@@ -102,7 +138,7 @@ def parse(path):
         elif "hour rate" in sub:
             caps.append({"rate": sub, "value": val.replace(" AH", "Ah").replace("AH", "Ah")})
         elif sub.startswith("Fully charged"):
-            s["internalResistance"] = val.replace("=<", "≤ ").replace("mΩ", " mΩ").strip()
+            s["internalResistance"] = val.replace("=<", "≤ ").replace("mO", "mΩ").replace("mΩ", " mΩ").strip()
         elif sub.startswith("Capacity after"):
             m = re.search(r"after (\d+) month", sub)
             selfd.append({"months": int(m.group(1)), "value": val})
@@ -114,11 +150,15 @@ def parse(path):
             if val:
                 s["terminalOptional"] = val
         elif val.startswith("Current"):
-            s["initialCurrent"] = val.replace("Current", "").strip()
-        elif re.match(r"[\d.]+V?/?( |$)", val) and (sub.startswith("Float") or group and group.startswith("Float") or sub == "Float"):
+            # '53A or small': the sheet already reads it as a maximum ("initial current up to 53 A")
+            s["initialCurrent"] = re.sub(r"\s+or smal\w*$", "", val.replace("Current", "").strip())
+        elif re.match(CHARGE_V, val) and (sub.startswith("Float") or group and group.startswith("Float") or sub == "Float"):
             s["floatV"] = clean_v(val)
-        elif re.match(r"[\d.]+V?/?( |$)", val) and "cycleV" not in s:
+        elif re.match(CHARGE_V, val) and "cycleV" not in s:
             s["cycleV"] = clean_v(val)
+    for k, v in OUTLINED.get(s["sku"], {}).items():
+        if k not in s:
+            s[k] = clean_v(v)
     s["capacities"] = caps
     s["selfDischarge"] = selfd
 
@@ -146,7 +186,8 @@ def parse(path):
     s["chargeVsTemp"] = t
 
     # ---- discharge tables ----
-    yc = find_y(page, "CONSTANT CURRENT DISCHARGE")
+    # 6-CNFT-190 misspells the first heading 'CONSTANT URRENT DISCHARGE CHARACTERISTICS'
+    yc = find_y(page, "CONSTANT CURRENT DISCHARGE") or find_y(page, "DISCHARGE CHARACTERISTICS")
     yp = find_y(page, "DISCHARGE DATA WITH CONSTANT POWER")
     s["constantCurrent"] = table(page, yc, yp)
     s["constantPower"] = table(page, yp, 1e9)
@@ -209,6 +250,24 @@ def _recolour(hexstr):
     return "".join(f"{round(c * 255):02x}" for c in (r, g, b))
 
 
+def _hide_empty_masks(svg):
+    """The 2026 sheets put fully transparent images (soft mask all zero) behind the curve labels.
+    They draw nothing in the PDF, but Chrome leaves a hairline round each one, so hide them.
+    The first 54 curve pages have no masks at all."""
+    import base64
+
+    blank = {
+        m.group(1): not any(pymupdf.Pixmap(base64.b64decode(m.group(2))).samples)
+        for m in re.finditer(r'<image id="([\w-]+)"[^>]*?xlink:href="data:image/png;base64,([^"]+)"', svg)
+    }
+    for m in re.finditer(r'<mask id="([\w-]+)">(.*?)</mask>', svg, re.S):
+        # the mask image is inline, or a <use> of an identical one defined earlier
+        ids = [a or b for a, b in re.findall(r'<image id="([\w-]+)"|xlink:href="#([\w-]+)"', m.group(2))]
+        if ids and all(blank.get(i, False) for i in ids):
+            svg = svg.replace(f'<g mask="url(#{m.group(1)})">', f'<g mask="url(#{m.group(1)})" display="none">')
+    return svg
+
+
 def curves(path):
     doc = pymupdf.open(path)
     page = doc[2]
@@ -222,12 +281,12 @@ def curves(path):
         if r.height < 800 and r.width < 580 and r.y1 > 75:  # skip page backgrounds and the old header
             box |= r
     for b in page.get_text("blocks"):
-        if b[3] > 75:
+        if b[3] > 75 and b[4].strip():  # the 2026 sheets leave blank text blocks under the old header
             box |= pymupdf.Rect(b[:4])
     for img in page.get_image_info():
         box |= pymupdf.Rect(img["bbox"]) & page.rect
     box = (box + (-4, -4, 4, 4)) & page.rect
-    svg = page.get_svg_image(text_as_path=True)
+    svg = _hide_empty_masks(page.get_svg_image(text_as_path=True))
     svg = re.sub(r"#([0-9a-fA-F]{6})\b", lambda m: "#" + _recolour(m.group(1)), svg)
     svg = re.sub(r'viewBox="[^"]*"', f'viewBox="{box.x0:.1f} {box.y0:.1f} {box.width:.1f} {box.height:.1f}"', svg, count=1)
     svg = re.sub(r'(<svg[^>]*?)\s(width|height)="[^"]*"', r"\1", svg, count=1)

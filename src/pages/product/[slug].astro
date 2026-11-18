@@ -94,6 +94,10 @@ const ld = [
             }
           </div>
           <p class="price-note dim">Pricing on request. Nationwide delivery across Saudi Arabia.</p>
+          <a class="maker" href="/about/">
+            <img src="/images/brands/lead-crystal-batteries-white.png" alt="Lead Crystal Batteries" width="900" height="416" loading="lazy" />
+            <span>Made by Lead Crystal Technologies in Huzhou, China. Supplied and supported by Leadcrystal in Riyadh.</span>
+          </a>
         </div>
       </div>
     </div>
@@ -283,6 +287,26 @@ const ld = [
   .price-note {
     margin: 0;
     font-size: 0.86rem;
+  }
+  .maker {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 22px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.86rem;
+    line-height: 1.45;
+    text-decoration: none;
+  }
+  .maker img {
+    flex-shrink: 0;
+    width: auto;
+    height: 38px;
+  }
+  .maker:hover span {
+    color: var(--text);
   }
   .detail {
     display: grid;

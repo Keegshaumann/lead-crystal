@@ -8,6 +8,7 @@ export const GET: APIRoute = () => {
     ["/", today],
     ["/catalogue/", today],
     ["/t-rox/", today],
+    ["/about/", today],
     ["/insights/", today],
     ["/contact/", today],
     ...VOLTAGES.map((v) => [`/product-category/${v}v/`, today] as [string, string]),

@@ -21,7 +21,7 @@ if (root.dataset.motion === "on" && !reduce) {
   const groups: [string, number][] = [
     [".section-head > *, .std-head > *, .range-head > *, .rel-head, .std-series-head", 0.08],
     [
-      ".std-card, .tx-figs > li, .tx-chem-card, .tx-match > li, .attrs > li, .rel > *, .trox-band, .std-cta, .tx-tabs, .end-cta, .contact .block",
+      ".std-card, .tx-figs > li, .tx-chem-card, .tx-match > li, .attrs > li, .rel > *, .trox-band, .std-cta, .tx-tabs, .end-cta, .contact .block, .ab-card, .figs > li, .time > li, .brands, .site-footer .group",
       0.07,
     ],
     [".spec-table tbody tr, .tx-panel:not([hidden]) .tx-panel-head, .tx-panel:not([hidden]) tbody tr", 0.035],
@@ -85,7 +85,7 @@ if (root.dataset.motion === "on" && !reduce) {
 
   // ---------- counters ----------
   // A figure like "1,500+" counts up from 0 as it enters; its unit and suffix stay put.
-  gsap.utils.toArray<HTMLElement>(".tx-fig").forEach((el) => {
+  gsap.utils.toArray<HTMLElement>(".tx-fig, .fig[data-count]").forEach((el) => {
     const node = el.firstChild;
     if (!node || node.nodeType !== Node.TEXT_NODE) return;
     const raw = node.textContent ?? "";
@@ -130,7 +130,7 @@ if (root.dataset.motion === "on" && !reduce) {
 }
 
 // ---------- cursor spotlight on cards (fine pointers only, cheap: two custom properties) ----------
-const SPOT = ".card, .std-card, .tx-chem-card, .tx-match > li, .tx-figs > li, .trox-band, .acard";
+const SPOT = ".card, .std-card, .tx-chem-card, .tx-match > li, .tx-figs > li, .trox-band, .acard, .ab-card";
 if (!reduce && window.matchMedia("(pointer: fine)").matches) {
   document.addEventListener(
     "pointermove",

@@ -15,8 +15,8 @@ const isActive = (href: string) =>
         {
           NAV.map((n) => (
             <li>
-              <a href={n.href} aria-current={isActive(n.href) ? "page" : undefined}>
-                {n.label}
+              <a href={n.href} class={n.brand === "trox" ? "trox" : undefined} aria-current={isActive(n.href) ? "page" : undefined}>
+                <span>{n.label}</span>
               </a>
             </li>
           ))
@@ -36,7 +36,13 @@ const isActive = (href: string) =>
   <div class="mobile" id="mobile-menu" hidden data-menu>
     <nav class="wrap" aria-label="Mobile">
       <a href="/">Home</a>
-      {NAV.map((n) => <a href={n.href}>{n.label}</a>)}
+      {
+        NAV.map((n) => (
+          <a href={n.href} class={n.brand === "trox" ? "trox" : undefined}>
+            <span>{n.label}</span>
+          </a>
+        ))
+      }
       <a href="/contact/">Contact</a>
       <p class="label">Riyadh, Saudi Arabia</p>
     </nav>
@@ -113,6 +119,22 @@ const isActive = (href: string) =>
     bottom: 4px;
     height: 1px;
     background: var(--accent-hi);
+  }
+  /* T-ROX in the style of its logo: amber, expanded black, slanted */
+  .trox span {
+    display: inline-block;
+    color: #ffb81c;
+    font-weight: 900;
+    font-stretch: 125%;
+    letter-spacing: 0.01em;
+    transform: skewX(-12deg);
+  }
+  .nav a.trox:hover span,
+  .nav a.trox[aria-current="page"] span {
+    color: #ffc94d;
+  }
+  .nav a.trox[aria-current="page"]::after {
+    background: #ffb81c;
   }
   .actions {
     display: flex;

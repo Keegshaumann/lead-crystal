@@ -39,6 +39,8 @@ const fileUrl = (p) => pathToFileURL(p).href;
 // Ω, ≤ and → are not in Archivo: give them a static system font so nothing falls back to a variable one
 const sym = (s) => esc(s).replace(/([Ω≤])/g, '<span class="sym">$1</span>');
 const ah = (s) => s.replace(/(\d)Ah/, "$1 Ah");
+// a charge voltage given as a range ("14.6 to 14.7V") is set smaller so it stays on one line
+const cvClass = (v) => (/ to /.test(v) ? "cv cv--range" : "cv");
 
 // "120 hour rate (1.2A)" -> ["120 h rate", "1.2 A"]
 function rate(r) {
@@ -109,8 +111,9 @@ function elevations(d) {
   </svg>`;
 }
 
-// For the three EV models without a photo: an isometric drawing of the case, to its proportions.
-function silhouette(d, sku) {
+// For the models without a photo (EV models and 6-CNFT-190): an isometric drawing of the case, to
+// its proportions. Front-terminal models get their two terminals on the short end, not the lid.
+function silhouette(d, sku, front = false) {
   const th = d.totalHeight || d.height;
   const k = 230 / (d.length * 0.866 + d.width * 0.866);
   const L = d.length * k, W = d.width * k, H = d.height * k, T = (th - d.height) * k;
@@ -124,6 +127,14 @@ function silhouette(d, sku) {
     const [cx, cy] = P(x, y, H);
     return `<rect x="${(cx - r).toFixed(1)}" y="${(cy - T - r * 0.5).toFixed(1)}" width="${(2 * r).toFixed(1)}" height="${(T + r * 0.5).toFixed(1)}" class="st"/><ellipse cx="${cx.toFixed(1)}" cy="${(cy - T - r * 0.5).toFixed(1)}" rx="${r.toFixed(1)}" ry="${(r * 0.55).toFixed(1)}" class="stt"/>`;
   };
+  // a terminal on the short end (the x = L face), seen in that face's plane, standing out along +x
+  const endTerm = (y, z) => {
+    const r = Math.max(3.5, Math.min(W, H) * 0.07);
+    const [cx, cy] = P(L, y, z);
+    const [dx, dy] = P(r * 0.8, 0, 0);
+    const face = (x0, y0) => `matrix(${-c} ${s} 0 1 ${x0.toFixed(1)} ${y0.toFixed(1)})`;
+    return `<circle r="${r.toFixed(1)}" class="st" transform="${face(cx, cy)}"/><circle r="${(r * 0.55).toFixed(1)}" class="stt" transform="${face(cx + dx, cy + dy)}"/>`;
+  };
   const [lx, ly] = P(L * 0.5, W, H * 0.42);
   return `<svg class="silhouette" viewBox="0 0 ${(L * c + W * c + 20).toFixed(0)} ${(L * s + W * s + H + T + 20).toFixed(0)}" aria-hidden="true">
     <g transform="translate(${ox.toFixed(1)} ${oy.toFixed(1)})">
@@ -131,7 +142,7 @@ function silhouette(d, sku) {
       <polygon class="f-front" points="${pts([0, W, 0], [L, W, 0], [L, W, H], [0, W, H])}"/>
       <polygon class="f-top" points="${pts([0, 0, H], [L, 0, H], [L, W, H], [0, W, H])}"/>
       <polyline class="f-lid" points="${pts([0, W, H * 0.84], [L, W, H * 0.84], [L, 0, H * 0.84])}"/>
-      ${term(L * 0.16, W * 0.5)}${term(L * 0.84, W * 0.5)}
+      ${front ? endTerm(W * 0.28, H * 0.92) + endTerm(W * 0.72, H * 0.92) : term(L * 0.16, W * 0.5) + term(L * 0.84, W * 0.5)}
       <text class="f-label" text-anchor="middle" transform="matrix(${c} ${s} 0 1 ${lx.toFixed(1)} ${ly.toFixed(1)})">${esc(sku)}</text>
     </g>
   </svg>`;
@@ -171,7 +182,7 @@ function cover(s, p) {
   ];
   const photo = p.image
     ? `<img class="cv-photo" src="${fileUrl(path.join(ROOT, "public", p.image))}" alt="${esc(p.name)}">`
-    : `<div class="cv-photo cv-photo--line">${silhouette(d, s.sku)}</div>`;
+    : `<div class="cv-photo cv-photo--line">${silhouette(d, s.sku, p.family === "Front Terminal")}</div>`;
   return `<section class="page cover">
     <img class="cv-bg" src="${fileUrl(path.join(HERE, "assets/crystal.jpg"))}" alt="">
     <div class="cv-shade"></div>
@@ -246,8 +257,8 @@ function specPage(s, p) {
       <div class="spec-side">
         <div class="charge">
           <p class="mono cap">Charging · constant voltage</p>
-          <div class="charge-row"><p class="ck">Cycle use</p><p class="cv">${esc(s.cycleV)}</p><p class="cn">at 25 °C${s.initialCurrent ? `, initial current up to ${esc(s.initialCurrent.replace(/(\d)A/, "$1 A"))}` : ""}</p></div>
-          <div class="charge-row"><p class="ck">Float / standby</p><p class="cv">${esc(s.floatV)}</p><p class="cn">at 25 °C</p></div>
+          <div class="charge-row"><p class="ck">Cycle use</p><p class="${cvClass(s.cycleV)}">${esc(s.cycleV)}</p><p class="cn">at 25 °C${s.initialCurrent ? `, initial current up to ${esc(s.initialCurrent.replace(/(\d)A/, "$1 A"))}` : ""}</p></div>
+          <div class="charge-row"><p class="ck">Float / standby</p><p class="${cvClass(s.floatV)}">${esc(s.floatV)}</p><p class="cn">at 25 °C</p></div>
         </div>
         <div class="elev-box">
           <p class="mono cap">Case, to scale · mm</p>

@@ -2,7 +2,7 @@
 import Base from "../../layouts/Base.astro";
 import PageHead from "../../components/PageHead.astro";
 import { products } from "../../lib/catalogue";
-import { SITE } from "../../site";
+import { SITE, OFFICES } from "../../site";
 
 // FAQ copy carried over from the old contact page.
 const FAQ = [
@@ -48,12 +48,32 @@ const models = products.map((p) => p.sku);
   <section class="section section--tight">
     <div class="wrap split contact">
       <aside class="side">
-        <div class="block">
-          <p class="label">Office</p>
-          <p class="h-sm">{SITE.location}</p>
-          {SITE.email && <a class="mono" href={`mailto:${SITE.email}`}>{SITE.email}</a>}
-          {SITE.phone && <a class="mono" href={`tel:${SITE.phone.replace(/\s/g, "")}`}>{SITE.phone}</a>}
-        </div>
+        {
+          OFFICES.map((o) => (
+            <div class="block">
+              <p class="label">{o.label}</p>
+              <p class="h-sm">{o.name}</p>
+              <address class="muted">
+                {o.lines.map((l) => (
+                  <span>{l}</span>
+                ))}
+              </address>
+              <a class="mono" href={`mailto:${o.email}`}>
+                {o.email}
+              </a>
+              {o.phone && (
+                <a class="mono" href={`tel:${o.phone.replace(/\s/g, "")}`}>
+                  {o.phone}
+                </a>
+              )}
+              {o.whatsapp && (
+                <a class="mono wa" href={`https://wa.me/${o.whatsapp}`} target="_blank" rel="noopener">
+                  Chat on WhatsApp →
+                </a>
+              )}
+            </div>
+          ))
+        }
         <div class="block">
           <p class="label">For a fast, accurate quote, include</p>
           <ol class="checklist">
@@ -154,6 +174,17 @@ const models = products.map((p) => p.sku);
   .block a.mono {
     color: var(--muted);
     text-decoration: none;
+  }
+  .block a.mono:hover {
+    color: var(--text);
+  }
+  .block a.wa {
+    color: var(--accent-hi);
+  }
+  .block address {
+    display: grid;
+    font-style: normal;
+    font-size: 0.95rem;
   }
   .checklist {
     list-style: none;

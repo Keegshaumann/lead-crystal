@@ -1,0 +1,664 @@
+---
+// About: Leadcrystal and Lead Crystal Technologies as one company. The manufacturer's story,
+// figures, journey, certificates and contacts come from leadcrystaltechnologies.com (merged
+// 19 Nov 2026 so the two read as one business). Contacts live in OFFICES in src/site.ts.
+import Base from "../../layouts/Base.astro";
+import PageHead from "../../components/PageHead.astro";
+import Logo from "../../components/Logo.astro";
+import { SITE, COMPANY, OFFICES } from "../../site";
+
+const JOURNEY = [
+  { year: "2000", text: "Our founder and team begin developing the first lead crystal battery prototype." },
+  { year: "2004", text: "Lead Crystal Technologies is founded and files its first battery patent in China." },
+  { year: "2010", text: "Five lead crystal patents granted and the first products reach the market." },
+  { year: "2011", text: "Mass shipping begins to solar customers around the world." },
+  { year: "2012", text: "Telecom batteries join the range for base stations and network backup." },
+  { year: "2016", text: "Railway operators start running on our battery systems." },
+  { year: "2018", text: "Development starts on start-stop batteries for vehicles." },
+  { year: "Today", text: "Leadcrystal in Riyadh supplies the full range across Saudi Arabia and the Gulf, as a division of Bin Othaimeen Group." },
+];
+
+const PERFORMANCE = [
+  { k: "0V recovery", v: "Back to 100% or more of rated capacity within 10 cycles, even after a full discharge to 0V." },
+  { k: "Low charging voltage", v: "2.35 to 2.40V per cell at 20 to 30°C, with charge acceptance of 0.35C10." },
+  { k: "Cold and heat", v: "85% or more of rated capacity at -10°C, and still 40% or more at -40°C." },
+  { k: "No stratification", v: "The crystalline electrolyte stays evenly spread, so every cell performs the same." },
+  { k: "Long service life", v: "Up to 15 years in service under the right conditions." },
+  { k: "Non-dangerous goods", v: "No free sulfuric acid, so no leaks in use or in transport." },
+];
+
+const SECTORS = [
+  { name: "Power utilities", text: "Backup and stabilisation for grids and substations." },
+  { name: "Rail and transport", text: "Signalling, backup and on-board power in extreme climates." },
+  { name: "Renewable energy", text: "Storage for solar and wind, from homes to utility scale." },
+  { name: "Telecoms", text: "Backup power for remote and critical network sites." },
+  { name: "Construction and industry", text: "Heavy equipment and industrial backup systems." },
+  { name: "Marine and offshore", text: "Corrosion-resistant power for vessels and offshore sites." },
+];
+
+const PROJECTS = [
+  "Replaced the original batteries on China's Qinghai-Tibet railway, chosen for high-altitude performance and low maintenance.",
+  "Selected for solar street lighting for its temperature and corrosion resistance.",
+  "Supplied to World Bank-supported solar projects in Peru.",
+  "Supplied to projects in Indonesia backed by the Dutch development bank.",
+];
+
+const CERTS = [
+  { name: "ISO 9001:2015", text: "Quality management system" },
+  { name: "ISO 14001:2015", text: "Environmental management system" },
+  { name: "CE", text: "European conformity" },
+  { name: "UL", text: "Safety standards, UL file MH59990" },
+  { name: "IEC 60896-21/22", text: "Valve-regulated stationary batteries, tested by Intertek" },
+  { name: "Non-dangerous goods", text: "Classified safe to ship as general cargo" },
+];
+
+const DOCS = [
+  {
+    title: "UL report and certification",
+    meta: "UL file MH59990 · PDF, 43 pages",
+    href: "/downloads/certificates/Lead-Crystal-UL-Report-and-Certification.pdf",
+  },
+  {
+    title: "IEC 60896-21/22 test report",
+    meta: "Intertek report 150301279SHA-001 · PDF, 47 pages",
+    href: "/downloads/certificates/Lead-Crystal-IEC-60896-Test-Report.pdf",
+  },
+];
+
+const VALUES = [
+  { n: "01", k: "Spirit", v: "Integrity, diligence, positive thinking, innovation and shared success guide every decision and every product." },
+  { n: "02", k: "Mission", v: "Green energy that supports sustainable development and a better quality of life for everyone." },
+  { n: "03", k: "Vision", v: "To be the world's leading energy service provider, setting new standards with the technology of the future." },
+];
+---
+
+<Base
+  title="About Leadcrystal and Lead Crystal Technologies"
+  description="Leadcrystal, Lead Crystal Technologies and Lead Crystal® Batteries are one company: lead crystal batteries developed and made since 2004, with 13 invention patents, supplied from Riyadh. A division of Bin Othaimeen Group."
+  jsonLd={[
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: SITE.name,
+      alternateName: [COMPANY.manufacturer, "Lead Crystal Batteries"],
+      url: SITE.url,
+      foundingDate: String(COMPANY.founded),
+      email: SITE.email,
+      parentOrganization: { "@type": "Organization", name: SITE.parent, url: "https://othaimeengrp.com" },
+      sameAs: ["https://leadcrystaltechnologies.com"],
+      address: [
+        { "@type": "PostalAddress", addressLocality: "Riyadh", addressCountry: "SA" },
+        {
+          "@type": "PostalAddress",
+          streetAddress: "No. 15 Chuangye Road, Shangqiang Industrial Zone, Wuxing District",
+          addressLocality: "Huzhou",
+          addressCountry: "CN",
+        },
+      ],
+    },
+  ]}
+>
+  <PageHead crumbs={[{ label: "About" }]} title="One company, from the factory to your site." eyebrow="About us">
+    <p class="lede">
+      Leadcrystal, Lead Crystal Technologies and Lead Crystal® Batteries are one business. We develop and make lead crystal
+      batteries in Huzhou, China, and supply them across Saudi Arabia and the Gulf from Riyadh.
+    </p>
+  </PageHead>
+
+  <!-- brands -->
+  <section class="section section--tight">
+    <div class="wrap">
+      <div class="brands">
+        <div class="brand-cell">
+          <Logo height={34} />
+          <p class="label">Leadcrystal · Riyadh</p>
+        </div>
+        <div class="brand-cell">
+          <img
+            src="/images/brands/lead-crystal-batteries-white.png"
+            alt="Lead Crystal Batteries"
+            width="900"
+            height="416"
+            class="lcb"
+            loading="lazy"
+          />
+          <p class="label">Lead Crystal Technologies · Huzhou</p>
+        </div>
+        <div class="brand-cell">
+          <p class="label division">A division of</p>
+          <img
+            src="/images/brands/bin-othaimeen-group-white.png"
+            alt="Bin Othaimeen Group"
+            width="600"
+            height="283"
+            class="bog"
+            loading="lazy"
+          />
+        </div>
+      </div>
+      <p class="brands-note muted">
+        Lead Crystal® Batteries is the name printed on every battery we make. You will see it on the case of each model in
+        <a href="/catalogue/">our catalogue</a>.
+      </p>
+
+      <ul class="figs" aria-label="Lead Crystal Technologies in numbers">
+        {
+          COMPANY.figures.map((f) => (
+            <li>
+              <span class="fig" data-count={f.value === "2004" ? undefined : ""}>
+                {f.value}
+              </span>
+              <span class="label">{f.label}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- story -->
+  <section class="section section--rule">
+    <div class="wrap split story">
+      <div class="section-head">
+        <p class="label eyebrow label--accent">Our story</p>
+        <h2 class="display h-md">Thirty years from an idea to a battery in service around the world.</h2>
+      </div>
+      <div class="prose-lite">
+        <p>
+          Lead crystal began with an invention in the 1990s: a composite electrolyte that replaces the sulfuric acid in a
+          lead battery. Lead Crystal Technologies took it from the lab to commercial products and then to large-scale
+          production, and today researches, develops, makes and sells the full lead crystal range.
+        </p>
+        <p>
+          The patented SiO₂-based electrolyte forms a crystalline structure as the battery charges. It holds the active
+          material on the plates and keeps the ions moving freely, which is why our batteries last longer, cope with heat
+          and cold, lose little charge on the shelf and recover from deep discharge.
+        </p>
+        <p>
+          Renewable energy, telecoms, vehicles, rail and industry all run on it now, often in places where other batteries
+          fail first. Leadcrystal brings that range to Saudi Arabia and the Gulf, with stock, sizing advice and support from
+          Riyadh.
+        </p>
+        <a class="link-arrow" href="/#technology">How lead crystal works <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- journey -->
+  <section class="section section--rule">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label eyebrow label--accent">Our journey</p>
+        <h2 class="display h-md">Milestones</h2>
+      </div>
+      <ol class="time">
+        {
+          JOURNEY.map((j) => (
+            <li>
+              <span class="year mono">{j.year}</span>
+              <p>{j.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- performance -->
+  <section class="section section--rule">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label eyebrow label--accent">Performance</p>
+        <h2 class="display h-md">What the chemistry does for you.</h2>
+      </div>
+      <ul class="cards">
+        {
+          PERFORMANCE.map((p) => (
+            <li class="ab-card">
+              <h3 class="h-sm">{p.k}</h3>
+              <p class="muted">{p.v}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- where it works -->
+  <section class="section section--rule">
+    <div class="wrap split">
+      <div class="section-head">
+        <p class="label eyebrow label--accent">Where it works</p>
+        <h2 class="display h-md">Trusted where failure is not an option.</h2>
+        <ul class="projects">
+          {PROJECTS.map((p) => <li>{p}</li>)}
+        </ul>
+      </div>
+      <ul class="sectors">
+        {
+          SECTORS.map((s) => (
+            <li class="ab-card">
+              <h3 class="h-sm">{s.name}</h3>
+              <p class="muted">{s.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- certification -->
+  <section class="section section--rule" id="certificates">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label eyebrow label--accent">Certificates and test reports</p>
+        <h2 class="display h-md">Tested and certified.</h2>
+        <p class="muted">
+          Our patents cover the electrolyte formulation, the manufacturing process and the battery designs. Every model
+          ships with its data sheet, and the certificates below are free to download.
+        </p>
+      </div>
+      <ul class="certs">
+        {
+          CERTS.map((c) => (
+            <li class="ab-card">
+              <span class="mono cert-name">{c.name}</span>
+              <p class="muted">{c.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <ul class="docs">
+        {
+          DOCS.map((d) => (
+            <li class="ab-card">
+              <a href={d.href} target="_blank" rel="noopener" class="doc">
+                <span class="doc-title">{d.title}</span>
+                <span class="mono dim">{d.meta}</span>
+                <span class="doc-go" aria-hidden="true">↓</span>
+              </a>
+            </li>
+          ))
+        }
+        <li class="ab-card">
+          <a href="/catalogue/" class="doc">
+            <span class="doc-title">Technical data sheets</span>
+            <span class="mono dim">One for every model, on each product page</span>
+            <span class="doc-go" aria-hidden="true">→</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- values -->
+  <section class="section section--rule">
+    <div class="wrap split">
+      <div class="section-head">
+        <p class="label eyebrow label--accent">Founder's vision</p>
+        <blockquote class="quote">
+          <p>
+            A company must be more than the products it makes. Our batteries carry a broader aim: energy that serves people
+            and respects the planet.
+          </p>
+        </blockquote>
+        <p class="muted">
+          We invest in work that can take years to pay off, and that patience is how we solved problems others could not.
+          We keep building long partnerships with our customers, suppliers and communities.
+        </p>
+      </div>
+      <ul class="values">
+        {
+          VALUES.map((v) => (
+            <li class="ab-card">
+              <span class="mono num">{v.n}</span>
+              <h3 class="h-sm">{v.k}</h3>
+              <p class="muted">{v.v}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- offices -->
+  <section class="section section--rule" id="offices">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="label eyebrow label--accent">Our offices</p>
+        <h2 class="display h-md">Talk to us in Riyadh or at the factory.</h2>
+      </div>
+      <ul class="offices">
+        {
+          OFFICES.map((o) => (
+            <li class="ab-card office">
+              <p class="label">{o.label}</p>
+              <h3 class="h-sm">{o.name}</h3>
+              <address>
+                {o.lines.map((l) => (
+                  <span>{l}</span>
+                ))}
+              </address>
+              <p class="muted small">{o.note}</p>
+              <div class="office-links">
+                <a class="mono" href={`mailto:${o.email}`}>
+                  {o.email}
+                </a>
+                {o.phone && (
+                  <a class="mono" href={`tel:${o.phone.replace(/\s/g, "")}`}>
+                    {o.phone}
+                  </a>
+                )}
+                {o.whatsapp && (
+                  <a class="mono" href={`https://wa.me/${o.whatsapp}`} target="_blank" rel="noopener">
+                    Chat on WhatsApp
+                  </a>
+                )}
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- careers -->
+  <section class="section section--rule" id="careers">
+    <div class="wrap split">
+      <div class="section-head">
+        <p class="label eyebrow label--accent">Join us</p>
+        <h2 class="display h-md">Build your career in battery technology.</h2>
+      </div>
+      <div class="prose-lite">
+        <p>
+          Our people are the foundation of everything we make. We offer technical training and room to grow, and we promote
+          on merit. The team is young and energetic, and works in a spirit of shared success.
+        </p>
+        <p>If you want to help power a more sustainable future, send us your CV and tell us what you would like to do.</p>
+        <a class="btn" href={`mailto:${SITE.email}?subject=Careers%20at%20Leadcrystal`}>
+          Send your CV <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .brands {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--panel);
+  }
+  .brand-cell {
+    display: grid;
+    gap: 16px;
+    align-content: center;
+    justify-items: start;
+    min-height: 168px;
+    padding: clamp(22px, 3vw, 36px);
+  }
+  .brand-cell + .brand-cell {
+    border-left: 1px solid var(--line);
+  }
+  .brand-cell .label {
+    margin: 0;
+  }
+  .lcb {
+    width: auto;
+    height: 64px;
+  }
+  .bog {
+    width: auto;
+    height: 52px;
+  }
+  .brands-note {
+    margin: 18px 0 0;
+    max-width: 70ch;
+    font-size: 0.95rem;
+  }
+  .figs {
+    list-style: none;
+    padding: 0;
+    margin: clamp(36px, 5vw, 56px) 0 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--line);
+  }
+  .figs li {
+    display: grid;
+    gap: 6px;
+    padding: 26px 0 0;
+  }
+  .fig {
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 800;
+    font-stretch: 125%;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .story {
+    align-items: start;
+  }
+  .prose-lite {
+    display: grid;
+    gap: 18px;
+    justify-items: start;
+  }
+  .prose-lite p {
+    margin: 0;
+    max-width: 62ch;
+    color: var(--muted);
+  }
+  .time {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .time li {
+    position: relative;
+    padding: 26px 22px 30px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .time li::before {
+    content: "";
+    position: absolute;
+    top: -4px;
+    left: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent-hi);
+  }
+  .year {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    color: var(--accent-hi);
+  }
+  .time p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.98rem;
+  }
+  .cards,
+  .sectors,
+  .certs,
+  .docs,
+  .values,
+  .offices {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+  }
+  .cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .sectors {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .certs {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .docs {
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 14px;
+  }
+  .offices {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ab-card {
+    position: relative;
+    display: grid;
+    gap: 10px;
+    align-content: start;
+    padding: clamp(20px, 2.4vw, 28px);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--panel);
+  }
+  .ab-card p {
+    margin: 0;
+  }
+  .projects {
+    margin: 8px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 12px;
+  }
+  .projects li {
+    position: relative;
+    padding-left: 22px;
+    color: var(--muted);
+    max-width: 56ch;
+  }
+  .projects li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 10px;
+    height: 1px;
+    background: var(--accent-hi);
+  }
+  .cert-name {
+    font-size: 1rem;
+    color: var(--text);
+  }
+  .docs .ab-card {
+    padding: 0;
+  }
+  .doc {
+    display: grid;
+    gap: 8px;
+    padding: clamp(20px, 2.4vw, 28px);
+    padding-right: 60px;
+    text-decoration: none;
+    height: 100%;
+  }
+  .doc-title {
+    font-weight: 700;
+    font-size: 1.08rem;
+  }
+  .doc .dim {
+    font-size: 0.78rem;
+  }
+  .doc-go {
+    position: absolute;
+    right: 22px;
+    top: 50%;
+    translate: 0 -50%;
+    font-size: 1.2rem;
+    color: var(--accent-hi);
+    transition: translate 0.25s var(--ease);
+  }
+  .doc:hover .doc-go {
+    translate: 0 -30%;
+  }
+  .docs .ab-card:hover {
+    border-color: var(--line-2);
+  }
+  .quote {
+    margin: 6px 0 0;
+    padding-left: 20px;
+    border-left: 2px solid var(--accent-hi);
+  }
+  .quote p {
+    margin: 0;
+    font-size: clamp(1.2rem, 1.9vw, 1.5rem);
+    line-height: 1.4;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .num {
+    color: var(--accent-hi);
+    font-size: 0.8rem;
+  }
+  .office address {
+    display: grid;
+    font-style: normal;
+  }
+  .small {
+    font-size: 0.92rem;
+  }
+  .office-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    margin-top: 6px;
+  }
+  .office-links a {
+    color: var(--accent-hi);
+    text-decoration: none;
+    font-size: 0.86rem;
+  }
+  .office-links a:hover {
+    text-decoration: underline;
+  }
+  @media (max-width: 980px) {
+    .cards,
+    .certs,
+    .docs {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .time {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 760px) {
+    .brands {
+      grid-template-columns: 1fr;
+    }
+    .brand-cell + .brand-cell {
+      border-left: 0;
+      border-top: 1px solid var(--line);
+    }
+    .brand-cell {
+      min-height: 0;
+    }
+    .figs {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0 16px;
+    }
+    .offices,
+    .sectors {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 560px) {
+    .cards,
+    .certs,
+    .docs,
+    .time {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

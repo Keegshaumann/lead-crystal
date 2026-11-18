@@ -731,7 +731,7 @@
    "2V",
    "deep cycle",
    "lead crystal",
-   "maximum-capacity",
+   "high-capacity",
    "solar battery",
    "telecom battery"
   ],
@@ -1158,7 +1158,7 @@
    "6V",
    "Industrial",
    "lead crystal",
-   "maximum-capacity",
+   "high-capacity",
    "Solar",
    "Telecom"
   ],
@@ -1329,8 +1329,62 @@
   "oldSpecSheet": "https://leadcrystal.co/wp-content/uploads/2026/05/3-EVFJ-210.pdf",
   "specSheet": "/downloads/spec-sheets/3-EVFJ-210.pdf",
   "seoTitle": "6V 210Ah Lead Crystal EV Battery - Heavy EV and Mobility | Leadcrystal",
-  "seoDescription": "210Ah 6V lead crystal EV battery for heavy electric vehicles and industrial mobility. SiO2 electrolyte, 6000 cycles, zero fire risk, -40C to +65C. Maximum capacity EV cell from Leadcrystal, Riyadh.",
+  "seoDescription": "210Ah 6V lead crystal EV battery for heavy electric vehicles and industrial mobility. SiO2 electrolyte, 6000 cycles, zero fire risk, -40C to +65C. High-capacity EV cell from Leadcrystal, Riyadh.",
   "oldUrl": "/product/lead-crystal-battery-6v-210ah-ev/"
+ },
+ {
+  "id": 701,
+  "sku": "3-EVFJ-265",
+  "slug": "lead-crystal-battery-6v-265ah-ev",
+  "name": "Lead Crystal Battery 6V 265Ah EV",
+  "family": "EV",
+  "voltage": 6,
+  "capacityAh": 265.0,
+  "weight": "46.5 kg",
+  "summary": "6V 265Ah EV Lead Crystal battery for golf carts, floor machines, and heavy electric vehicles.",
+  "heading": "Lead Crystal 3-EVFJ-265: 6V 265Ah EV Battery",
+  "intro": "6V 265Ah EV-grade battery for golf carts, floor machines, and heavy electric vehicles that need long runtime and deep daily cycling.",
+  "attributes": [
+   "6,000+ cycles at 20% DoD",
+   "265Ah high-capacity 6V EV design",
+   "300Ah at the 10-hour rate",
+   "Operates from -40°C to +65°C",
+   "99% recyclable, non-hazardous"
+  ],
+  "specs": [
+   {
+    "label": "Voltage",
+    "value": "6V"
+   },
+   {
+    "label": "Capacity",
+    "value": "265Ah"
+   },
+   {
+    "label": "Dimensions (LxWxH)",
+    "value": "295 x 178 x 345 mm"
+   },
+   {
+    "label": "Weight",
+    "value": "46.5 kg"
+   },
+   {
+    "label": "Terminal",
+    "value": "F4"
+   },
+   {
+    "label": "Chemistry",
+    "value": "Lead Crystal (SiO₂)"
+   }
+  ],
+  "tags": [],
+  "oldImage": null,
+  "image": null,
+  "oldSpecSheet": "https://leadcrystaltechnologies.com/wp-content/uploads/2026/05/3-EVFJ-265Ah.pdf",
+  "specSheet": "/downloads/spec-sheets/3-EVFJ-265.pdf",
+  "seoTitle": "6V 265Ah Lead Crystal EV Battery - Golf Carts | Leadcrystal",
+  "seoDescription": "265Ah 6V lead crystal EV battery for golf carts, floor machines and heavy electric vehicles. SiO2 electrolyte, 6000 cycles, zero fire risk, -40C to +65C. Leadcrystal, Riyadh.",
+  "oldUrl": ""
  },
  {
   "id": 663,
@@ -2646,7 +2700,7 @@
    "12V",
    "200Ah",
    "lead crystal",
-   "maximum-capacity",
+   "high-capacity",
    "Solar",
    "Telecom",
    "utility-scale"
@@ -2714,6 +2768,168 @@
   "oldUrl": "/product/lead-crystal-battery-12v-7-2ah-high-cycle/"
  },
  {
+  "id": 702,
+  "sku": "6-EVFJ-27",
+  "slug": "lead-crystal-battery-12v-27ah-ev",
+  "name": "Lead Crystal Battery 12V 27Ah EV",
+  "family": "EV",
+  "voltage": 12,
+  "capacityAh": 27.0,
+  "weight": "9.5 kg",
+  "summary": "12V 27Ah EV Lead Crystal battery for electric bikes, scooters, and portable electric equipment.",
+  "heading": "Lead Crystal 6-EVFJ-27: 12V 27Ah EV Battery",
+  "intro": "12V 27Ah EV-grade battery for electric bikes, scooters, wheelchairs, and portable electric equipment, in a compact low-profile case.",
+  "attributes": [
+   "6,000+ cycles at 20% DoD",
+   "Compact 125 mm high case",
+   "EV-grade high-discharge design",
+   "Operates from -40°C to +65°C",
+   "99% recyclable, non-hazardous"
+  ],
+  "specs": [
+   {
+    "label": "Voltage",
+    "value": "12V"
+   },
+   {
+    "label": "Capacity",
+    "value": "27Ah"
+   },
+   {
+    "label": "Dimensions (LxWxH)",
+    "value": "176 x 166 x 125 mm"
+   },
+   {
+    "label": "Weight",
+    "value": "9.5 kg"
+   },
+   {
+    "label": "Terminal",
+    "value": "F6"
+   },
+   {
+    "label": "Chemistry",
+    "value": "Lead Crystal (SiO₂)"
+   }
+  ],
+  "tags": [],
+  "oldImage": null,
+  "image": null,
+  "oldSpecSheet": "https://leadcrystaltechnologies.com/wp-content/uploads/2026/05/6-EVFJ-27Ah.pdf",
+  "specSheet": "/downloads/spec-sheets/6-EVFJ-27.pdf",
+  "seoTitle": "12V 27Ah Lead Crystal EV Battery - E-Bikes and Scooters | Leadcrystal",
+  "seoDescription": "27Ah 12V lead crystal EV battery for electric bikes, scooters and wheelchairs. SiO2 deep cycle technology, 6000 cycles, zero fire risk. Leadcrystal, Saudi Arabia.",
+  "oldUrl": ""
+ },
+ {
+  "id": 703,
+  "sku": "6-EVFJ-32",
+  "slug": "lead-crystal-battery-12v-32ah-ev",
+  "name": "Lead Crystal Battery 12V 32Ah EV",
+  "family": "EV",
+  "voltage": 12,
+  "capacityAh": 32.0,
+  "weight": "11 kg",
+  "summary": "12V 32Ah EV Lead Crystal battery for electric bikes, scooters, and light mobility.",
+  "heading": "Lead Crystal 6-EVFJ-32: 12V 32Ah EV Battery",
+  "intro": "12V 32Ah EV-grade battery for electric bikes, scooters, and light mobility vehicles, in a slim 105 mm wide case.",
+  "attributes": [
+   "6,000+ cycles at 20% DoD",
+   "Slim 105 mm wide case",
+   "EV-grade high-discharge design",
+   "Operates from -40°C to +65°C",
+   "99% recyclable, non-hazardous"
+  ],
+  "specs": [
+   {
+    "label": "Voltage",
+    "value": "12V"
+   },
+   {
+    "label": "Capacity",
+    "value": "32Ah"
+   },
+   {
+    "label": "Dimensions (LxWxH)",
+    "value": "222 x 105 x 175 mm"
+   },
+   {
+    "label": "Weight",
+    "value": "11 kg"
+   },
+   {
+    "label": "Terminal",
+    "value": "F7"
+   },
+   {
+    "label": "Chemistry",
+    "value": "Lead Crystal (SiO₂)"
+   }
+  ],
+  "tags": [],
+  "oldImage": null,
+  "image": null,
+  "oldSpecSheet": "https://leadcrystaltechnologies.com/wp-content/uploads/2026/05/6-EVFJ-32Ah.pdf",
+  "specSheet": "/downloads/spec-sheets/6-EVFJ-32.pdf",
+  "seoTitle": "12V 32Ah Lead Crystal EV Battery - E-Bikes and Scooters | Leadcrystal",
+  "seoDescription": "32Ah 12V lead crystal EV battery for electric bikes, scooters and light mobility. SiO2 deep cycle technology, 6000 cycles, zero fire risk. Leadcrystal, Saudi Arabia.",
+  "oldUrl": ""
+ },
+ {
+  "id": 704,
+  "sku": "6-EVFJ-40",
+  "slug": "lead-crystal-battery-12v-40ah-ev",
+  "name": "Lead Crystal Battery 12V 40Ah EV",
+  "family": "EV",
+  "voltage": 12,
+  "capacityAh": 40.0,
+  "weight": "12.5 kg",
+  "summary": "12V 40Ah EV Lead Crystal battery for electric bikes, scooters, and mobility aids.",
+  "heading": "Lead Crystal 6-EVFJ-40: 12V 40Ah EV Battery",
+  "intro": "12V 40Ah EV-grade battery for electric bikes, scooters, mobility aids, and light electric vehicles where weight and space are limited.",
+  "attributes": [
+   "6,000+ cycles at 20% DoD",
+   "Light 12.5 kg EV design",
+   "High-discharge rate capability",
+   "Operates from -40°C to +65°C",
+   "99% recyclable, non-hazardous"
+  ],
+  "specs": [
+   {
+    "label": "Voltage",
+    "value": "12V"
+   },
+   {
+    "label": "Capacity",
+    "value": "40Ah"
+   },
+   {
+    "label": "Dimensions (LxWxH)",
+    "value": "222 x 120 x 175 mm"
+   },
+   {
+    "label": "Weight",
+    "value": "12.5 kg"
+   },
+   {
+    "label": "Terminal",
+    "value": "F3"
+   },
+   {
+    "label": "Chemistry",
+    "value": "Lead Crystal (SiO₂)"
+   }
+  ],
+  "tags": [],
+  "oldImage": null,
+  "image": null,
+  "oldSpecSheet": "https://leadcrystaltechnologies.com/wp-content/uploads/2026/05/6-EVFJ-40Ah.pdf",
+  "specSheet": "/downloads/spec-sheets/6-EVFJ-40.pdf",
+  "seoTitle": "12V 40Ah Lead Crystal EV Battery - Scooters and Mobility | Leadcrystal",
+  "seoDescription": "40Ah 12V lead crystal EV battery for electric bikes, scooters and mobility aids. SiO2 electrolyte, 6000 cycles, zero fire risk, -40C to +65C. Leadcrystal, Riyadh.",
+  "oldUrl": ""
+ },
+ {
   "id": 575,
   "sku": "6-CNFT-55",
   "slug": "lead-crystal-battery-12v-55ah-ft",
@@ -2776,6 +2992,60 @@
   "oldUrl": "/product/lead-crystal-battery-12v-55ah-ft/"
  },
  {
+  "id": 705,
+  "sku": "6-EVFJ-60",
+  "slug": "lead-crystal-battery-12v-60ah-ev",
+  "name": "Lead Crystal Battery 12V 60Ah EV",
+  "family": "EV",
+  "voltage": 12,
+  "capacityAh": 60.0,
+  "weight": "22.5 kg",
+  "summary": "12V 60Ah EV Lead Crystal battery for electric scooters, mobility vehicles, and robotics.",
+  "heading": "Lead Crystal 6-EVFJ-60: 12V 60Ah EV Battery",
+  "intro": "12V 60Ah EV-grade battery for electric scooters, mobility vehicles, robotics, and compact electric utility equipment.",
+  "attributes": [
+   "6,000+ cycles at 20% DoD",
+   "70Ah at the 10-hour rate",
+   "Compact 12V form factor",
+   "Operates from -40°C to +65°C",
+   "99% recyclable, non-hazardous"
+  ],
+  "specs": [
+   {
+    "label": "Voltage",
+    "value": "12V"
+   },
+   {
+    "label": "Capacity",
+    "value": "60Ah"
+   },
+   {
+    "label": "Dimensions (LxWxH)",
+    "value": "260 x 170 x 215 mm"
+   },
+   {
+    "label": "Weight",
+    "value": "22.5 kg"
+   },
+   {
+    "label": "Terminal",
+    "value": "F3"
+   },
+   {
+    "label": "Chemistry",
+    "value": "Lead Crystal (SiO₂)"
+   }
+  ],
+  "tags": [],
+  "oldImage": null,
+  "image": null,
+  "oldSpecSheet": "https://leadcrystaltechnologies.com/wp-content/uploads/2026/05/6-EVFJ-60Ah.pdf",
+  "specSheet": "/downloads/spec-sheets/6-EVFJ-60.pdf",
+  "seoTitle": "12V 60Ah Lead Crystal EV Battery - Scooters and Robotics | Leadcrystal",
+  "seoDescription": "60Ah 12V lead crystal EV battery for electric scooters, mobility vehicles and robotics. SiO2 deep cycle technology, 6000 cycles, zero fire risk. Leadcrystal, Saudi Arabia.",
+  "oldUrl": ""
+ },
+ {
   "id": 667,
   "sku": "6-EVFJ-70",
   "slug": "lead-crystal-battery-12v-70ah-ev",
@@ -2828,6 +3098,60 @@
   "seoTitle": "12V 70Ah Lead Crystal EV Battery - Scooters and Golf Carts",
   "seoDescription": "70Ah 12V lead crystal EV battery for electric scooters, golf carts and small EVs. SiO2 deep cycle technology, 6000 cycles, zero fire risk. Leadcrystal, Saudi Arabia.",
   "oldUrl": "/product/lead-crystal-battery-12v-70ah-ev/"
+ },
+ {
+  "id": 706,
+  "sku": "6-EVFJ-80",
+  "slug": "lead-crystal-battery-12v-80ah-ev",
+  "name": "Lead Crystal Battery 12V 80Ah EV",
+  "family": "EV",
+  "voltage": 12,
+  "capacityAh": 80.0,
+  "weight": "31.5 kg",
+  "summary": "12V 80Ah EV Lead Crystal battery for golf carts, AGVs, and electric utility vehicles.",
+  "heading": "Lead Crystal 6-EVFJ-80: 12V 80Ah EV Battery",
+  "intro": "12V 80Ah EV-grade battery for golf carts, AGVs, and electric utility vehicles that need dependable high-discharge power.",
+  "attributes": [
+   "6,000+ cycles at 20% DoD",
+   "100Ah at the 10-hour rate",
+   "EV-grade high-discharge design",
+   "Operates from -40°C to +65°C",
+   "99% recyclable, non-hazardous"
+  ],
+  "specs": [
+   {
+    "label": "Voltage",
+    "value": "12V"
+   },
+   {
+    "label": "Capacity",
+    "value": "80Ah"
+   },
+   {
+    "label": "Dimensions (LxWxH)",
+    "value": "327 x 172 x 220 mm"
+   },
+   {
+    "label": "Weight",
+    "value": "31.5 kg"
+   },
+   {
+    "label": "Terminal",
+    "value": "F3"
+   },
+   {
+    "label": "Chemistry",
+    "value": "Lead Crystal (SiO₂)"
+   }
+  ],
+  "tags": [],
+  "oldImage": null,
+  "image": null,
+  "oldSpecSheet": "https://leadcrystaltechnologies.com/wp-content/uploads/2026/05/6-EVFJ-80Ah.pdf",
+  "specSheet": "/downloads/spec-sheets/6-EVFJ-80.pdf",
+  "seoTitle": "12V 80Ah Lead Crystal EV Battery - Golf Carts and AGVs | Leadcrystal",
+  "seoDescription": "80Ah 12V lead crystal EV battery for golf carts, AGVs and electric utility vehicles. SiO2 electrolyte, 6000 cycles, zero fire risk, -40C to +65C. Leadcrystal, Riyadh.",
+  "oldUrl": ""
  },
  {
   "id": 647,
@@ -3067,7 +3391,7 @@
   "intro": "12V 150Ah EV-grade battery for heavy electric vehicles, large AGVs, and industrial equipment requiring maximum power density and cycle life.",
   "attributes": [
    "6,000+ cycles at 20% DoD",
-   "150Ah maximum EV power density",
+   "High EV power density at 150Ah",
    "Heavy-duty high-discharge design",
    "Operates from -40°C to +65°C",
    "99% recyclable, non-hazardous"
@@ -3178,13 +3502,13 @@
   "voltage": 12,
   "capacityAh": 170.0,
   "weight": "50 kg",
-  "summary": "12V 170Ah Front Terminal Lead Crystal battery. Maximum front-terminal capacity for telecom.",
-  "heading": "Lead Crystal 6-CNFT-170 – 12V 170Ah Maximum Front Terminal Battery",
-  "intro": "The largest front-terminal battery at 170Ah for critical telecom infrastructure with maximum backup power for extended outages.",
+  "summary": "12V 170Ah Front Terminal Lead Crystal battery. High front-terminal capacity for telecom.",
+  "heading": "Lead Crystal 6-CNFT-170 – 12V 170Ah High-Capacity Front Terminal Battery",
+  "intro": "A high-capacity 170Ah front-terminal battery for critical telecom infrastructure, with long backup for extended outages.",
   "attributes": [
    "6,000+ cycles at 20% DoD",
    "Front terminal for easy rack access",
-   "Maximum 170Ah front-terminal capacity",
+   "170Ah front-terminal capacity",
    "Operates from -40°C to +65°C",
    "99% recyclable, non-hazardous"
   ],
@@ -3219,7 +3543,7 @@
    "170Ah",
    "front terminal",
    "lead crystal",
-   "maximum-capacity",
+   "high-capacity",
    "Telecom"
   ],
   "oldImage": "https://leadcrystal.co/wp-content/uploads/2026/05/6-CNFT-170_01-2.png",
@@ -3229,5 +3553,121 @@
   "seoTitle": "12V 170Ah Front Terminal Lead Crystal Battery - Central Office",
   "seoDescription": "170Ah 12V front terminal lead crystal battery for telecom central offices and data centers. SiO2 technology, 6000 cycles, -40C to +65C, 0V recovery. Leadcrystal, Saudi Arabia.",
   "oldUrl": "/product/lead-crystal-battery-12v-170ah-ft/"
+ },
+ {
+  "id": 707,
+  "sku": "6-CNFT-190",
+  "slug": "lead-crystal-battery-12v-190ah-ft",
+  "name": "Lead Crystal Battery 12V 190Ah Front Terminal",
+  "family": "Front Terminal",
+  "voltage": 12,
+  "capacityAh": 190.0,
+  "weight": "51 kg",
+  "summary": "12V 190Ah Front Terminal Lead Crystal battery for telecom central offices and data center backup.",
+  "heading": "Lead Crystal 6-CNFT-190: 12V 190Ah High-Capacity Front Terminal Battery",
+  "intro": "12V 190Ah front-terminal battery in the same 546 x 125 x 320 mm case as the 6-CNFT-170, with 20Ah more backup for telecom and data center racks.",
+  "attributes": [
+   "6,000+ cycles at 20% DoD",
+   "Front terminal for easy rack access",
+   "190Ah in the 6-CNFT-170 case size",
+   "Operates from -40°C to +65°C",
+   "99% recyclable, non-hazardous"
+  ],
+  "specs": [
+   {
+    "label": "Voltage",
+    "value": "12V"
+   },
+   {
+    "label": "Capacity",
+    "value": "190Ah"
+   },
+   {
+    "label": "Dimensions (LxWxH)",
+    "value": "546 x 125 x 320 mm"
+   },
+   {
+    "label": "Weight",
+    "value": "51 kg"
+   },
+   {
+    "label": "Terminal",
+    "value": "F8 Front"
+   },
+   {
+    "label": "Chemistry",
+    "value": "Lead Crystal (SiO₂)"
+   }
+  ],
+  "tags": [
+   "12V",
+   "190Ah",
+   "data center",
+   "front terminal",
+   "high-capacity",
+   "lead crystal",
+   "Telecom"
+  ],
+  "oldImage": null,
+  "image": null,
+  "oldSpecSheet": "https://leadcrystaltechnologies.com/wp-content/uploads/2026/05/6-CNFT-190_FT.pdf",
+  "specSheet": "/downloads/spec-sheets/6-CNFT-190.pdf",
+  "seoTitle": "12V 190Ah Front Terminal Lead Crystal Battery - Telecom",
+  "seoDescription": "190Ah 12V front terminal lead crystal battery for telecom central offices and data centers. SiO2 technology, 6000 cycles, -40C to +65C, 0V recovery. Leadcrystal, Riyadh.",
+  "oldUrl": ""
+ },
+ {
+  "id": 708,
+  "sku": "6-EVFJ-265",
+  "slug": "lead-crystal-battery-12v-265ah-ev",
+  "name": "Lead Crystal Battery 12V 265Ah EV",
+  "family": "EV",
+  "voltage": 12,
+  "capacityAh": 265.0,
+  "weight": "88 kg",
+  "summary": "12V 265Ah EV Lead Crystal battery for heavy electric vehicles, industrial machines, and marine propulsion.",
+  "heading": "Lead Crystal 6-EVFJ-265: 12V 265Ah EV Battery",
+  "intro": "12V 265Ah EV-grade battery for heavy electric vehicles, industrial machines, and marine propulsion that need high capacity in a single 12V block.",
+  "attributes": [
+   "6,000+ cycles at 20% DoD",
+   "265Ah high-capacity 12V EV design",
+   "2,650A maximum discharge (5 s)",
+   "Operates from -40°C to +65°C",
+   "99% recyclable, non-hazardous"
+  ],
+  "specs": [
+   {
+    "label": "Voltage",
+    "value": "12V"
+   },
+   {
+    "label": "Capacity",
+    "value": "265Ah"
+   },
+   {
+    "label": "Dimensions (LxWxH)",
+    "value": "558 x 190 x 350 mm"
+   },
+   {
+    "label": "Weight",
+    "value": "88 kg"
+   },
+   {
+    "label": "Terminal",
+    "value": "F4"
+   },
+   {
+    "label": "Chemistry",
+    "value": "Lead Crystal (SiO₂)"
+   }
+  ],
+  "tags": [],
+  "oldImage": null,
+  "image": null,
+  "oldSpecSheet": "https://leadcrystaltechnologies.com/wp-content/uploads/2026/05/6-EVFJ-265Ah.pdf",
+  "specSheet": "/downloads/spec-sheets/6-EVFJ-265.pdf",
+  "seoTitle": "12V 265Ah Lead Crystal EV Battery - Heavy EVs | Leadcrystal",
+  "seoDescription": "265Ah 12V lead crystal EV battery for heavy electric vehicles, industrial machines and marine propulsion. SiO2 electrolyte, 6000 cycles, zero fire risk, -40C to +65C. Leadcrystal, Riyadh.",
+  "oldUrl": ""
  }
 ]
