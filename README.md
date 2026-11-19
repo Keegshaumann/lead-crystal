@@ -1,6 +1,7 @@
 # leadcrystal.co
 
-Custom rebuild of the Leadcrystal website (Bin Othaimeen Group). Replaces the old WordPress +
+Custom rebuild of the Leadcrystal website (Lead Crystal Technologies, with Bin Othaimeen Group as
+its separate partner and distributor for the Middle East and North Africa). Replaces the old WordPress +
 Elementor + UiCore/Outgrid + WooCommerce site that ran on Effentii's InMotion server, which has
 to be vacated by **25 November 2026**.
 
@@ -117,7 +118,7 @@ into this site so the two read as one company. Nothing was changed on that domai
   WhatsApp). `SITE.email` is now info@leadcrystal.co.
 - Logos: public/images/brands/ (white versions for the dark site; originals in assets-src/brands/):
   the Lead Crystal® Batteries logo printed on the batteries, and the Bin Othaimeen Group logo
-  ("A division of") from othaimeengrp.com. They sit in the footer, on /about/ and on every
+  ("Regional partner") from othaimeengrp.com. They sit in the footer, on /about/ and on every
   product page ("Made by Lead Crystal Technologies").
 - Their news articles and the models they listed that this site lacked were added to
   src/data/insights.json and src/data/products.json.
@@ -213,3 +214,12 @@ file. `wp-admin`, `wp-login.php`, `xmlrpc.php`, `wp-json` and other `wp-content`
 - **Google Analytics**: the property sits in the handed-over Google account. Put the GA4
   measurement ID in `src/site.ts` once access is confirmed.
 - **Arabic version**: the old site was English only, and so is this one.
+
+## Lead Crystal Technologies and Bin Othaimeen Group (19 Nov 2026)
+
+Two separate companies working as partners: Lead Crystal Technologies (Robbie, owner and CEO) makes
+the batteries; Bin Othaimeen Group (Abdulaziz, owner and CEO) distributes them in the Middle East and
+North Africa. Never write "a division of", "a Bin Othaimeen Group company/brand" or "the group's range"
+anywhere (site, spec sheets, T-ROX). T-ROX is our range, not Bin Othaimeen Group's. The approved
+line is `SITE.partnerLine`: "Lead Crystal Technologies, in partnership with Bin Othaimeen Group in the
+Middle East and North Africa."

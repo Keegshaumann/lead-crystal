@@ -340,7 +340,7 @@ function curvesPage(s, p) {
         <p><span>Tenders</span>bidteam@leadcrystal.co</p>
         <p><span>Web</span>leadcrystal.co</p>
       </div>
-      <p class="close-n">Figures are the manufacturer's test data and may change without notice. Confirm critical values with Leadcrystal before you order. A Bin Othaimeen Group company.</p>
+      <p class="close-n">Figures are the manufacturer's test data and may change without notice. Confirm critical values with Leadcrystal before you order. Lead Crystal Technologies, in partnership with Bin Othaimeen Group in the Middle East and North Africa.</p>
     </div>
     ${foot(s, 4)}
   </section>`;

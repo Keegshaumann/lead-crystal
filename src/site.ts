@@ -10,7 +10,10 @@ export const SITE = {
   // Shown on the site only when filled in.
   email: "info@leadcrystal.co",
   phone: "",
-  parent: "Bin Othaimeen Group",
+  // Bin Othaimeen Group is the partner and distributor for the Middle East and North Africa. It is a
+  // separate company: never write "division of", "a Bin Othaimeen Group company/brand" or "the group's".
+  partner: "Bin Othaimeen Group",
+  partnerLine: "Lead Crystal Technologies, in partnership with Bin Othaimeen Group in the Middle East and North Africa.",
   // GA4 measurement ID (G-XXXXXXX). Empty = no analytics script at all.
   ga4: "",
   // Set PUBLIC_NOINDEX=1 when building a staging copy so it stays out of Google.
@@ -27,7 +30,7 @@ export const NAV = [
   { href: "/t-rox/", label: "T-ROX", brand: "trox" },
 ];
 
-// Leadcrystal and Lead Crystal Technologies (leadcrystaltechnologies.com) present as one company:
+// Leadcrystal and Lead Crystal Technologies (leadcrystaltechnologies.com) present as one business:
 // the manufacturer's story, figures, certificates and contacts live on /about/ and /contact/.
 export const COMPANY = {
   manufacturer: "Lead Crystal Technologies",

@@ -1,5 +1,6 @@
 ---
-// About: Leadcrystal and Lead Crystal Technologies as one company. The manufacturer's story,
+// About: Leadcrystal and Lead Crystal Technologies as one business, with Bin Othaimeen Group as the
+// separate partner company for the Middle East and North Africa (never a parent or "division of"). The manufacturer's story,
 // figures, journey, certificates and contacts come from leadcrystaltechnologies.com (merged
 // 19 Nov 2026 so the two read as one business). Contacts live in OFFICES in src/site.ts.
 import Base from "../../layouts/Base.astro";
@@ -15,7 +16,7 @@ const JOURNEY = [
   { year: "2012", text: "Telecom batteries join the range for base stations and network backup." },
   { year: "2016", text: "Railway operators start running on our battery systems." },
   { year: "2018", text: "Development starts on start-stop batteries for vehicles." },
-  { year: "Today", text: "Leadcrystal in Riyadh supplies the full range across Saudi Arabia and the Gulf, as a division of Bin Othaimeen Group." },
+  { year: "Today", text: "Our partner, Bin Othaimeen Group, distributes the full range across the Middle East and North Africa from Riyadh." },
 ];
 
 const PERFORMANCE = [
@@ -74,7 +75,7 @@ const VALUES = [
 
 <Base
   title="About Leadcrystal and Lead Crystal Technologies"
-  description="Leadcrystal, Lead Crystal Technologies and Lead Crystal® Batteries are one company: lead crystal batteries developed and made since 2004, with 13 invention patents, supplied from Riyadh. A division of Bin Othaimeen Group."
+  description="Lead Crystal Technologies has developed and made Lead Crystal® Batteries since 2004, with 13 invention patents. Supplied across the Middle East and North Africa in partnership with Bin Othaimeen Group."
   jsonLd={[
     {
       "@context": "https://schema.org",
@@ -84,7 +85,6 @@ const VALUES = [
       url: SITE.url,
       foundingDate: String(COMPANY.founded),
       email: SITE.email,
-      parentOrganization: { "@type": "Organization", name: SITE.parent, url: "https://othaimeengrp.com" },
       sameAs: ["https://leadcrystaltechnologies.com"],
       address: [
         { "@type": "PostalAddress", addressLocality: "Riyadh", addressCountry: "SA" },
@@ -125,7 +125,7 @@ const VALUES = [
           <p class="label">Lead Crystal Technologies · Huzhou</p>
         </div>
         <div class="brand-cell">
-          <p class="label division">A division of</p>
+          <p class="label division">Partner, Middle East and North Africa</p>
           <img
             src="/images/brands/bin-othaimeen-group-white.png"
             alt="Bin Othaimeen Group"

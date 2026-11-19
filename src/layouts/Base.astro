@@ -30,7 +30,6 @@ const org = {
   name: SITE.name,
   url: SITE.url,
   logo: `${SITE.url}/images/brand/icon-512.png`,
-  parentOrganization: { "@type": "Organization", name: SITE.parent },
   address: { "@type": "PostalAddress", addressLocality: "Riyadh", addressCountry: "SA" },
 };
 const ld = [org, ...jsonLd];

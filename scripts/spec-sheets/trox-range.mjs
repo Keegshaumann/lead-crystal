@@ -118,14 +118,14 @@ table{width:100%;border-collapse:collapse}
   <div class="top"><span class="cap">Range sheet · AGM and GEL</span><span class="cap">Sealed lead-acid (VRLA)</span></div>
   <div class="logo">${svg("public/images/trox/t-rox-logo-white.svg")}</div>
   <h1>Powering progress. Energizing industry.</h1>
-  <p class="lede">Sealed, maintenance-free lead-acid batteries from the Bin Othaimeen Group: AGM for fast recharge and high-rate power, GEL for heat, deep cycling and long service life. 2V to 12V, 4Ah to 3,000Ah.</p>
+  <p class="lede">Our sealed, maintenance-free lead-acid batteries: AGM for fast recharge and high-rate power, GEL for heat, deep cycling and long service life. 2V to 12V, 4Ah to 3,000Ah.</p>
   <img class="hero" src="${url("public/images/trox/range-group.webp")}" alt="">
   <div class="figs">${figures.map(([v, u, n]) => `<div class="fig"><b>${v}<small>${u}</small></b><span>${n}</span></div>`).join("")}</div>
   <div class="chem">
     <div class="c"><p class="cap">Fast · powerful · responsive</p><h2><em>AGM</em> Absorbent glass mat</h2><p>Electrolyte absorbed in fibreglass mats: fast recharge, high-rate discharge and vibration resistance.</p><p><b>Best for</b> UPS, engine starting and dynamic loads.</p></div>
     <div class="c"><p class="cap">Steady · resilient · thermal control</p><h2><em>GEL</em> Silica gel electrolyte</h2><p>Electrolyte held in silica gel: better heat tolerance, deeper discharge and up to 30% longer cycle life than standard AGM.</p><p><b>Best for</b> extreme heat, deep cycling and renewable storage.</p></div>
   </div>
-  <div class="foot"><p><span>leadcrystal.co/t-rox</span><span>info@leadcrystal.co</span><span>Distributed by Bin Othaimeen Group, Riyadh</span></p><p>01 / 02</p></div>
+  <div class="foot"><p><span>leadcrystal.co/t-rox</span><span>info@leadcrystal.co</span><span>MENA partner: Bin Othaimeen Group</span></p><p>01 / 02</p></div>
 </section>
 <section class="page paper">
   <div class="rh">${svg("public/images/trox/t-rox-logo-ink.svg")}<span class="cap">Range sheet · standard models</span></div>
