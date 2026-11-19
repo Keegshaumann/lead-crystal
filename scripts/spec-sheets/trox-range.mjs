@@ -97,6 +97,7 @@ h1{font-family:"AX";font-weight:800;font-size:31pt;line-height:.98;letter-spacin
 .rh .cap{color:#5b5d68}
 h3{font-family:"AX";font-weight:800;font-size:18pt;letter-spacing:-.035em;margin:6mm 0 1.5mm}
 .note{font-size:7pt;color:#5b5d68;margin-bottom:3mm}
+.partner{margin:5mm 0 0}
 table{width:100%;border-collapse:collapse}
 .models th,.models td{padding:1.05mm 1mm;border-bottom:.2mm solid #e6e5ee;text-align:left;font-size:7pt;vertical-align:middle}
 .models thead th{font-family:"M";font-size:5.7pt;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#a35f00;background:#fff6e3;border-bottom:.3mm solid #ffb81c}
@@ -137,6 +138,7 @@ table{width:100%;border-collapse:collapse}
   </table>
   <h3>Series</h3>
   <table class="matrix"><tbody>${matrix.map(([k, s, v, a, u]) => `<tr><td class="k">${k}</td><td class="s">${s}</td><td class="v">${v}</td><td class="a">${a}</td><td class="u">${u}</td></tr>`).join("")}</tbody></table>
+  <p class="note partner">Lead Crystal Technologies, in partnership with Bin Othaimeen Group in the Middle East and North Africa.</p>
   <div class="foot"><p><span>leadcrystal.co/t-rox</span><span>info@leadcrystal.co</span><span>Prices and container quotes on request</span></p><p>02 / 02</p></div>
 </section>
 </body></html>`;
